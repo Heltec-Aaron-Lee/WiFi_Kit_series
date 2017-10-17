@@ -5,9 +5,9 @@ Installation instructions for Mac OS
 - Open Terminal and execute the following command (copy->paste and hit enter):
 
   ```bash
-  mkdir -p ~/Documents/Arduino/hardware/heltec
-  cd ~/Documents/Arduino/hardware/heltec
-  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git
+  mkdir -p ~/Documents/Arduino/hardware
+  cd ~/Documents/Arduino/hardware
+  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec
   cd esp32
   git submodule update --init --recursive
   cd tools
