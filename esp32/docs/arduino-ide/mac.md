@@ -11,6 +11,7 @@ Installation instructions for Mac OS
   cd heltec/esp32
   git submodule update --init --recursive
   cd tools
+  python get.py
   cd ~/Documents/Arduino/hardware/heltec/esp8266
   git submodule update --init --recursive
   cd tools
