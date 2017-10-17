@@ -17,7 +17,7 @@ Installation instructions for Mac OS
   cd tools
   python get.py
   ```
-- If you get errors with "http_error", just try again;
+- If you get errors in "python get.py" with "http_error", just try that command again;
 - If you get the error below. Install the command line dev tools with xcode-select --install and try the command above again:
   
 ```xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun```
