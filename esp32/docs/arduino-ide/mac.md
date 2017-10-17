@@ -2,7 +2,7 @@ Installation instructions for Mac OS
 =====================================
 
 - Install latest Arduino IDE from [arduino.cc](https://www.arduino.cc/en/Main/Software)
-- Open Terminal and execute the following command (copy->paste and hit enter):
+- Open Terminal and execute the following command (copy->paste and hit enter one by one):
 
   ```bash
   mkdir -p ~/Documents/Arduino/hardware
@@ -11,7 +11,6 @@ Installation instructions for Mac OS
   cd heltec/esp32
   git submodule update --init --recursive
   cd tools
-  python get.py
   cd ~/Documents/Arduino/hardware/heltec/esp8266
   git submodule update --init --recursive
   cd tools
