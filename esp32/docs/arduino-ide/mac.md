@@ -11,8 +11,8 @@ Installation instructions for Mac OS
   cd heltec/esp32
   git submodule update --init --recursive
   cd tools
-  python get.py /*至此，ESP32的开发欢迎安装完成*/
-  cd ~/Documents/Arduino/hardware/heltec/esp8266
+  python get.py
+  cd ~/Documents/Arduino/hardware/heltec/esp8266
   git submodule update --init --recursive
   cd tools
   python get.py
