@@ -16,7 +16,7 @@ Installation instructions for Mac OS
   git submodule update --init --recursive
   cd tools
   python get.py
-  ```
+  ```
 - If you get errors with "http_error", just try again;
 - If you get the error below. Install the command line dev tools with xcode-select --install and try the command above again:
   
