@@ -5,12 +5,12 @@ Installation instructions for Mac OS
 - Open Terminal and execute the following command (copy->paste and hit enter):
 
   ```bash
-  mkdir -p ~/Documents/Arduino/hardware/espressif && \
-  cd ~/Documents/Arduino/hardware/espressif && \
-  git clone https://github.com/espressif/arduino-esp32.git esp32 && \
-  cd esp32 && \
-  git submodule update --init --recursive && \
-  cd tools && \
+  mkdir -p ~/Documents/Arduino/hardware/heltec
+  cd ~/Documents/Arduino/hardware/heltec
+  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git
+  cd esp32
+  git submodule update --init --recursive
+  cd tools
   python get.py
   ```
 - If you get the error below. Install the command line dev tools with xcode-select --install and try the command above again:
