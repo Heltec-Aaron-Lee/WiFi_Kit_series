@@ -14,8 +14,10 @@
 
 ## 安装方法
 - 首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请在https://www.arduino.cc/en/Main/Software 下载并安装；
+
   + [Windows操作系统 -- 安装方法](esp32/docs/arduino-ide/windows.md)
-  + [苹果电脑MacOS操作系统 -- 安装方法](esp32/docs/arduino-ide/mac.md)
+  + [MacOS操作系统 -- 安装方法](esp32/docs/arduino-ide/mac.md)
+  + [Linux操作系统 -- 安装方法](esp32/docs/arduino-ide/opensuse.md)
 
 ## 编码规则
 可以参考这篇文章来了解arduino的插件和编码规则：[EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder).
