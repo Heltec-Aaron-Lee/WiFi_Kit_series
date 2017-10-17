@@ -5,16 +5,16 @@ Installation instructions for Mac OS
 - Open Terminal and execute the following command (copy->paste and hit enter one by one):
 
   ```bash
-  mkdir -p ~/Documents/Arduino/hardware
-  cd ~/Documents/Arduino/hardware
-  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec
-  cd heltec/esp32
-  git submodule update --init --recursive
-  cd tools
-  python get.py
-  cd ~/Documents/Arduino/hardware/heltec/esp8266
-  git submodule update --init --recursive
-  cd tools
+  mkdir -p ~/Documents/Arduino/hardware && \
+  cd ~/Documents/Arduino/hardware && \
+  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec && \
+  cd heltec/esp32 && \
+  git submodule update --init --recursive && \
+  cd tools && \
+  python get.py && \
+  cd ~/Documents/Arduino/hardware/heltec/esp8266 && \
+  git submodule update --init --recursive && \
+  cd tools && \
   python get.py
   ```
 - If you get errors with "http_error", just try again;
