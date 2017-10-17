@@ -12,7 +12,7 @@ Installation instructions for Mac OS
   git submodule update --init --recursive
   cd tools
   python get.py
-  cd ~/Documents/Arduino/hardware/heltec/esp8266
+  cd ~/Documents/Arduino/hardware/heltec/esp8266
   git submodule update --init --recursive
   cd tools
   python get.py
