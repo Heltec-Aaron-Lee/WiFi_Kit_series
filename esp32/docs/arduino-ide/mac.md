@@ -8,7 +8,7 @@ Installation instructions for Mac OS
   mkdir -p ~/Documents/Arduino/hardware
   cd ~/Documents/Arduino/hardware
   git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec
-  cd esp32
+  cd heltec/esp32
   git submodule update --init --recursive
   cd tools
   python get.py
