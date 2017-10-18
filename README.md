@@ -27,5 +27,8 @@
 在报告BUG之前，请先做足够的测试，如果问题真的存在，请提交到：[问题&BUG](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3A%22for%20reference%22%20).
 
 ## 重要提示
--ESP系列芯片的下载速度较快，请确保使用了优质的Micro USB连接线，否则很容易出现无法下载的情况；
--下载程序之前，按住板上的PRG键，可大大提高下载成功率。
+- ESP系列芯片的下载速度较快，请确保使用了优质的Micro USB连接线，否则很容易出现无法下载的情况；
+- 下载程序之前，按住板上的PRG键，可大大提高下载成功率。
+
+## 联系我们
+- 官网：www.heltec.cn
