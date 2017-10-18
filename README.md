@@ -1,4 +1,6 @@
 # WiFi_Kit_series Arduino Environment user guide
+- [English Version](heltec/README_English)
+
 - WiFi Kit 系列arduino开发环境安装指南
 
 ## Contents
