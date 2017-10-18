@@ -6,7 +6,7 @@
 3. Start ```Git GUI``` and run through the following steps:
     - Select ```Clone Existing Repository```
 
-        ![Step 1](win-screenshots/win-gui-1.png)
+        ![Step 1](../esp32/doc/WIFI_Kit_32.jpg)
 
     - Select source and destination
         - Source Location: ```https://github.com/espressif/arduino-esp32.git```
