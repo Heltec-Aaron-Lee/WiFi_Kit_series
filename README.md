@@ -14,11 +14,11 @@
 
 ## 安装方法
 - 首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请在https://www.arduino.cc/en/Main/Software 下载并安装；
- + [Windows操作系统 -- 安装方法](esp32/docs/arduino-ide/windows.md)
- + [MacOS操作系统 -- 安装方法](esp32/docs/arduino-ide/mac.md)
- + [Linux操作系统(opensuse) -- 安装方法](esp32/docs/arduino-ide/opensuse.md)
- + [Linux操作系统(debian,ubuntu) -- 安装方法](esp32/docs/arduino-ide/debian_ubuntu.md)
- + [Linux操作系统(fedora) -- 安装方法](esp32/docs/arduino-ide/fedora.md)
+ + [Windows操作系统 -- 安装方法](InstallGuide/windows.md)
+ + [MacOS操作系统 -- 安装方法](InstallGuide/mac.md)
+ + [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
+ + [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
+ + [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
 
 ## 编码规则
 可以参考这篇文章来了解arduino的插件和编码规则：[EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder).
