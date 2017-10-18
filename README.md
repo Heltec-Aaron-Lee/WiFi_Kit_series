@@ -32,3 +32,12 @@
 
 ## 联系我们
 - 官网：www.heltec.cn
+## 产品示意图
+- WIFI_Kit_8
+  ![image](InstallGuide/win-screenshots/WIFI_kit_8.png)
+- WIFI_Kit_32
+
+  ![image](InstallGuide/win-screenshots/WIFI_Kit_32.png)
+- WIFI_LoRa_32
+
+  ![image](InstallGuide/win-screenshots/WIFI_LoRa_32.png)
