@@ -35,8 +35,15 @@ Before reporting an issue, make sure you've searched for similar one that was al
 ## Contact us
 -- website：www.heltec.cn
 
-## ESP32Dev Board PINMAP
+## Board Picture
 
-![Pin Functions](docs/esp32_pinmap.png)
+- WIFI_Kit_8
+  ![image](win-screenshots/WIFI_kit_8.png)
+- WIFI_Kit_32
+
+  ![image](win-screenshots/WIFI_Kit_32.png)
+- WIFI_LoRa_32
+
+  ![image](win-screenshots/WIFI_LoRa_32.png)
 
 
