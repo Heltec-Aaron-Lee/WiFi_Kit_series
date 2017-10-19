@@ -13,7 +13,7 @@
 ## Installation Instructions
 
 - Using Arduino IDE
-  + [Instructions for Windows](InstallGuide/windows.md)
+  + [Instructions for Windows](InstallGuide/windows.md))
   + [Instructions for Mac](InstallGuide/mac.md)
   + [Instructions for Debian/Ubuntu Linux](InstallGuide/opensuse.md)
   + [Instructions for Fedora](InstallGuide/debian_ubuntu.md)
