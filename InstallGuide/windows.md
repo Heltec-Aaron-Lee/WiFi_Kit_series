@@ -14,8 +14,8 @@
         - Change this to your Sketchbook Location if you have a different directory listed underneath the "Sketchbook location" in Arduino preferences.
         - Click ```Clone``` to start cloning the repository
 
-            ![Step 2](win-screenshots/win-gui-2.png)
-            ![Step 3](win-screenshots/win-gui-3.png)
+            ![Step 2](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-2%20.png)
+            ![Step 3](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-3.png)
 
     - Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
 
