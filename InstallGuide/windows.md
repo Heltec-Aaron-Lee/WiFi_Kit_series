@@ -9,8 +9,8 @@
         ![Step 1](win-screenshots/win-gui-1.png)
 
     - Select source and destination
-        - Source Location: ```https://github.com/espressif/arduino-esp32.git```
-        - Target Directory: ```C:/Users/[YOUR_USER_NAME]/Documents/Arduino/hardware/espressif/esp32```
+        - Source Location: ```hhttps://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git```
+        - Target Directory: ```/Documents/Arduino/hardware```
         - Change this to your Sketchbook Location if you have a different directory listed underneath the "Sketchbook location" in Arduino preferences.
         - Click ```Clone``` to start cloning the repository
 
