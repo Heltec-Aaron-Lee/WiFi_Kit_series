@@ -17,7 +17,7 @@
             ![Step 2](win-screenshots/win-gui-2.png)
             ![Step 3](win-screenshots/win-gui-3.png)
 
-    - Open ```C:/Users/[YOUR_USER_NAME]/Documents/Arduino/hardware/espressif/esp32/tools``` and double-click ```get.exe```
+    - Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
 
         ![Step 4](win-screenshots/win-gui-4.png)
 
