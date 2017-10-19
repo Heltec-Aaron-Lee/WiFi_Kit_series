@@ -46,4 +46,4 @@
 3. Wait for git to pull any changes and close ```Git GUI```
 4. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
 
-    ![Step 4](win-screenshots/win-gui-4.png)
+    ![Step 4](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
