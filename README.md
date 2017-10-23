@@ -1,7 +1,6 @@
 # WiFi_Kit_series Arduino Environment user guide
-
-- [English](English)
 - WiFi Kit 系列arduino开发环境安装指南
+- [English](English)
 
 ## Contents
 - [说明](#说明)
@@ -10,6 +9,7 @@
 - [BUG报告](#BUG报告)
 - [重要提示](#重要提示)
 - [产品示意图](#产品示意图)
+- [联系我们](#联系我们)
 
 ## 说明
 - WIFI Kit 32、WIFI LoRa 32使用的是ESP32芯片，与之相关的开发环境、源码、例程，在本页面的[esp32](esp32/)文件夹内；
