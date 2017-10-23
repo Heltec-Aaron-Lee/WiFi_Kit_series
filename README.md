@@ -47,6 +47,7 @@
 - [Decoding Exceptions](#decoding-exceptions)
 - [Issue/Bug report template](#issuebug-report-template)
 - [Board Picture](#产品示意图)
+- [Contact us](#联系我们)
 
 
 ## Installation Instructions
