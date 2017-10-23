@@ -52,11 +52,11 @@
 ## Installation Instructions
 
 - Using Arduino IDE
-  + [Instructions for Windows](windows.md)
-  + [Instructions for Mac](mac.md)
-  + [Instructions for Debian/Ubuntu Linux](opensuse.md)
-  + [Instructions for Fedora](debian_ubuntu.md)
-  + [Instructions for openSUSE](fedora.md)
+  + [Instructions for Windows](InstallGuide/windows.md)
+  + [Instructions for Mac](InstallGuide/mac.md)
+  + [Instructions for Debian/Ubuntu Linux](InstallGuide/debian_ubuntu.md)
+  + [Instructions for Fedora](InstallGuide/fedora.md)
+  + [Instructions for openSUSE](InstallGuide/opensuse.md)
 
 
 ## Decoding exceptions
