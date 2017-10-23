@@ -35,8 +35,8 @@
 
 ## 联系我们
 - 官网：www.heltec.cn
-## English
-# WiFi_Kit_series Arduino Environment user guidep
+# English
+- WiFi_Kit_series Arduino Environment user guidep
 
 ## Instructions
 - WIFI_Kit_32,WIFI_LoRa_32 use esp 32 chip,the source codes ang dev_environment are in [esp32](esp32/)
@@ -72,16 +72,6 @@ Before reporting an issue, make sure you've searched for similar one that was al
 
 ## Contact us
 -- website：www.heltec.cn
-
-##Board Picture
-- WIFI_Kit_8
-  ![image](InstallGuide/win-screenshots/WIFI_kit_8.png)
-- WIFI_Kit_32
-
-  ![image](InstallGuide/win-screenshots/WIFI_Kit_32.png)
-- WIFI_LoRa_32
-
-  ![image](InstallGuide/win-screenshots/WIFI_LoRa_32.png)
 
 ## 产品示意图
 - WIFI_Kit_8
