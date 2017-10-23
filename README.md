@@ -1,8 +1,8 @@
 # WiFi_Kit_series Arduino Environment user guide
 - WiFi Kit 系列arduino开发环境安装指南
-- [English](English)
 
 ## Contents
+- [English](#English)
 - [说明](#说明)
 - [安装方法](#安装方法)
 - [编码规则](#编码规则)
@@ -35,7 +35,8 @@
 
 ## 联系我们
 - 官网：www.heltec.cn
-English
+
+## English
 - WiFi_Kit_series Arduino Environment user guidep
 
 ## Instructions
