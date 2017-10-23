@@ -35,7 +35,7 @@
 
 ## 联系我们
 - 官网：www.heltec.cn
-# English
+English
 - WiFi_Kit_series Arduino Environment user guidep
 
 ## Instructions
@@ -58,11 +58,11 @@
   + [Instructions for openSUSE](fedora.md)
 
 
-#### Decoding exceptions
+## Decoding exceptions
 
 You can use [EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder) to get meaningful call trace.
 
-#### Issue/Bug report template
+## Issue/Bug report template
 Before reporting an issue, make sure you've searched for similar one that was already created. Also make sure to go through all the issues labelled as [for reference](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3A%22for%20reference%22%20).
 
 
