@@ -8,7 +8,7 @@ ESP8266 功能包括使用用TCP和UDP无线沟通，建立HTTP，MDNS，SSDP，
 
 ## Contents
 - [安装方法](#安装方法)
-- [参考文档](#参考文档)
+- [参考文档](#资料)
 - [问题报告](#问题报告)
 - [联系我们](#联系我们)  
 - [产品示意图](#产品示意图)   
@@ -31,7 +31,7 @@ ESP8266 功能包括使用用TCP和UDP无线沟通，建立HTTP，MDNS，SSDP，
 
 ### 资料
 
-Documentation for latest development version:
+以下文件持续更新中
 
 - [参考](doc/reference.md)
 - [库](doc/libraries.md)
