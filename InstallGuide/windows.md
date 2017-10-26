@@ -34,21 +34,8 @@
 
     ![Arduino IDE Example](win-screenshots/arduino-ide.png)
 
-### How to update to the latest code
 
-1. Start ```Git GUI``` and you should see the repository under ```Open Recent Repository```. Click on it!
-
-    ![Update Step 1](win-screenshots/win-gui-update-1.png)
-
-2. From menu ```Remote``` select ```Fetch from``` > ```origin```
-
-    ![Update Step 2](win-screenshots/win-gui-update-2.png)
-
-3. Wait for git to pull any changes and close ```Git GUI```
-4. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
-
-    ![Step 4](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
-## Steps to install Arduino ESP32 support on Windows
+## Steps to install Arduino ESP8266 support on Windows
 ### Tested on 32 and 64 bit Windows 10 machine
 1. Install [Python](https://www.python.org/downloads/ )
 
@@ -76,6 +63,23 @@
 9. Compile and upload (You might need to press the ```PRG``` button while uploading)
 
     ![Arduino IDE Example](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp8266-3.png)
+    
+    
+### How to update to the latest code
+
+1. Start ```Git GUI``` and you should see the repository under ```Open Recent Repository```. Click on it!
+
+    ![Update Step 1](win-screenshots/win-gui-update-1.png)
+
+2. From menu ```Remote``` select ```Fetch from``` > ```origin```
+
+    ![Update Step 2](win-screenshots/win-gui-update-2.png)
+
+3. Wait for git to pull any changes and close ```Git GUI```
+4. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
+
+    ![Step 4](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
+    
 
 
 
