@@ -3,6 +3,7 @@
 
 1. Download and install the latest Arduino IDE ```Windows Installer``` from [arduino.cc](https://www.arduino.cc/en/Main/Software)
 2. Download and install Git from [git-scm.com](https://git-scm.com/download/win)
+-  If you don't install Git,you choose ```dowload zip``` from the home page and Unzip the file to ```/Documents/Arduino/hardware/heltec```  ,Skip steps three to step four
 3. Start ```Git GUI``` and run through the following steps:
     - Select ```Clone Existing Repository```
 
