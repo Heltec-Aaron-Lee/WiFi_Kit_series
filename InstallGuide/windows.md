@@ -29,7 +29,7 @@
 5. Start Arduino IDE
 6. Select your board in ```Tools > Board``` menu ```WiFi_Kit_32```or ```WiFi_LoRa_32```
 7. Select the COM port that the board is attached to
-8. Compile and upload (You might need to hold the PRG button while uploading)
+8. Compile and upload (You might need to hold the ```PRG``` button while uploading)
 
     ![Arduino IDE Example](win-screenshots/arduino-ide.png)
 
@@ -72,7 +72,7 @@
 
 8. Select the COM port that the board is attached to
 
-9. Compile and upload (You might need to press the PRG button while uploading)
+9. Compile and upload (You might need to press the ```PRG``` button while uploading)
 
     ![Arduino IDE Example](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp8266-3.png)
 
