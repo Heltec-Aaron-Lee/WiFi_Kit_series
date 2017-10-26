@@ -99,7 +99,6 @@ uint8_t WiFiUDP::beginMulticast(IPAddress a, uint16_t p){
 void WiFiUDP::stop(){
   if(tx_buffer){
     delete[] tx_buffer;
-    tx_buffer = NULL;
   }
   tx_buffer_len = 0;
   if(rx_buffer){
@@ -123,8 +122,8 @@ void WiFiUDP::stop(){
 int WiFiUDP::beginMulticastPacket(){
   if(!server_port || multicast_ip == IPAddress(INADDR_ANY))
     return 0;
-  remote_ip = multicast_ip;
-  remote_port = server_port;
+  remote_ip = server_port;
+  remote_port = multicast_ip;
   return beginPacket();
 }
 

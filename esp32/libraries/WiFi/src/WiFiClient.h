@@ -23,16 +23,11 @@
 
 #include "Arduino.h"
 #include "Client.h"
-#undef min
-#undef max
-#include <memory>
-
-class WiFiClientSocketHandle;
 
 class WiFiClient : public Client
 {
 protected:
-    std::shared_ptr<WiFiClientSocketHandle> clientSocketHandle;
+    int sockfd;
     bool _connected;
 
 public:
@@ -44,12 +39,14 @@ public:
     int connect(const char *host, uint16_t port);
     size_t write(uint8_t data);
     size_t write(const uint8_t *buf, size_t size);
-    size_t write_P(PGM_P buf, size_t size);
     int available();
     int read();
     int read(uint8_t *buf, size_t size);
-    int peek();
-    void flush();
+    int peek()
+    {
+        return 0;
+    }
+    void flush() {}
     void stop();
     uint8_t connected();
 
@@ -72,8 +69,12 @@ public:
         return !this->operator==(rhs);
     };
 
-    int fd() const;
-
+    int fd()
+    {
+        return sockfd;
+    }
+    IPAddress remoteIP();
+    uint16_t remotePort();
     int setSocketOption(int option, char* value, size_t len);
     int setOption(int option, int *value);
     int getOption(int option, int *value);
@@ -81,14 +82,8 @@ public:
     int setNoDelay(bool nodelay);
     bool getNoDelay();
 
-    IPAddress remoteIP() const;
-    IPAddress remoteIP(int fd) const;
-    uint16_t remotePort() const;
-    uint16_t remotePort(int fd) const;
-    IPAddress localIP() const;
-    IPAddress localIP(int fd) const;
-    uint16_t localPort() const;
-    uint16_t localPort(int fd) const;
+    IPAddress remoteIP(int fd);
+    uint16_t remotePort(int fd);
 
     //friend class WiFiServer;
     using Print::write;
