@@ -10,7 +10,7 @@
 
     - Select source and destination
         - Source Location: ```https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git```
-        - Target Directory: ```/Documents/Arduino/hardware```
+        - Target Directory: ```/Documents/Arduino/hardware/heltec```
         - Change this to your Sketchbook Location if you have a different directory listed underneath the "Sketchbook location" in Arduino preferences.
         - Click ```Clone``` to start cloning the repository
 
@@ -27,7 +27,7 @@
 
 4. Plug your ESP32 board and wait for the drivers to install (or install manually any that might be required)
 5. Start Arduino IDE
-6. Select your board in ```Tools > Board``` menu
+6. Select your board in ```Tools > Board``` menu ```WiFi_Kit_32```or ```WiFi_LoRa_32```
 7. Select the COM port that the board is attached to
 8. Compile and upload (You might need to hold the PRG button while uploading)
 
