@@ -14,7 +14,7 @@
         - Change this to your Sketchbook Location if you have a different directory listed underneath the "Sketchbook location" in Arduino preferences.
         - Click ```Clone``` to start cloning the repository
 
-            ![Step 2](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-2%20.png)
+            ![Step 2](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win_gui_7%20(1).png)
             ![Step 3](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-3.png)
 
     - Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
@@ -23,7 +23,7 @@
 
     - When ```get.exe``` finishes, you should see the following files in the directory
 
-        ![Step 5](win-screenshots/win-gui-5.png)
+        ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp32-1.png)
 
 4. Plug your ESP32 board and wait for the drivers to install (or install manually any that might be required)
 5. Start Arduino IDE
