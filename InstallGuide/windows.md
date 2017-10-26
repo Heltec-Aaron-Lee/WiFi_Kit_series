@@ -19,11 +19,11 @@
 
 4. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
 
-        ![Step 4](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
+     ![Step ](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
 
 5. When ```get.exe``` finishes, you should see the following files in the directory
 
-        ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp32-1.png)
+     ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp32-1.png)
 
 6. Plug your ESP32 board and wait for the drivers to install (or install manually any that might be required)
 7. Start Arduino IDE
