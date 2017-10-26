@@ -1,6 +1,7 @@
 # WiFi_Kit_series Arduino Environment user guide
 
 - WiFi Kit 系列arduino开发环境安装指南
+- [WiFi_Kit_series Arduino Environment user guide](#WiFi_Kit_series Arduino Environment user guide)
 
 ## Contents
 - [说明](#说明)
@@ -37,7 +38,7 @@
 ## 联系我们
 - 官网：www.heltec.cn
 
-# WiFi_Kit_series Arduino Environment user guidep
+# WiFi_Kit_series Arduino Environment user guide
 
 ## Instructions
 - WIFI_Kit_32,WIFI_LoRa_32 use esp 32 chip,the source codes ang dev_environment are in [esp32](esp32/)
