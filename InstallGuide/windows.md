@@ -17,19 +17,19 @@
             ![Step 2](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win_gui_7%20(1).png)
             ![Step 3](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-3.png)
 
-    - Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
+4. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
 
         ![Step 4](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
 
-    - When ```get.exe``` finishes, you should see the following files in the directory
+5. When ```get.exe``` finishes, you should see the following files in the directory
 
         ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp32-1.png)
 
-4. Plug your ESP32 board and wait for the drivers to install (or install manually any that might be required)
-5. Start Arduino IDE
-6. Select your board in ```Tools > Board``` menu ```WiFi_Kit_32```or ```WiFi_LoRa_32```
-7. Select the COM port that the board is attached to
-8. Compile and upload (You might need to hold the ```PRG``` button while uploading)
+6. Plug your ESP32 board and wait for the drivers to install (or install manually any that might be required)
+7. Start Arduino IDE
+8. Select your board in ```Tools > Board``` menu ```WiFi_Kit_32```or ```WiFi_LoRa_32```
+9. Select the COM port that the board is attached to
+10. Compile and upload (You might need to hold the ```PRG``` button while uploading)
 
     ![Arduino IDE Example](win-screenshots/arduino-ide.png)
 
