@@ -29,7 +29,7 @@
 5. Start Arduino IDE
 6. Select your board in ```Tools > Board``` menu
 7. Select the COM port that the board is attached to
-8. Compile and upload (You might need to hold the boot button while uploading)
+8. Compile and upload (You might need to hold the PRG button while uploading)
 
     ![Arduino IDE Example](win-screenshots/arduino-ide.png)
 
@@ -47,3 +47,47 @@
 4. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
 
     ![Step 4](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
+## Steps to install Arduino ESP32 support on Windows
+### Tested on 32 and 64 bit Windows 10 machine
+1. Install [Python](https://www.python.org/downloads/ )
+
+2. Open ```/Documents/Arduino/hardware/heltec/esp8266/tools``` and double-click ```get.py```   
+-  It can't work without ```Python```
+
+   ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp8266-2.png) 
+   
+3. Waiting for download...
+
+   ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win_gui_9.png)
+   
+4.  You'll find these files in ```dist``` after downloading
+
+   ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp8266-1.png)
+   
+5. Plug your ESP32 board and wait for the drivers to install (or install manually any that might be required)
+
+6. Start Arduino IDE
+
+7. Select your board in ```Tools > Board``` menu ```WiFi_Kit_8```
+
+8. Select the COM port that the board is attached to
+
+9. Compile and upload (You might need to press the PRG button while uploading)
+
+    ![Arduino IDE Example](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp8266-3.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
