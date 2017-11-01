@@ -6,7 +6,6 @@
 
 ## Contents
 - [Development Status](#development-status)
-- [Installation Instructions](#installation-instructions)
 - [Decoding Exceptions](#decoding-exceptions)
 - [Issue/Bug report template](#issuebug-report-template)
 - [ESP32Dev Board PINMAP](#esp32dev-board-pinmap)
@@ -16,18 +15,6 @@ Most of the framework is implemented. Most noticable is the missing analogWrite.
 - 16 channels [LEDC](cores/esp32/esp32-hal-ledc.h) which is PWM
 - 8 channels [SigmaDelta](cores/esp32/esp32-hal-sigmadelta.h) which uses SigmaDelta modulation
 - 2 channels [DAC](cores/esp32/esp32-hal-dac.h) which gives real analog output
-
-## Installation Instructions
-
-- Using Arduino IDE
-  + [Instructions for Windows](docs/arduino-ide/windows.md)
-  + [Instructions for Mac](docs/arduino-ide/mac.md)
-  + [Instructions for Debian/Ubuntu Linux](docs/arduino-ide/debian_ubuntu.md)
-  + [Instructions for Fedora](docs/arduino-ide/fedora.md)
-  + [Instructions for openSUSE](docs/arduino-ide/opensuse.md)
-- [Using PlatformIO](docs/platformio.md)
-- [Building with make](docs/make.md)
-- [Using as ESP-IDF component](docs/esp-idf_component.md)
 
 #### Decoding exceptions
 
@@ -45,4 +32,4 @@ Finally, if you're sure no one else had the issue, follow the [ISSUE_TEMPLATE](d
 
 ## Hint
 
-Sometimes to program ESP32 via serial you must keep GPIO0 LOW during the programming process
+Sometimes to program ESP32 via serial you must keep GPIO0 LOW(press the PRG botton) during the programming process
