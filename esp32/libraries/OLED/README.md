@@ -1,4 +1,4 @@
-esp8266-oled-ssd1306 [![Build Status](https://travis-ci.org/squix78/esp8266-oled-ssd1306.svg?branch=dev-branch-3.0.0)](https://travis-ci.org/squix78/esp8266-oled-ssd1306)
+esp32-oled-ssd1306 [![Build Status](https://travis-ci.org/squix78/esp8266-oled-ssd1306.svg?branch=dev-branch-3.0.0)](https://travis-ci.org/squix78/esp8266-oled-ssd1306)
 ============
 
 > We just released version 3.0.0. Please have a look at our [upgrade guide](UPGRADE-3.0.md)
@@ -19,7 +19,7 @@ The init sequence for the SSD1306 was inspired by Adafruit's library for the sam
 
 ## Usage
 
-Check out the examples folder for a few comprehensive demonstrations how to use the library. Also check out the ESP8266 Weather Station library (https://github.com/squix78/esp8266-weather-station) which uses the OLED library to display beautiful weather information.
+Check out the examples folder for a few comprehensive demonstrations how to use the library.
 
 ## Upgrade
 
@@ -83,22 +83,6 @@ or for the SH1106:
 #include "SH1106Brzo.h"
 
 SH1106Brzo display(ADDRESS, SDA, SDC);
-```
-
-### SPI
-
-```C++
-#include <SPI.h>
-#include "SSD1306Spi.h"
-
-SSD1306Spi display(RES, DC, CS);
-```
-or for the SH1106:
-```C++
-#include <SPI.h>
-#include "SH1106Spi.h"
-
-SH1106Spi display(RES, DC, CS);
 ```
 
 ## API
@@ -353,38 +337,6 @@ OLEDDisplayUiState* getUiState();
 int8_t update();
 ```
 
-## Example: SSD1306Demo
-
-### Frame 1
-![DemoFrame1](https://github.com/squix78/esp8266-oled-ssd1306/raw/master/resources/DemoFrame1.jpg)
-
-This frame shows three things:
- * How to draw an xbm image
- * How to draw a static text which is not moved by the frame transition
- * The active/inactive frame indicators
-
-### Frame 2
-![DemoFrame2](https://github.com/squix78/esp8266-oled-ssd1306/raw/master/resources/DemoFrame2.jpg)
-
-Currently there are one fontface with three sizes included in the library: Arial 10, 16 and 24. Once the converter is published you will be able to convert any ttf font into the used format.
-
-### Frame 3
-
-![DemoFrame3](https://github.com/squix78/esp8266-oled-ssd1306/raw/master/resources/DemoFrame3.jpg)
-
-This frame demonstrates the text alignment. The coordinates in the frame show relative to which position the texts have been rendered.
-
-### Frame 4
-
-![DemoFrame4](https://github.com/squix78/esp8266-oled-ssd1306/raw/master/resources/DemoFrame4.jpg)
-
-This shows how to use define a maximum width after which the driver automatically wraps a word to the next line. This comes in very handy if you have longer texts to display.
-
-### SPI version
-
-![SPIVersion](https://github.com/neptune2/esp8266-oled-ssd1306/raw/master/resources/SPI_version.jpg)
-
-This shows the code working on the SPI version of the display. See demo code for ESP8266 pins used.
 
 ## Project using this library
 
