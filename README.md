@@ -1,7 +1,11 @@
 # WiFi_Kit_series Arduino Environment user guide
 
 - WiFi Kit 系列arduino开发环境安装指南
+<<<<<<< HEAD
 - [English version install guide](#Instructions)
+=======
+- [English version install guide](#instructions)
+>>>>>>> f4c292a1b639894046ee872ae89bcb3b704da3d2
 ## Contents
 - [说明](#说明)
 - [安装方法](#安装方法)

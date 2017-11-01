@@ -9,9 +9,8 @@ void setup()
 {
     Serial.begin(115200);
 
-    // Set WiFi to station mode and disconnect from an AP if it was previously connected
-    WiFi.mode(WIFI_STA);
-    WiFi.disconnect();
+    // before scan, you need add you WIFI information here
+    WiFi.begin("Add you WIFI here","Add you WIFI's pass word here");
     delay(100);
 
     Serial.println("Setup done");
@@ -21,8 +20,8 @@ void loop()
 {
     Serial.println("scan start");
 
-    // WiFi.scanNetworks will return the number of networks found
-    int n = WiFi.scanNetworks();
+    // WiFi.scanNetworks(async, show_hidden, passive, max_ms_per_chan);
+    int n = WiFi.scanNetworks(false,true,false,600);
     Serial.println("scan done");
     if (n == 0) {
         Serial.println("no networks found");
