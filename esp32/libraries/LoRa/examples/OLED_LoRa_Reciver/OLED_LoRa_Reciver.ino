@@ -85,7 +85,7 @@ void setup() {
     while (1);
   }
   display.drawString(0, 0, "LoRa Initial success!");
-  display.drawString(0, 10, "Waitting for incomm data...");
+  display.drawString(0, 10, "Wait for incomm data...");
   display.display();
   delay(1000);
   //LoRa.onReceive(cbk);
