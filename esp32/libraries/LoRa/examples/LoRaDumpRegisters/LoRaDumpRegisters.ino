@@ -1,6 +1,9 @@
-/* 
-  Basic test program, send date at the BAND you seted.
-  
+/*
+  LoRa Register Dumper
+
+  This examples shows how to inspect and output the LoRa radio's
+  registers on the Serial interface
+
   by Aaron.Lee from HelTec AutoMation, ChengDu, China
   成都惠利特自动化科技有限公司
   www.heltec.cn
@@ -23,35 +26,25 @@
 #define BAND    433E6  //you can set band here directly,e.g. 868E6,915E6
 #define PABOOST true
 
-int counter = 0;
 
 void setup() {
-  pinMode(25,OUTPUT);
-  
-  Serial.begin(115200);
+  Serial.begin(115200);               // initialize serial
   while (!Serial);
-  Serial.println("LoRa Sender");
+
+  Serial.println("LoRa Dump Registers");
 
   SPI.begin(SCK,MISO,MOSI,SS);
-  LoRa.setPins(SS,RST,DI0);
-  if (!LoRa.begin(BAND,PABOOST)) {
-    Serial.println("Starting LoRa failed!");
-    while (1);
+  LoRa.setPins(SS,RST,DI0); // CS, reset, IRQ pin
+
+  if (!LoRa.begin(BAND,PABOOST)) {         
+    Serial.println("LoRa init failed. Check your connections.");
+    while (true);                   // if failed, do nothing
   }
+
+  LoRa.dumpRegisters(Serial);
 }
 
+
 void loop() {
-  Serial.print("Sending packet: ");
-  Serial.println(counter);
-  // send packet
-  LoRa.beginPacket();
-  LoRa.print("hello ");
-  LoRa.print(counter);
-  LoRa.endPacket();
-  
-  counter++;
-  digitalWrite(25, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000);                       // wait for a second
-  digitalWrite(25, LOW);    // turn the LED off by making the voltage LOW
-  delay(1000);                       // wait for a second
 }
+

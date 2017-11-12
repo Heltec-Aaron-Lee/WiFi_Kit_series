@@ -4,18 +4,24 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#define LORA_DEFAULT_SS_PIN    18
-#define LORA_DEFAULT_RESET_PIN 14
-#define LORA_DEFAULT_DIO0_PIN  26
+#define LORA_DEFAULT_SS_PIN     18
+#define LORA_DEFAULT_RESET_PIN  14
+#define LORA_DEFAULT_DIO0_PIN   26
 
-#define PA_OUTPUT_RFO_PIN      1
-#define PA_OUTPUT_PA_BOOST_PIN 0
+#define PA_OUTPUT_PA_BOOST_PIN  1
+#define PA_OUTPUT_RFO_PIN       0
+
+#if defined (__STM32F1__)
+inline unsigned char  digitalPinToInterrupt(unsigned char Interrupt_pin) { return Interrupt_pin; } //This isn't included in the stm32duino libs (yet)
+#define portOutputRegister(port) (volatile byte *)( &(port->regs->ODR) ) //These are defined in STM32F1/variants/generic_stm32f103c/variant.h but return a non byte* value
+#define portInputRegister(port) (volatile byte *)( &(port->regs->IDR) ) //These are defined in STM32F1/variants/generic_stm32f103c/variant.h but return a non byte* value
+#endif
 
 class LoRaClass : public Stream {
 public:
   LoRaClass();
 
-  int begin(long frequency);
+  int begin(long frequency,bool PABOOST);
   void end();
 
   int beginPacket(int implicitHeader = false);
@@ -48,8 +54,12 @@ public:
   void setCodingRate4(int denominator);
   void setPreambleLength(long length);
   void setSyncWord(int sw);
-  void crc();
-  void noCrc();
+  void enableCrc();
+  void disableCrc();
+
+  // deprecated
+  void crc() { enableCrc(); }
+  void noCrc() { disableCrc(); }
 
   byte random();
 
@@ -58,7 +68,7 @@ public:
 
   void dumpRegisters(Stream& out);
 
-//private:
+private:
   void explicitHeaderMode();
   void implicitHeaderMode();
 

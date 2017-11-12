@@ -26,9 +26,9 @@ Override the default `NSS`, `NRESET`, and `DIO0` pins used by the library. **Mus
 ```arduino
 LoRa.setPins(ss, reset, dio0);
 ```
- * `ss` - new slave select pin to use, defaults to `10`
- * `reset` - new reset pin to use, defaults to `9`
- * `dio0` - new DIO0 pin to use, defaults to `2`
+ * `ss` - new slave select pin to use, defaults to `18`
+ * `reset` - new reset pin to use, defaults to `14`
+ * `dio0` - new DIO0 pin to use, defaults to `26`
 
 This call is optional and only needs to be used if you need to change the default pins used.
 
