@@ -81,9 +81,7 @@ Before reporting an issue, make sure you've searched for similar one that was al
 - WIFI_Kit_8
   ![image](InstallGuide/win-screenshots/WIFI_kit_8.png)
 - WIFI_Kit_32
-
   ![image](InstallGuide/win-screenshots/WIFI_Kit_32.png)
 - WIFI_LoRa_32
-
   ![image](InstallGuide/win-screenshots/WIFI_LoRa_32.png)
 
