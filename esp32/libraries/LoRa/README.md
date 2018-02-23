@@ -19,7 +19,7 @@ An [Arduino](http://arduino.cc/) library for sending and receiving data using [L
 | MISO | GPIO19 |
 | MOSI | GPIO27 |
 | NSS | GPIO18 |
-| NRESET | GPIO16 |
+| NRESET | GPIO14 |
 | DIO0 | GPIO26 |
 
 
