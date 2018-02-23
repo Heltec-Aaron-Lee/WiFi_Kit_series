@@ -6,10 +6,8 @@ An [Arduino](http://arduino.cc/) library for sending and receiving data using [L
 
 ## Compatible Hardware
 
- * [Semtech SX1276/77/78/79](http://www.semtech.com/apps/product.php?pn=SX1276) based boards including:
-   * [Dragino Lora Shield](http://www.dragino.com/products/module/item/102-lora-shield.html)
-   * [HopeRF](http://www.hoperf.com/rf_transceiver/lora/) [RFM95W](http://www.hoperf.com/rf_transceiver/lora/RFM95W.html), [RFM96W](http://www.hoperf.com/rf_transceiver/lora/RFM96W.html), and [RFM98W](http://www.hoperf.com/rf_transceiver/lora/RFM98W.html)
-   * [Modtronix](http://modtronix.com/) [inAir4](http://modtronix.com/inair4.html), [inAir9](http://modtronix.com/inair9.html), and [inAir9B](http://modtronix.com/inair9b.html)
+ * Heltec WIFI_LoRa_32_433-470
+ * Heltec WIFI_LoRa_32_868-915
 
 ### Semtech SX1276/77/78/79 wiring
 
@@ -17,12 +15,12 @@ An [Arduino](http://arduino.cc/) library for sending and receiving data using [L
 | :---------------------: | :------:|
 | VCC | 3.3V |
 | GND | GND |
-| SCK | SCK |
-| MISO | MISO |
-| MOSI | MOSI |
-| NSS | 10 |
-| NRESET | 9 |
-| DIO0 | 2 |
+| SCK | GPIO15 |
+| MISO | GPIO19 |
+| MOSI | GPIO27 |
+| NSS | GPIO18 |
+| NRESET | GPIO16 |
+| DIO0 | GPIO26 |
 
 
 `NSS`, `NRESET`, and `DIO0` pins can be changed by using `LoRa.setPins(ss, reset, dio0)`. `DIO0` pin is optional, it is only needed for receive callback mode.
