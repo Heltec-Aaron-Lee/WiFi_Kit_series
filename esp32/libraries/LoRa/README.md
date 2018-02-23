@@ -21,6 +21,8 @@ An [Arduino](http://arduino.cc/) library for sending and receiving data using [L
 | NSS | GPIO18 |
 | NRESET | GPIO14 |
 | DIO0 | GPIO26 |
+| DIO1 | GPIO33 |
+| DIO2 | GPIO32 |
 
 
 `NSS`, `NRESET`, and `DIO0` pins can be changed by using `LoRa.setPins(ss, reset, dio0)`. `DIO0` pin is optional, it is only needed for receive callback mode.
