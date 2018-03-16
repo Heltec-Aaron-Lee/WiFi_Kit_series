@@ -247,10 +247,10 @@ class OLEDDisplay : public Print {
     char      *logBuffer                       = NULL;
 
     // Send a command to the display (low level function)
-    virtual void sendCommand(uint8_t com) {};
+    virtual void sendCommand(uint8_t com) = 0;
 
     // Connect to the display
-    virtual bool connect() {};
+    virtual bool connect() = 0;
 
     // Send all the init commands
     void sendInitCommands();
