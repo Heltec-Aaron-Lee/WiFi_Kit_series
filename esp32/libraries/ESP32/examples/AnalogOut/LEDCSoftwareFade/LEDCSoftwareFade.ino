@@ -20,7 +20,7 @@
 #define LEDC_BASE_FREQ     5000
 
 // fade LED PIN (replace with LED_BUILTIN constant for built-in LED)
-#define LED_PIN            5
+#define LED_PIN            25
 
 int brightness = 0;    // how bright the LED is
 int fadeAmount = 5;    // how many points to fade the LED by
