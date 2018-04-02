@@ -1,8 +1,8 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 by Daniel Eichhorn
- * Copyright (c) 2016 by Fabrice Weinberg
+ * Copyright (c) 2018 by ThingPulse, Daniel Eichhorn
+ * Copyright (c) 2018 by Fabrice Weinberg
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,10 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * ThingPulse invests considerable time and money to develop these open source libraries.
+ * Please support us by buying our products (and not the clones) from
+ * https://thingpulse.com
  *
  */
 
@@ -61,11 +65,11 @@ enum FrameState {
 };
 
 
-const char ANIMATION_activeSymbol[] PROGMEM = {
+const uint8_t ANIMATION_activeSymbol[] PROGMEM = {
   0x00, 0x18, 0x3c, 0x7e, 0x7e, 0x3c, 0x18, 0x00
 };
 
-const char ANIMATION_inactiveSymbol[] PROGMEM = {
+const uint8_t ANIMATION_inactiveSymbol[] PROGMEM = {
   0x00, 0x0, 0x0, 0x18, 0x18, 0x0, 0x0, 0x00
 };
 
@@ -106,8 +110,8 @@ class OLEDDisplayUi {
     IndicatorPosition   indicatorPosition         = BOTTOM;
     IndicatorDirection  indicatorDirection        = LEFT_RIGHT;
 
-    const char*         activeSymbol              = ANIMATION_activeSymbol;
-    const char*         inactiveSymbol            = ANIMATION_inactiveSymbol;
+    const uint8_t*         activeSymbol              = ANIMATION_activeSymbol;
+    const uint8_t*         inactiveSymbol            = ANIMATION_inactiveSymbol;
 
     bool                shouldDrawIndicators      = true;
 
@@ -240,12 +244,12 @@ class OLEDDisplayUi {
     /**
      * Set the symbol to indicate an active frame in the indicator bar.
      */
-    void setActiveSymbol(const char* symbol);
+    void setActiveSymbol(const uint8_t* symbol);
 
     /**
      * Set the symbol to indicate an inactive frame in the indicator bar.
      */
-    void setInactiveSymbol(const char* symbol);
+    void setInactiveSymbol(const uint8_t* symbol);
 
 
     // Frame settings
