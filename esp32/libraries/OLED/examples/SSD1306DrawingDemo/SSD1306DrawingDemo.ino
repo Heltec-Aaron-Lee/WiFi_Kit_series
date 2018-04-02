@@ -1,15 +1,18 @@
 // This example just provide basic function test;
 // For more informations, please vist www.heltec.cn or mail to support@heltec.cn
 
- #include <Wire.h>  // Only needed for Arduino 1.6.5 and earlier
- #include "SSD1306.h" // alias for `#include "SSD1306Wire.h"`
+#include <Wire.h>  // Only needed for Arduino 1.6.5 and earlier
+#include "SSD1306.h" // alias for `#include "SSD1306Wire.h"`
 
 //OLED pins to ESP32 GPIOs via this connecthin:
 //OLED_SDA -- GPIO4
 //OLED_SCL -- GPIO15
 //OLED_RST -- GPIO16
 
- SSD1306  display(0x3c, 4, 15);
+#define DISPLAY_HEIGHT 64
+#define DISPLAY_WIDTH  128
+
+SSD1306  display(0x3c, 4, 15);
 
 // Adapted from Adafruit_SSD1306
 void drawLines() {
