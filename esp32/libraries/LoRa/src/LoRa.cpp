@@ -90,10 +90,10 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   writeRegister(REG_LNA, readRegister(REG_LNA) | 0x03);
   // set auto AGC
   writeRegister(REG_MODEM_CONFIG_3, 0x04);
-  // set output power to 17 dBm
-  setTxPower(17,PABOOST);  //rfo
-  // set Spreading Factor to 9 (6~12)
-  setSpreadingFactor(9);
+  // set output power to 12 dBm
+  setTxPower(12,PABOOST);  //rfo
+  // set Spreading Factor to 7 (6~12)
+  setSpreadingFactor(7);
   // put in standby mode
   idle();
   return 1;

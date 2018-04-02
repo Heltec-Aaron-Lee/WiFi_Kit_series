@@ -219,7 +219,7 @@ LoRa.setTxPower(txPower);
 
 LoRa.setTxPower(txPower, outputPin);
 ```
- * `txPower` - TX power in dB, defaults to `17`
+ * `txPower` - TX power in dB, defaults to `12`
  * `outputPin` - (optional) PA output pin, supported values are `PA_OUTPUT_RFO_PIN` and `PA_OUTPUT_PA_BOOST_PIN`, defaults to `PA_OUTPUT_PA_BOOST_PIN`.
 
 Supported values are between `2` and `17` for `PA_OUTPUT_PA_BOOST_PIN`, `0` and `14` for `PA_OUTPUT_RFO_PIN`.
@@ -242,7 +242,7 @@ Change the spreading factor of the radio.
 ```arduino
 LoRa.setSpreadingFactor(spreadingFactor);
 ```
- * `spreadingFactor` - spreading factor, defaults to `9`
+ * `spreadingFactor` - spreading factor, defaults to `7`
 
 Supported values are between `6` and `12`. If a spreading factor of `6` is set, implicit header mode must be used to transmit and receive packets.
 
