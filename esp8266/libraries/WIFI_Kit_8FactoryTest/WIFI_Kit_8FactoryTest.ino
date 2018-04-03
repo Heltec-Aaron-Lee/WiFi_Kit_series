@@ -16,6 +16,7 @@
  * by Aaron.Lee from HelTec AutoMation, ChengDu, China
  * 成都惠利特自动化科技有限公司
  * www.heltec.cn
+ * support@heltec.cn
  *
  * this project also realess in GitHub:
  * https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
