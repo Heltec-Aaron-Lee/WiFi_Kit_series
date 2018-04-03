@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef WIFIMULTI_H_
-#define WIFIMULTI_H_
+#ifndef WIFICLIENTMULTI_H_
+#define WIFICLIENTMULTI_H_
 
 #include "WiFi.h"
 #undef min

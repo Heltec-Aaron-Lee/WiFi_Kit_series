@@ -20,8 +20,8 @@
  */
 
 
-#ifndef WIFITYPE_H_
-#define WIFITYPE_H_
+#ifndef ESP32WIFITYPE_H_
+#define ESP32WIFITYPE_H_
 
 #define WIFI_SCAN_RUNNING   (-1)
 #define WIFI_SCAN_FAILED    (-2)

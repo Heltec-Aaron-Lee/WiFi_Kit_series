@@ -20,8 +20,8 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef WIFIAP_H_
-#define WIFIAP_H_
+#ifndef ESP32WIFIAP_H_
+#define ESP32WIFIAP_H_
 
 
 #include "WiFiType.h"
