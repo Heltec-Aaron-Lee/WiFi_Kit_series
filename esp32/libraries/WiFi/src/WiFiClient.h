@@ -17,8 +17,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef _WIFICLIENT_H_
-#define _WIFICLIENT_H_
+#ifndef WIFICLIENT_H_
+#define WIFICLIENT_H_
 
 
 #include "Arduino.h"

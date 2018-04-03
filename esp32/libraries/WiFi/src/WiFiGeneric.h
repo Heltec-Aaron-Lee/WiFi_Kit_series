@@ -20,8 +20,8 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ESP32WIFIGENERIC_H_
-#define ESP32WIFIGENERIC_H_
+#ifndef WIFIGENERIC_H_
+#define WIFIGENERIC_H_
 
 #include "WiFiType.h"
 #include <esp_err.h>
