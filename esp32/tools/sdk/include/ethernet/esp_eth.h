@@ -28,6 +28,13 @@ typedef enum {
     ETH_MODE_MII,
 } eth_mode_t;
 
+typedef enum  {
+    ETH_CLOCK_GPIO0_IN   = 0,
+    ETH_CLOCK_GPIO0_OUT  = 1,
+    ETH_CLOCK_GPIO16_OUT = 2,
+    ETH_CLOCK_GPIO17_OUT = 3
+} eth_clock_mode_t;
+
 typedef enum {
     ETH_SPEED_MODE_10M = 0,
     ETH_SPEED_MODE_100M,
@@ -90,8 +97,9 @@ typedef void (*eth_phy_power_enable_func)(bool enable);
 typedef struct {
     eth_phy_base_t  phy_addr;                   /*!< phy base addr (0~31) */
     eth_mode_t mac_mode;                        /*!< mac mode only support RMII now */
-    eth_tcpip_input_func tcpip_input;            /*!< tcpip input func  */
-    eth_phy_func phy_init;                       /*!< phy init func  */
+    eth_clock_mode_t clock_mode;                /*!< external/internal clock mode selecton */
+    eth_tcpip_input_func tcpip_input;           /*!< tcpip input func  */
+    eth_phy_func phy_init;                      /*!< phy init func  */
     eth_phy_check_link_func phy_check_link;     /*!< phy check link func  */
     eth_phy_check_init_func phy_check_init;     /*!< phy check init func  */
     eth_phy_get_speed_mode_func phy_get_speed_mode;     /*!< phy check init func  */
@@ -242,9 +250,29 @@ static inline esp_err_t esp_eth_smi_wait_set(uint32_t reg_num, uint16_t value_ma
  */
 void esp_eth_free_rx_buf(void *buf);
 
+/**
+ * @brief  Get mac of ethernet interface.
+ *
+ * @param[out] mac: store mac of the interface.
+ *
+ */
+void esp_eth_get_mac(uint8_t mac[6]);
+
+/**
+ * @brief  Set mac of ethernet interface.
+ *
+ * @note user can call this function after emac_init,and the new mac address will be enabled after emac_enable.
+ *
+ * @param[in] mac: the Mac address.
+ *
+ * @return 
+ *    - ESP_OK: succeed
+ *    - ESP_ERR_INVALID_MAC: invalid mac address
+ */
+esp_err_t esp_eth_set_mac(const uint8_t mac[6]);
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-

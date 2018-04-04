@@ -17,6 +17,10 @@
 #include <stdlib.h>
 #include "multi_heap.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Flags to indicate the capabilities of the various memory systems
  */
@@ -40,7 +44,7 @@
  *
  * Equivalent semantics to libc malloc(), for capability-aware memory.
  *
- * In IDF, ``malloc(p)`` is equivalent to ``heaps_caps_malloc(p, MALLOC_CAP_8BIT)``.
+ * In IDF, ``malloc(p)`` is equivalent to ``heap_caps_malloc(p, MALLOC_CAP_8BIT)``.
  *
  * @param size Size, in bytes, of the amount of memory to allocate
  * @param caps        Bitwise OR of MALLOC_CAP_* flags indicating the type
@@ -63,7 +67,7 @@ void *heap_caps_malloc(size_t size, uint32_t caps);
 void heap_caps_free( void *ptr);
 
 /**
- * @brief Reallocate memory previously allocated via heaps_caps_malloc() or heaps_caps_realloc().
+ * @brief Reallocate memory previously allocated via heap_caps_malloc() or heaps_caps_realloc().
  *
  * Equivalent semantics to libc realloc(), for capability-aware memory.
  *
@@ -276,3 +280,36 @@ void *heap_caps_realloc_prefer( void *ptr, size_t size, size_t num, ... );
  * @return A pointer to the memory allocated on success, NULL on failure
  */
 void *heap_caps_calloc_prefer( size_t n, size_t size, size_t num, ... );
+
+/**
+ * @brief Dump the full structure of all heaps with matching capabilities.
+ *
+ * Prints a large amount of output to serial (because of locking limitations,
+ * the output bypasses stdout/stderr). For each (variable sized) block
+ * in each matching heap, the following output is printed on a single line:
+ *
+ * - Block address (the data buffer returned by malloc is 4 bytes after this
+ *   if heap debugging is set to Basic, or 8 bytes otherwise).
+ * - Data size (the data size may be larger than the size requested by malloc,
+ *   either due to heap fragmentation or because of heap debugging level).
+ * - Address of next block in the heap.
+ * - If the block is free, the address of the next free block is also printed.
+ *
+ * @param caps        Bitwise OR of MALLOC_CAP_* flags indicating the type
+ *                    of memory
+ */
+void heap_caps_dump(uint32_t caps);
+
+/**
+ * @brief Dump the full structure of all heaps.
+ *
+ * Covers all registered heaps. Prints a large amount of output to serial.
+ *
+ * Output is the same as for heap_caps_dump.
+ *
+ */
+void heap_caps_dump_all();
+
+#ifdef __cplusplus
+}
+#endif

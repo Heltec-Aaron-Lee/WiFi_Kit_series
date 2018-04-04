@@ -34,8 +34,10 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include <sys/time.h>
 #include <sys/fcntl.h>
+#include <sys/ioctl.h>
 #include "esp_task.h"
 #include "esp_system.h"
 #include "sdkconfig.h"
@@ -110,26 +112,26 @@
  * MEMP_NUM_RAW_PCB: Number of raw connection PCBs
  * (requires the LWIP_RAW option)
  */
-#define MEMP_NUM_RAW_PCB                16
+#define MEMP_NUM_RAW_PCB                CONFIG_LWIP_MAX_RAW_PCBS
 
 /**
- * MEMP_NUM_TCP_PCB: the number of simulatenously active TCP connections.
+ * MEMP_NUM_TCP_PCB: the number of simultaneously active TCP connections.
  * (requires the LWIP_TCP option)
  */
-#define MEMP_NUM_TCP_PCB                16
+#define MEMP_NUM_TCP_PCB                CONFIG_LWIP_MAX_ACTIVE_TCP
 
 /**
  * MEMP_NUM_TCP_PCB_LISTEN: the number of listening TCP connections.
  * (requires the LWIP_TCP option)
  */
-#define MEMP_NUM_TCP_PCB_LISTEN         16
+#define MEMP_NUM_TCP_PCB_LISTEN         CONFIG_LWIP_MAX_LISTENING_TCP
 
 /**
  * MEMP_NUM_UDP_PCB: the number of UDP protocol control blocks. One
  * per active UDP "connection".
  * (requires the LWIP_UDP option)
  */
-#define MEMP_NUM_UDP_PCB                16
+#define MEMP_NUM_UDP_PCB                CONFIG_LWIP_MAX_UDP_PCBS
 
 /*
    --------------------------------
@@ -270,6 +272,9 @@
  * transport.
  */
 #define LWIP_DNS                        1
+
+#define DNS_MAX_SERVERS                 3
+#define DNS_FALLBACK_SERVER_INDEX        (DNS_MAX_SERVERS - 1)
 
 /*
    ---------------------------------
@@ -687,6 +692,19 @@
 #define ETHARP_TRUST_IP_MAC             CONFIG_LWIP_ETHARP_TRUST_IP_MAC
 
 
+/**
+ * POSIX I/O functions are mapped to LWIP via the VFS layer
+ * (see port/vfs_lwip.c)
+ */
+#define LWIP_POSIX_SOCKETS_IO_NAMES     0
+
+
+/**
+ * Socket offset is also determined via the VFS layer at
+ * filesystem registration time (see port/vfs_lwip.c)
+ */
+#define LWIP_SOCKET_OFFSET              lwip_socket_offset
+
 /* Enable all Espressif-only options */
 
 #define ESP_LWIP                        1
@@ -707,6 +725,7 @@
 #define ESP_STATS_TCP                   0
 #define ESP_DHCP_TIMER                  1
 #define ESP_LWIP_LOGI(...)              ESP_LOGI("lwip", __VA_ARGS__)
+#define ESP_PING                        1
 
 #define TCP_WND_DEFAULT                 CONFIG_TCP_WND_DEFAULT
 #define TCP_SND_BUF_DEFAULT             CONFIG_TCP_SND_BUF_DEFAULT

@@ -9,7 +9,7 @@ menu.DebugLevel=Core Debug Level
 wifi_kit_32.name=WIFI_Kit_32
 
 wifi_kit_32.upload.tool=esptool
-wifi_kit_32.upload.maximum_size=1044464
+wifi_kit_32.upload.maximum_size=1310720
 wifi_kit_32.upload.maximum_data_size=294912
 wifi_kit_32.upload.wait_for_upload_port=true
 
@@ -24,7 +24,7 @@ wifi_kit_32.build.board=WIFI_Kit_32
 wifi_kit_32.build.f_cpu=240000000L
 wifi_kit_32.build.flash_mode=dio
 wifi_kit_32.build.flash_size=4MB
-wifi_kit_32.build.boot=bootloader
+wifi_kit_32.build.boot=dio
 wifi_kit_32.build.partitions=default
 
 wifi_kit_32.menu.FlashFreq.80=80MHz
@@ -52,7 +52,7 @@ wifi_kit_32.menu.UploadSpeed.512000.upload.speed=512000
 wifi_lora_32.name=WIFI_LoRa_32
 
 wifi_lora_32.upload.tool=esptool
-wifi_lora_32.upload.maximum_size=1044464
+wifi_lora_32.upload.maximum_size=1310720
 wifi_lora_32.upload.maximum_data_size=294912
 wifi_lora_32.upload.wait_for_upload_port=true
 
@@ -67,7 +67,7 @@ wifi_lora_32.build.board=WIFI_LoRa_32
 wifi_lora_32.build.f_cpu=240000000L
 wifi_lora_32.build.flash_mode=dio
 wifi_lora_32.build.flash_size=4MB
-wifi_lora_32.build.boot=bootloader
+wifi_lora_32.build.boot=dio
 wifi_lora_32.build.partitions=default
 
 wifi_lora_32.menu.FlashFreq.80=80MHz

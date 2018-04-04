@@ -110,7 +110,7 @@ wl_status_t WiFiSTAClass::begin(const char* ssid, const char *passphrase, int32_
         return WL_CONNECT_FAILED;
     }
 
-    if(passphrase && strlen(passphrase) > 63) {
+    if(passphrase && strlen(passphrase) > 64) {
         // fail passphrase too long!
         return WL_CONNECT_FAILED;
     }
@@ -119,7 +119,10 @@ wl_status_t WiFiSTAClass::begin(const char* ssid, const char *passphrase, int32_
     strcpy(reinterpret_cast<char*>(conf.sta.ssid), ssid);
 
     if(passphrase) {
-        strcpy(reinterpret_cast<char*>(conf.sta.password), passphrase);
+        if (strlen(passphrase) == 64) // it's not a passphrase, is the PSK
+            memcpy(reinterpret_cast<char*>(conf.sta.password), passphrase, 64);
+        else
+            strcpy(reinterpret_cast<char*>(conf.sta.password), passphrase);
     } else {
         *conf.sta.password = 0;
     }
@@ -355,7 +358,7 @@ uint8_t WiFiSTAClass::waitForConnectResult()
         return WL_DISCONNECTED;
     }
     int i = 0;
-    while(status() >= WL_DISCONNECTED && i++ < 100) {
+    while((!status() || status() >= WL_DISCONNECTED) && i++ < 100) {
         delay(100);
     }
     return status();
@@ -625,6 +628,7 @@ void WiFiSTAClass::_smartConfigCallback(uint32_t st, void* result) {
     } else if (status == SC_STATUS_LINK) {
         wifi_sta_config_t *sta_conf = reinterpret_cast<wifi_sta_config_t *>(result);
         log_d("SSID: %s", (char *)(sta_conf->ssid));
+        sta_conf->bssid_set = 0;
         esp_wifi_set_config(WIFI_IF_STA, (wifi_config_t *)sta_conf);
         esp_wifi_connect();
         _smartConfigDone = true;

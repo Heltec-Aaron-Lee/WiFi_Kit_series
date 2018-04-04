@@ -38,12 +38,13 @@ typedef void (*esp_freertos_tick_cb_t)();
   * @warning Idle callbacks MUST NOT, UNDER ANY CIRCUMSTANCES, CALL
   *          A FUNCTION THAT MIGHT BLOCK.
   *
-  * @param  esp_freertos_idle_cb_t new_idle_cb : Callback to be called
-  * @param  UBaseType_t cpuid : id of the core
+  * @param[in]  new_idle_cb     Callback to be called
+  * @param[in]  cpuid           id of the core
   *
-  * @return ESP_OK : Callback registered to the specified core's idle hook
-  * @return ESP_ERR_NO_MEM : No more space on the specified core's idle hook to register callback
-  * @return ESP_ERR_INVALID_ARG : cpuid is invalid
+  * @return
+  *     - ESP_OK:              Callback registered to the specified core's idle hook
+  *     - ESP_ERR_NO_MEM:      No more space on the specified core's idle hook to register callback
+  *     - ESP_ERR_INVALID_ARG: cpuid is invalid
   */
 esp_err_t esp_register_freertos_idle_hook_for_cpu(esp_freertos_idle_cb_t new_idle_cb, UBaseType_t cpuid);
 
@@ -56,56 +57,69 @@ esp_err_t esp_register_freertos_idle_hook_for_cpu(esp_freertos_idle_cb_t new_idl
   * @warning Idle callbacks MUST NOT, UNDER ANY CIRCUMSTANCES, CALL
   *          A FUNCTION THAT MIGHT BLOCK.
   *
-  * @param  esp_freertos_idle_cb_t new_idle_cb : Callback to be called
+  * @param[in]  new_idle_cb     Callback to be called
   *
-  * @return ESP_OK : Callback registered to the calling core's idle hook
-  * @return ESP_ERR_NO_MEM : No more space the calling core's idle hook to register callback
+  * @return
+  *     - ESP_OK:         Callback registered to the calling core's idle hook
+  *     - ESP_ERR_NO_MEM: No more space on the calling core's idle hook to register callback
   */
 esp_err_t esp_register_freertos_idle_hook(esp_freertos_idle_cb_t new_idle_cb);
 
 /**
   * @brief  Register a callback to be called from the specified core's tick hook.
   *
-  * @param  esp_freertos_tick_cb_t new_tick_cb : Callback to be called
-  * @param  UBaseType_t cpuid : id of the core
+  * @param[in]  new_tick_cb     Callback to be called
+  * @param[in]  cpuid           id of the core
   *
-  * @return ESP_OK : Callback registered
-  * @return ESP_ERR_NO_MEM : No more space on the specified core's tick hook to register the callback
-  * @return ESP_ERR_INVALID_ARG : cpuid is invalid
+  * @return
+  *     - ESP_OK:              Callback registered to specified core's tick hook
+  *     - ESP_ERR_NO_MEM:      No more space on the specified core's tick hook to register the callback
+  *     - ESP_ERR_INVALID_ARG: cpuid is invalid
   */
 esp_err_t esp_register_freertos_tick_hook_for_cpu(esp_freertos_tick_cb_t new_tick_cb, UBaseType_t cpuid);
 
 /**
   * @brief  Register a callback to be called from the calling core's tick hook.
   *
-  * @param  esp_freertos_tick_cb_t new_tick_cb : Callback to be called
+  * @param[in]  new_tick_cb     Callback to be called
   *
-  * @return ESP_OK : Callback registered
-  * @return ESP_ERR_NO_MEM : No more space on the calling core's tick hook to register the callback
+  * @return
+  *     - ESP_OK:         Callback registered to the calling core's tick hook
+  *     - ESP_ERR_NO_MEM: No more space on the calling core's tick hook to register the callback
   */
 esp_err_t esp_register_freertos_tick_hook(esp_freertos_tick_cb_t new_tick_cb);
 
+/**
+  * @brief  Unregister an idle callback from the idle hook of the specified core
+  *
+  * @param[in]  old_idle_cb     Callback to be unregistered
+  * @param[in]  cpuid           id of the core
+  */
+void esp_deregister_freertos_idle_hook_for_cpu(esp_freertos_idle_cb_t old_idle_cb, UBaseType_t cpuid);
 
 /**
   * @brief  Unregister an idle callback. If the idle callback is registered to
   *         the idle hooks of both cores, the idle hook will be unregistered from
   *         both cores
   *
-  * @param  esp_freertos_idle_cb_t new_idle_cb : Callback to be unregistered
-  *
-  * @return void
+  * @param[in]  old_idle_cb     Callback to be unregistered
   */
 void esp_deregister_freertos_idle_hook(esp_freertos_idle_cb_t old_idle_cb);
 
+/**
+  * @brief  Unregister a tick callback from the tick hook of the specified core
+  *
+  * @param[in]  old_tick_cb     Callback to be unregistered
+  * @param[in]  cpuid           id of the core
+  */
+void esp_deregister_freertos_tick_hook_for_cpu(esp_freertos_tick_cb_t old_tick_cb, UBaseType_t cpuid);
 
 /**
   * @brief  Unregister a tick callback. If the tick callback is registered to the
   *         tick hooks of both cores, the tick hook will be unregistered from
   *         both cores
   *
-  * @param  esp_freertos_idle_cb_t new_idle_cb : Callback to be unregistered
-  *
-  * @return void
+  * @param[in]  old_tick_cb     Callback to be unregistered
   */
 void esp_deregister_freertos_tick_hook(esp_freertos_tick_cb_t old_tick_cb);
 
