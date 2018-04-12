@@ -1,14 +1,11 @@
-This is an [esp8266-Arduino](https://github.com/esp8266/Arduino) library for I2C-OLED displays.
+This is an simple library for 128*32 I2C OLED displays on HelTec WIFI Kit 8.
 
 ## Credits
 
 Original code was taken from [ESP8266-I2C-OLED](https://github.com/costonisp/ESP8266-I2C-OLED) project and was modified in form of a library suitable for using with [Arduino IDE](https://www.arduino.cc/en/Main/Software).
 
-## Installation
+This library just include some basic initial and display function. We highly recommend use a u8g2 library.
 
-- Click on the `Download ZIP` button in the top right corner.
-- Uncompress it.
-- Rename the uncompressed folder to `OLED`.
-- Check that the OLED folder contains OLED.cpp and OLED.h files.
-- Place the `OLED` folder in your `<arduinosketchfolder>/libraries/` folder - you may need to create the `libraries` subfolder if it is your first library.
-- Restart the IDE.
+## How to install u8g2 library
+
+Search "u8g2" in Arduino library mananger and install it.
