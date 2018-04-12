@@ -66,6 +66,7 @@ void WIFISetUp(void)
 	WiFi.disconnect(true);
 	delay(1000);
 	WiFi.mode(WIFI_STA);
+	WiFi.setAutoConnect(true);
 	WiFi.begin("your WIFI SSID","your WIFI password");
 	delay(100);
 
