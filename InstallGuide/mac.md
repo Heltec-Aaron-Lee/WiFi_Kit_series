@@ -19,7 +19,7 @@ Installation instructions for Mac OS
   ```
 - If you get errors in "python get.py" with "http_error", just try that command again;
 
-If you get a "protocol version error" similar to this:
+- If you get a "protocol version error" similar to this:
 
 ```
 IOError: [Errno socket error] [Errno 1] _ssl.c:504: error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
