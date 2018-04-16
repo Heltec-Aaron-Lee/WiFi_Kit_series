@@ -80,7 +80,8 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGV(SPP_TAG, "ESP_SPP_DATA_IND_EVT len=%d handle=%d", param->data_ind.len, param->data_ind.handle);
         //esp_log_buffer_hex("",param->data_ind.data,param->data_ind.len); //for low level debug
 
-        if (SerialQueueBT != 0){
+        if (SerialQueueBT != 0)
+        {
             for (int i = 0; i < param->data_ind.len; i++)
                 xQueueSend(SerialQueueBT, param->data_ind.data + i, (TickType_t)0);
         }
@@ -105,38 +106,46 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 
 static bool _init_bt(const char *deviceName)
 {
-    if (!btStarted() && !btStart()){
+    if (!btStarted() && !btStart())
+    {
         ESP_LOGE(SPP_TAG, "%s initialize controller failed\n", __func__);
         return false;
     }
     
     esp_bluedroid_status_t bt_state = esp_bluedroid_get_status();
-    if (bt_state == ESP_BLUEDROID_STATUS_UNINITIALIZED){
-        if (esp_bluedroid_init()) {
+    if (bt_state == ESP_BLUEDROID_STATUS_UNINITIALIZED)
+    {
+        if (esp_bluedroid_init())
+        {
             ESP_LOGE(SPP_TAG, "%s initialize bluedroid failed\n", __func__);
             return false;
         }
     }
     
-    if (bt_state != ESP_BLUEDROID_STATUS_ENABLED){
-        if (esp_bluedroid_enable()) {
+    if (bt_state != ESP_BLUEDROID_STATUS_ENABLED)
+    {
+        if (esp_bluedroid_enable())
+        {
             ESP_LOGE(SPP_TAG, "%s enable bluedroid failed\n", __func__);
             return false;
         }
     }
 
-    if (esp_spp_register_callback(esp_spp_cb) != ESP_OK){
+    if (esp_spp_register_callback(esp_spp_cb) != ESP_OK)
+    {
         ESP_LOGE(SPP_TAG, "%s spp register failed\n", __func__);
         return false;
     }
 
-    if (esp_spp_init(esp_spp_mode) != ESP_OK){
+    if (esp_spp_init(esp_spp_mode) != ESP_OK)
+    {
         ESP_LOGE(SPP_TAG, "%s spp init failed\n", __func__);
         return false;
     }
 
     SerialQueueBT = xQueueCreate(QUEUE_SIZE, sizeof(uint8_t)); //initialize the queue
-    if (SerialQueueBT == NULL){
+    if (SerialQueueBT == NULL)
+    {
         ESP_LOGE(SPP_TAG, "%s Queue creation error\n", __func__);
         return false;
     }
@@ -147,7 +156,8 @@ static bool _init_bt(const char *deviceName)
 
 static bool _stop_bt()
 {
-    if (btStarted()){
+    if (btStarted())
+    {
         esp_bluedroid_disable();
         esp_bluedroid_deinit();
         btStop();
@@ -172,7 +182,8 @@ BluetoothSerial::~BluetoothSerial(void)
 
 bool BluetoothSerial::begin(String localName)
 {
-    if (localName.length()){
+    if (localName.length())
+    {
         local_name = localName;
     }
     return _init_bt(local_name.c_str());
@@ -180,7 +191,8 @@ bool BluetoothSerial::begin(String localName)
 
 int BluetoothSerial::available(void)
 {
-    if (!client || SerialQueueBT == NULL){
+    if (!client || SerialQueueBT == NULL)
+    {
         return 0;
     }
     return uxQueueMessagesWaiting(SerialQueueBT);
@@ -188,13 +200,16 @@ int BluetoothSerial::available(void)
 
 int BluetoothSerial::peek(void)
 {
-    if (available()){
-        if (!client || SerialQueueBT == NULL){
+    if (available())
+    {
+        if (!client || SerialQueueBT == NULL)
+        {
             return 0;
         }
 
         uint8_t c;
-        if (xQueuePeek(SerialQueueBT, &c, 0)){
+        if (xQueuePeek(SerialQueueBT, &c, 0))
+        {
             return c;
         }
     }
@@ -212,12 +227,14 @@ bool BluetoothSerial::hasClient(void)
 int BluetoothSerial::read(void)
 {
     if (available()){
-        if (!client || SerialQueueBT == NULL){
+        if (!client || SerialQueueBT == NULL)
+        {
             return 0;
         }
 
         uint8_t c;
-        if (xQueueReceive(SerialQueueBT, &c, 0)){
+        if (xQueueReceive(SerialQueueBT, &c, 0))
+        {
             return c;
         }
     }
@@ -226,7 +243,8 @@ int BluetoothSerial::read(void)
 
 size_t BluetoothSerial::write(uint8_t c)
 {
-    if (client){
+    if (client)
+    {
         uint8_t buffer[1];
         buffer[0] = c;
         esp_spp_write(client, 1, buffer);
@@ -237,7 +255,8 @@ size_t BluetoothSerial::write(uint8_t c)
 
 size_t BluetoothSerial::write(const uint8_t *buffer, size_t size)
 {
-    if (client){
+    if (client)
+    {
         esp_spp_write(client, size, (uint8_t *)buffer);
     }
     return size;
@@ -245,7 +264,8 @@ size_t BluetoothSerial::write(const uint8_t *buffer, size_t size)
 
 void BluetoothSerial::flush()
 {
-    if (client){
+    if (client)
+    {
         int qsize = available();
         uint8_t buffer[qsize];
         esp_spp_write(client, qsize, buffer);
