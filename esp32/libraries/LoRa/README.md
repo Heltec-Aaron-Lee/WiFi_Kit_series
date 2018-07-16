@@ -4,6 +4,8 @@
 
 An [Arduino](http://arduino.cc/) library for sending and receiving data using [LoRa](https://www.lora-alliance.org/) radios.
 
+Another library work with LMIC(similar LoRaWAN) avalibe here: https://github.com/HelTecAutomation/heltec_lmic
+
 ## Compatible Hardware
 
  * Heltec WIFI_LoRa_32_433-470
@@ -26,22 +28,6 @@ An [Arduino](http://arduino.cc/) library for sending and receiving data using [L
 
 
 `NSS`, `NRESET`, and `DIO0` pins can be changed by using `LoRa.setPins(ss, reset, dio0)`. `DIO0` pin is optional, it is only needed for receive callback mode.
-
-## Installation
-
-### Using the Arduino IDE Library Manager
-
-1. Choose `Sketch` -> `Include Library` -> `Manage Libraries...`
-2. Type `LoRa` into the search box.
-3. Click the row to select the library.
-4. Click the `Install` button to install the library.
-
-### Using Git
-
-```sh
-cd ~/Documents/Arduino/libraries/
-git clone https://github.com/sandeepmistry/arduino-LoRa LoRa
-```
 
 ## API
 
