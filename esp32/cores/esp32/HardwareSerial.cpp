@@ -5,7 +5,11 @@
 
 #include "HardwareSerial.h"
 
+#if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_SERIAL)
 HardwareSerial Serial(0);
+HardwareSerial Serial1(1);
+HardwareSerial Serial2(2);
+#endif
 
 HardwareSerial::HardwareSerial(int uart_nr) : _uart_nr(uart_nr), _uart(NULL) {}
 
@@ -59,6 +63,10 @@ void HardwareSerial::setDebugOutput(bool en)
 int HardwareSerial::available(void)
 {
     return uartAvailable(_uart);
+}
+int HardwareSerial::availableForWrite(void)
+{
+    return uartAvailableForWrite(_uart);
 }
 
 int HardwareSerial::peek(void)

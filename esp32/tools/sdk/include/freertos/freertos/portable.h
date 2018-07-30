@@ -184,6 +184,12 @@ void vPortSetStackWatchpoint( void* pxStackStart );
 BaseType_t xPortInIsrContext();
 
 /*
+ * This function will be called in High prio ISRs. Returns true if the current core was in ISR context
+ * before calling into high prio ISR context.
+ */
+BaseType_t xPortInterruptedFromISRContext();
+
+/*
  * The structures and methods of manipulating the MPU are contained within the
  * port layer.
  *
@@ -199,7 +205,7 @@ BaseType_t xPortInIsrContext();
 /* Multi-core: get current core ID */
 static inline uint32_t IRAM_ATTR xPortGetCoreID() {
     int id;
-    asm (
+    __asm__ (
         "rsr.prid %0\n"
         " extui %0,%0,13,1"
         :"=r"(id));
@@ -212,6 +218,8 @@ uint32_t xPortGetTickRateHz(void);
 #ifdef __cplusplus
 }
 #endif
+
+void uxPortCompareSetExtram(volatile uint32_t *addr, uint32_t compare, uint32_t *set);
 
 #endif /* PORTABLE_H */
 

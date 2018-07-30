@@ -1,0 +1,14 @@
+esp32/tools/xtensa-esp32-elf
+esp32/tools/dist
+esp32/tools/esptool
+esp32/tools/esptool.exe
+esp32/tools/mkspiffs/mkspiffs
+esp32/tools/mkspiffs/mkspiffs.exe
+esp8266/tools/dist/
+esp8266/tools/xtensa-lx106-elf/
+esp8266/tools/esptool/
+esp8266/tools/mkspiffs/
+esp8266/package/versions/
+esp8266/tools/sdk/lib/liblwip_src.a
+esp8266/tools/sdk/lwip/src/build
+esp8266/tools/sdk/lwip/src/liblwip_src.a

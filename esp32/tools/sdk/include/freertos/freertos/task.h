@@ -233,7 +233,11 @@ typedef enum
  *
  * \ingroup SchedulerControl
  */
+#ifdef _ESP_FREERTOS_INTERNAL
 #define taskENTER_CRITICAL(mux)		portENTER_CRITICAL(mux)
+#else
+#define taskENTER_CRITICAL(mux) _Pragma("GCC warning \"'taskENTER_CRITICAL(mux)' is deprecated in ESP-IDF, consider using 'portENTER_CRITICAL(mux)'\"") portENTER_CRITICAL(mux)
+#endif
 #define taskENTER_CRITICAL_ISR(mux)		portENTER_CRITICAL_ISR(mux)
 
 /**
@@ -247,7 +251,11 @@ typedef enum
  *
  * \ingroup SchedulerControl
  */
+#ifdef _ESP_FREERTOS_INTERNAL
 #define taskEXIT_CRITICAL(mux)			portEXIT_CRITICAL(mux)
+#else
+#define taskEXIT_CRITICAL(mux) _Pragma("GCC warning \"'taskEXIT_CRITICAL(mux)' is deprecated in ESP-IDF, consider using 'portEXIT_CRITICAL(mux)'\"") portEXIT_CRITICAL(mux)
+#endif
 #define taskEXIT_CRITICAL_ISR(mux)		portEXIT_CRITICAL_ISR(mux)
 
 /**
@@ -379,6 +387,9 @@ is used in assert() statements. */
  *
  * @return pdPASS if the task was successfully created and added to a ready
  * list, otherwise an error code defined in the file projdefs.h
+ *
+ * @note If program uses thread local variables (ones specified with "__thread" keyword)
+ * then storage for them will be allocated on the task's stack.
  *
  * Example usage:
  * @code{c}
@@ -529,6 +540,9 @@ is used in assert() statements. */
  * be created and pdPASS is returned.  If either pxStackBuffer or pxTaskBuffer
  * are NULL then the task will not be created and
  * errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY is returned.
+ *
+ * @note If program uses thread local variables (ones specified with "__thread" keyword)
+ * then storage for them will be allocated on the task's stack.
  *
  * Example usage:
  * @code{c}
