@@ -61,6 +61,7 @@ bool OLEDDisplay::init() {
   }
   #endif
 
+//  resetDisplay(16);
   sendInitCommands();
   resetDisplay();
 
@@ -75,12 +76,29 @@ void OLEDDisplay::end() {
   if (this->logBuffer != NULL) { free(this->logBuffer); this->logBuffer = NULL; }
 }
 
-void OLEDDisplay::resetDisplay(void) {
-  clear();
-  #ifdef OLEDDISPLAY_DOUBLE_BUFFER
-  memset(buffer_back, 1, displayBufferSize);
-  #endif
-  display();
+void OLEDDisplay::sleep() {
+	sendCommand(0x8D);
+	sendCommand(0x10);
+	sendCommand(0xAE);
+}
+
+void OLEDDisplay::wakeup() {
+	sendCommand(0x8D);
+	sendCommand(0x14);
+	sendCommand(0xAF);
+}
+
+void OLEDDisplay::resetDisplay() {
+//	pinMode(rstPin, OUTPUT);
+//	digitalWrite(rstPin,LOW);
+//	delay(5000);
+//	digitalWrite(rstPin,HIGH);
+
+	clear();
+	#ifdef OLEDDISPLAY_DOUBLE_BUFFER
+	memset(buffer_back, 1, displayBufferSize);
+	#endif
+	display();
 }
 
 void OLEDDisplay::setColor(OLEDDISPLAY_COLOR color) {

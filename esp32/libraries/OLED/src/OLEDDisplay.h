@@ -127,8 +127,12 @@ class OLEDDisplay : public Print {
     // Free the memory used by the display
     void end();
 
+    void sleep();
+
+    void wakeup();
+
     // Cycle through the initialization
-    void resetDisplay(void);
+    void resetDisplay();
 
     /* Drawing functions */
     // Sets the color of all pixel operations

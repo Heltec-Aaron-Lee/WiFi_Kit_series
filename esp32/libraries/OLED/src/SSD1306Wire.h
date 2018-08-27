@@ -34,34 +34,43 @@
 #include "OLEDDisplay.h"
 #include <Wire.h>
 
+
 class SSD1306Wire : public OLEDDisplay {
   private:
       uint8_t             _address;
       uint8_t             _sda;
       uint8_t             _scl;
+      uint8_t             _rst;
       bool                _doI2cAutoInit = false;
 
   public:
-    SSD1306Wire(uint8_t _address, uint8_t _sda, uint8_t _scl, OLEDDISPLAY_GEOMETRY g = GEOMETRY_128_64) {
+    SSD1306Wire(uint8_t _address, uint8_t _sda, uint8_t _scl, uint8_t _rst, OLEDDISPLAY_GEOMETRY g = GEOMETRY_128_64) {
       setGeometry(g);
 
       this->_address = _address;
       this->_sda = _sda;
       this->_scl = _scl;
+      this->_rst = _rst;
     }
 
+
     bool connect() {
-      Wire.begin(this->_sda, this->_scl);
-      // Let's use ~700khz if ESP8266 is in 160Mhz mode
-      // this will be limited to ~400khz if the ESP8266 in 80Mhz mode.
-      Wire.setClock(700000);
-      return true;
+    		pinMode(_rst,OUTPUT);
+    		digitalWrite(_rst, LOW);
+    		delay(50);
+    		digitalWrite(_rst, HIGH);
+
+		Wire.begin(this->_sda, this->_scl);
+		// Let's use ~700khz if ESP8266 is in 160Mhz mode
+		// this will be limited to ~400khz if the ESP8266 in 80Mhz mode.
+		Wire.setClock(700000);
+		return true;
     }
 
     void display(void) {
-      initI2cIfNeccesary();
-      const int x_offset = (128 - this->width()) / 2;
-      #ifdef OLEDDISPLAY_DOUBLE_BUFFER
+		initI2cIfNeccesary();
+		const int x_offset = (128 - this->width()) / 2;
+		#ifdef OLEDDISPLAY_DOUBLE_BUFFER
         uint8_t minBoundY = UINT8_MAX;
         uint8_t maxBoundY = 0;
 
