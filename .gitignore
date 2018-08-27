@@ -4,6 +4,7 @@ esp32/tools/esptool
 esp32/tools/esptool.exe
 esp32/tools/mkspiffs/mkspiffs
 esp32/tools/mkspiffs/mkspiffs.exe
+.DS_Store
 esp8266/tools/dist/
 esp8266/tools/xtensa-lx106-elf/
 esp8266/tools/esptool/
