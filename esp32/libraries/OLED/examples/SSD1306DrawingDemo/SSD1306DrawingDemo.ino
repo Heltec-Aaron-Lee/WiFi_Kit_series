@@ -9,10 +9,20 @@
 //OLED_SCL -- GPIO15
 //OLED_RST -- GPIO16
 
+#define SDA		4
+#define	SCL		15
+#define	RST		16 //RST must be set by software
+
+#define V2 	1
+
+#ifdef V2 //WIFI Kit series V1 not support Vext control
+	#define Vext	21
+#endif
+
 #define DISPLAY_HEIGHT 64
 #define DISPLAY_WIDTH  128
 
-SSD1306  display(0x3c, 4, 15);
+SSD1306  display(0x3c, SDA, SCL, RST);
 
 // Adapted from Adafruit_SSD1306
 void drawLines() {
@@ -153,9 +163,8 @@ void printBuffer(void) {
 
 void setup() {
   pinMode(16,OUTPUT);
-  digitalWrite(16, LOW);    // set GPIO16 low to reset OLED
+  digitalWrite(Vext, LOW);    // OLED USE Vext as power supply, must turn ON Vext before OLED init
   delay(50); 
-  digitalWrite(16, HIGH); // while OLED is running, must set GPIO16 in high
   
   display.init();
 
