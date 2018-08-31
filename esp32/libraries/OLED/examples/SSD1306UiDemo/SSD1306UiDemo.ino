@@ -3,8 +3,17 @@
 
 #include "OLEDDisplayUi.h"
 #include "images.h"
+#define SDA    4
+#define SCL   15
+#define RST   16 //RST must be set by software
 
-SSD1306  display(0x3c, 4, 15);
+#define V2  1
+
+#ifdef V2 //WIFI Kit series V1 not support Vext control
+  #define Vext  21
+#endif
+
+SSD1306  display(0x3c, SDA, SCL, RST);
 
 #define DEMO_DURATION 3000
 typedef void (*Demo)(void);
@@ -54,11 +63,10 @@ int frameCount = 4;
 void setup() {
   Serial.begin(115200);
   
-  pinMode(16,OUTPUT);
-  digitalWrite(16, LOW);   // turn the LED on (HIGH is the voltage level)
+  pinMode(RST,OUTPUT);
+  digitalWrite(Vext, LOW);   // // OLED USE Vext as power supply, must turn ON Vext before OLED init
   delay(100);                       // wait for a second
-  digitalWrite(16, HIGH);    // turn the LED off by making the voltage LOW
-  
+
   ui.setTargetFPS(30);
 
   // Customize the active and inactive symbol
