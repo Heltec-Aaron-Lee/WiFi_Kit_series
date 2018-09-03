@@ -10,7 +10,16 @@
 //OLED_SCL -- GPIO15
 //OLED_RST -- GPIO16
 
-SSD1306  display(0x3c, 4, 15);
+#define SDA    4
+#define SCL   15
+#define RST   16 //RST must be set by software
+
+#define V2     1
+
+#ifdef V2 //WIFI Kit series V1 not support Vext control
+  #define Vext  21
+#endif
+SSD1306  display(0x3c, SDA, SCL, RST);
 
 #define DEMO_DURATION 3000
 typedef void (*Demo)(void);
@@ -19,11 +28,10 @@ int demoMode = 0;
 int counter = 1;
 
 void setup() {
-  pinMode(16,OUTPUT);
-  digitalWrite(16, LOW);    // set GPIO16 low to reset OLED
+  pinMode(RST,OUTPUT);
+  digitalWrite(Vext, LOW);    // OLED USE Vext as power supply, must turn ON Vext before OLED init
   delay(50); 
-  digitalWrite(16, HIGH); // while OLED is running, must set GPIO16 in high
-  
+
   Serial.begin(115200);
   Serial.println();
   Serial.println();

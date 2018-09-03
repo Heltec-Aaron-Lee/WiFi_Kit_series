@@ -47,11 +47,20 @@ int interval = 1000;          // interval between sends
 #define SS      18   // GPIO18 -- SX127x's CS
 #define RST     14   // GPIO14 -- SX127x's RESET
 #define DI0     26   // GPIO26 -- SX127x's IRQ(Interrupt Request)
+#define SDA      4
+#define SCL     15
+#define RSTOLED  16   //RST must be set by software
+#define Light  25
+#define V2  1
+
+#ifdef V2 //WIFI Kit series V1 not support Vext control
+  #define Vext  21
+#endif
 
 #define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
 #define PABOOST true
 
-SSD1306 display(0x3c, 4, 15);
+SSD1306  display(0x3c, SDA, SCL, RSTOLED);
 
 void logo(){
   display.clear();
@@ -67,7 +76,7 @@ void WIFISetUp(void)
 	delay(1000);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("your WIFI SSID","your WIFI password");
+	WiFi.begin("HelTec_AutoMation","hunter_3120");
 	delay(100);
 
 	byte count = 0;
@@ -148,12 +157,11 @@ void WIFIScan(unsigned int value)
 
 void setup()
 {
-	pinMode(25,OUTPUT);
+	pinMode(Light,OUTPUT);
 
-	pinMode(16,OUTPUT);
-	digitalWrite(16, LOW);    // set GPIO16 low to reset OLED
+	pinMode(RSTOLED,OUTPUT);
+	digitalWrite(Vext, LOW);    //// OLED USE Vext as power supply, must turn ON Vext before OLED init
 	delay(50);
-	digitalWrite(16, HIGH); // while OLED is running, must set GPIO16 in high
 
 	display.init();
 	display.flipScreenVertically();
@@ -202,7 +210,7 @@ void loop()
 
 		LoRa.receive();
 
-		digitalWrite(25,HIGH);
+		digitalWrite(Light,HIGH);
 		display.drawString(0, 50, "Packet " + (String)(counter-1) + " sent done");
 		display.display();
 
@@ -218,7 +226,7 @@ void loop()
 		display.drawString(0, 20, "With " + rssi);
 		display.display();
 
-		digitalWrite(25,LOW);
+		digitalWrite(Light,LOW);
 
 		receiveflag = false;
 	}
