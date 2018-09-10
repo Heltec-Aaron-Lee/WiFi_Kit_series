@@ -47,7 +47,8 @@ public:
   void idle();
   void sleep();
 
-  void setTxPower(int level, int outputPin = PA_OUTPUT_PA_BOOST_PIN);
+  void setTxPower(int level, int outputPin);
+  void setTxPower20(int level);
   void setFrequency(long frequency);
   void setSpreadingFactor(int sf);
   void setSignalBandwidth(long sbw);

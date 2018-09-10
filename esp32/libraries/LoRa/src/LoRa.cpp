@@ -7,6 +7,7 @@
 #define REG_FRF_MID              0x07
 #define REG_FRF_LSB              0x08
 #define REG_PA_CONFIG            0x09
+#define REG_LR_OCP				 0X0b//过流保护控制寄存器
 #define REG_LNA                  0x0c
 #define REG_FIFO_ADDR_PTR        0x0d
 #define REG_FIFO_TX_BASE_ADDR    0x0e
@@ -28,6 +29,7 @@
 #define REG_SYNC_WORD            0x39
 #define REG_DIO_MAPPING_1        0x40
 #define REG_VERSION              0x42
+#define REG_PaDac				 0x4d//add REG_PaDac
 
 // modes
 #define MODE_LONG_RANGE_MODE     0x80
@@ -91,10 +93,14 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   // set auto AGC
   writeRegister(REG_MODEM_CONFIG_3, 0x04);
   // set output power to 12 dBm
-  setTxPower(12,PABOOST);  //rfo
+  //setTxPower(20,PABOOST);  //rfo
   // set Spreading Factor to 7 (6~12)
-  setSpreadingFactor(7);
+  //setSpreadingFactor(11);
   // put in standby mode
+  //setSignalBandwidth(125E3);
+  //setCodingRate4(5);
+  //setSyncWord(0x34);
+  crc();
   idle();
   return 1;
 }
@@ -274,12 +280,13 @@ void LoRaClass::setTxPower(int level, int outputPin)
 {
   if (PA_OUTPUT_RFO_PIN == outputPin) {
     // RFO
-    if (level < 0)      { 
-		level = 0;
+    if (level < -1)      { 
+		level = -1;
 	}
     else if (level > 14){
 		level = 14;
 	}
+	writeRegister(REG_PaDac,0x84);
   	writeRegister(REG_PA_CONFIG, RFO | (level + 1));
 	//spiWrite(RH_RF95_REG_09_PA_CONFIG, RH_RF95_MAX_POWER | (power + 1));
 //  	writeRegister(REG_PA_CONFIG, RFO | level);
@@ -291,8 +298,24 @@ void LoRaClass::setTxPower(int level, int outputPin)
     else if (level > 17) {
 	level = 17;
 	}
-    writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2));//writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2));
+	//writeRegister(REG_LR_OCP,0x3f);
+	writeRegister(REG_PaDac,0x84);//Open PA_BOOST
+	writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2));//writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2));
+	
   }
+}
+
+void LoRaClass::setTxPower20(int level)
+{
+	if (level < 5)		{
+		level = 5;
+	}
+	else if(level > 20)	{
+		level = 20;
+	}
+	writeRegister(REG_LR_OCP,0x3f);
+	writeRegister(REG_PaDac,0x87);//Open PA_BOOST
+	writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 5));
 }
 
 void LoRaClass::setFrequency(long frequency)
