@@ -1,56 +1,126 @@
-WiFi_Kit_8 User guide
+Arduino core for ESP8266 WiFi chip
 ===========================================
 
-WiFi_Kit_8 使用esp8266芯片，使用Ardunio的库和代码能够直接在esp8266上运行，无需外接控制器。
+This project brings support for ESP8266 chip to the Arduino environment. It lets you write sketches using familiar Arduino functions and libraries, and run them directly on ESP8266, no external microcontroller required.
 
-ESP8266 功能包括使用用TCP和UDP无线沟通，建立HTTP，MDNS，SSDP，和DNS服务器，做OTA更新，闪存使用文件系统，用做SD卡，伺服，SPI和I2C外设..
+ESP8266 Arduino core comes with libraries to communicate over WiFi using TCP and UDP, set up HTTP, mDNS, SSDP, and DNS servers, do OTA updates, use a file system in flash memory, work with SD cards, servos, SPI and I2C peripherals.
 
+# Contents
+- Installing options:
+  - [Using Boards Manager](#installing-with-boards-manager)
+  - [Using git version](#using-git-version)
+  - [Using PlatformIO](#using-platformio)
+  - [Building with make](#building-with-make)
+- [Documentation](#documentation)
+- [Issues and support](#issues-and-support)
+- [Contributing](#contributing)  
+- [License and credits](#license-and-credits)   
 
-## Contents
-- [安装方法](#安装方法)
-- [参考文档](#资料)
-- [问题报告](#问题报告)
-- [联系我们](#联系我们)  
-- [产品示意图](#产品示意图)   
+### Installing with Boards Manager
 
-## 安装方法
-### 使用 Git
+Starting with 1.6.4, Arduino allows installation of third-party platform packages using Boards Manager. We have packages available for Windows, Mac OS, and Linux (32 and 64 bit).
 
-- 确保下载最新版本的Ardunio IDE ，可在https://www.arduino.cc/en/Main/Software 下载并安装；
-- 确保你的电脑上安装了Python 工具，如果没有，可在https://www.python.org/downloads/ 下载并安装；
-- 使用 Git Gui 点击``` Clone Existing Repository```将仓库```git @github.com:Heltec-Aaron-Lee/WiFi_Kit_series.git ```拷贝到 ```Ardunio/hardware/heltec``` 文件夹下面；
-- 如图所示
+- Install the current upstream Arduino IDE at the 1.8 level or later. The current version is at the [Arduino website](http://www.arduino.cc/en/main/software).
+- Start Arduino and open Preferences window.
+- Enter ```http://arduino.esp8266.com/stable/package_esp8266com_index.json``` into *Additional Board Manager URLs* field. You can add multiple URLs, separating them with commas.
+- Open Boards Manager from Tools > Board menu and install *esp8266* platform (and don't forget to select your ESP8266 board from Tools > Board menu after installation).
 
-  ![Step 1](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-1.png)
-  ![Step 2](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-2%20.png)
-  ![Step 3](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-3.png)
-- 进入```Ardunio/hardware/heltec/tool```文件夹，双击```get.py```（必须使用Python 工具来执行）
-- 如图显示正在下载工具，
-  等待下载完成后，窗口自动关闭；
-- 重启Ardunio IDE。
+#### Latest release [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/)
+Boards manager link: `http://arduino.esp8266.com/stable/package_esp8266com_index.json`
 
-### 资料
+Documentation: [https://arduino-esp8266.readthedocs.io/en/2.4.2/](https://arduino-esp8266.readthedocs.io/en/2.4.2/)
 
-以下文件持续更新中
+### Using git version
+[![Linux build status](https://travis-ci.org/esp8266/Arduino.svg)](https://travis-ci.org/esp8266/Arduino)
 
-- [参考](doc/reference.md)
-- [库](doc/libraries.md)
-- [文件系统](doc/filesystem.md)
-- [OTA 更新](doc/ota_updates/readme.md)
-- [Supported boards](doc/boards.md)
+- Install the current upstream Arduino IDE at the 1.8 level or later. The current version is at the [Arduino website](http://www.arduino.cc/en/main/software).
+- Go to Arduino application directory
+  - For Mac OS X, it is `Arduino.app` showing as the Arduino icon.  
+    This location may be your `~/Downloads`, `~/Desktop` or even `/Applications`.
+    ```bash
+    cd <application-directory>/Arduino.app/Contents/Java
+    ```
+- Clone this repository into hardware/esp8266com/esp8266 directory (or clone it elsewhere and create a symlink)
+```bash
+cd hardware
+mkdir esp8266com
+cd esp8266com
+git clone https://github.com/esp8266/Arduino.git esp8266
+```
+- Download binary tools (you need Python 2.7)
+```bash
+cd esp8266/tools
+python get.py
+```
+- Restart Arduino
 
+### Using PlatformIO
 
-### 问题报告
+[PlatformIO](http://platformio.org?utm_source=github&utm_medium=arduino-esp8266) is an open source ecosystem for IoT
+development with cross platform build system, library manager and full support
+for Espressif (ESP8266) development. It works on the popular host OS: macOS, Windows,
+Linux 32/64, Linux ARM (like Raspberry Pi, BeagleBone, CubieBoard).
 
-在报告BUG之前，请先做足够的测试，如果问题真的存在，请提交到：[问题&BUG](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3A%22for%20reference%22%20).
+- [What is PlatformIO?](http://docs.platformio.org/en/latest/what-is-platformio.html?utm_source=github&utm_medium=arduino-esp8266)
+- [PlatformIO IDE](http://platformio.org/platformio-ide?utm_source=github&utm_medium=arduino-esp8266)
+- [PlatformIO Core](http://docs.platformio.org/en/latest/core.html?utm_source=github&utm_medium=arduino-esp8266) (command line tool)
+- [Advanced usage](http://docs.platformio.org/en/latest/platforms/espressif8266.html?utm_source=github&utm_medium=arduino-esp8266) -
+  custom settings, uploading to SPIFFS, Over-the-Air (OTA), staging version
+- [Integration with Cloud and Standalone IDEs](http://docs.platformio.org/en/latest/ide.html?utm_source=github&utm_medium=arduino-esp8266) -
+  Cloud9, Codeanywhere, Eclipse Che (Codenvy), Atom, CLion, Eclipse, Emacs, NetBeans, Qt Creator, Sublime Text, VIM, Visual Studio, and VSCode
+- [Project Examples](http://docs.platformio.org/en/latest/platforms/espressif8266.html?utm_source=github&utm_medium=arduino-esp8266#examples)
 
-你也可以进入[ESP8266 Community Forum](http://www.esp8266.com/arduino) 查找解决方法。
+### Building with make
 
-### 联系我们
-- 官方网站：```www.heltec.cn```
+[makeEspArduino](https://github.com/plerup/makeEspArduino) is a generic makefile for any ESP8266 Arduino project.
+Using make instead of the Arduino IDE makes it easier to do automated and production builds.
 
-### 产品示意图
-- WIFI_Kit_8
-  ![image](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/WIFI_kit_8.png)
+### Documentation
 
+Documentation for latest development version: https://arduino-esp8266.readthedocs.io/en/latest/
 
+### Issues and support ###
+
+[ESP8266 Community Forum](http://www.esp8266.com/u/arduinoanswers) is a well established community for questions and answers about Arduino for ESP8266.
+
+If you find this forum useful, please consider supporting it with a donation. <br />
+[![Donate](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/webscr?cmd=_s-xclick&hosted_button_id=4M56YCWV6PX66)
+
+If you encounter an issue which you think is a bug in the ESP8266 Arduino Core or the associated libraries, you are welcome to submit it here on Github: https://github.com/esp8266/Arduino/issues.
+
+Please provide as much context as possible:
+
+- ESP8266 Arduino core version which you are using (you can check it in Boards Manager)
+- your sketch code; please wrap it into a code block, see [Github markdown manual](https://help.github.com/articles/basic-writing-and-formatting-syntax/#quoting-code)
+- when encountering an issue which happens at run time, attach serial output. Wrap it into a code block, just like the code.
+- for issues which happen at compile time, enable verbose compiler output in the IDE preferences, and attach that output (also inside a code block)
+- ESP8266 development board model
+- IDE settings (board choich, flash size)
+
+### Contributing
+
+For minor fixes of code and documentation, please go ahead and submit a pull request.
+
+Check out the list of issues which are easy to fix — [easy issues for 2.5.0](https://github.com/esp8266/Arduino/issues?q=is%3Aopen+is%3Aissue+milestone%3A2.5.0+label%3A%22level%3A+easy%22). Working on them is a great way to move the project forward.
+
+Larger changes (rewriting parts of existing code from scratch, adding new functions to the core, adding new libraries) should generally be discussed by opening an issue first.
+
+Feature branches with lots of small commits (especially titled "oops", "fix typo", "forgot to add file", etc.) should be squashed before opening a pull request. At the same time, please refrain from putting multiple unrelated changes into a single pull request.
+
+### License and credits ###
+
+Arduino IDE is developed and maintained by the Arduino team. The IDE is licensed under GPL.
+
+ESP8266 core includes an xtensa gcc toolchain, which is also under GPL.
+
+Esptool written by Christian Klippel is licensed under GPLv2, currently maintained by Ivan Grokhotkov: https://github.com/igrr/esptool-ck.
+
+Espressif SDK included in this build is under Espressif MIT License.
+
+ESP8266 core files are licensed under LGPL.
+
+[SPI Flash File System (SPIFFS)](https://github.com/pellepl/spiffs) written by Peter Andersson is used in this project. It is distributed under MIT license.
+
+[umm_malloc](https://github.com/rhempel/umm_malloc) memory management library written by Ralph Hempel is used in this project. It is distributed under MIT license.
+
+[axTLS](http://axtls.sourceforge.net/) library written by Cameron Rich, built from https://github.com/igrr/axtls-8266, is used in this project. It is distributed under [BSD license](https://github.com/igrr/axtls-8266/blob/master/LICENSE).

@@ -105,11 +105,19 @@ size_t IPAddress::printTo(Print& p) const {
     return n;
 }
 
-String IPAddress::toString()
+String IPAddress::toString() const
 {
     char szRet[16];
     sprintf(szRet,"%u.%u.%u.%u", _address.bytes[0], _address.bytes[1], _address.bytes[2], _address.bytes[3]);
     return String(szRet);
+}
+
+bool IPAddress::isValid(const String& arg) {
+	return IPAddress().fromString(arg);
+}
+
+bool IPAddress::isValid(const char* arg) {
+	return IPAddress().fromString(arg);
 }
 
 const IPAddress INADDR_NONE(0, 0, 0, 0);
