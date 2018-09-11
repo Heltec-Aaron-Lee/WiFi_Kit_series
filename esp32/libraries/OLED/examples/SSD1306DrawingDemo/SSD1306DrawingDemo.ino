@@ -162,7 +162,7 @@ void printBuffer(void) {
 }
 
 void setup() {
-  pinMode(16,OUTPUT);
+  pinMode(Vext,OUTPUT);
   digitalWrite(Vext, LOW);    // OLED USE Vext as power supply, must turn ON Vext before OLED init
   delay(50); 
   

@@ -28,7 +28,7 @@ int demoMode = 0;
 int counter = 1;
 
 void setup() {
-  pinMode(RST,OUTPUT);
+  pinMode(Vext,OUTPUT);
   digitalWrite(Vext, LOW);    // OLED USE Vext as power supply, must turn ON Vext before OLED init
   delay(50); 
 

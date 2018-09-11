@@ -63,7 +63,7 @@ int frameCount = 4;
 void setup() {
   Serial.begin(115200);
   
-  pinMode(RST,OUTPUT);
+  pinMode(Vext,OUTPUT);
   digitalWrite(Vext, LOW);   // // OLED USE Vext as power supply, must turn ON Vext before OLED init
   delay(100);                       // wait for a second
 

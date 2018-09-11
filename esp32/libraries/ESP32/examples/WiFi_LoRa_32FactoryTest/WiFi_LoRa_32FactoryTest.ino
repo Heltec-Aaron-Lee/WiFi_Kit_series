@@ -76,7 +76,7 @@ void WIFISetUp(void)
 	delay(1000);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("HelTec_AutoMation","hunter_3120");
+	WiFi.begin("Your WIFI SSID","Your password");
 	delay(100);
 
 	byte count = 0;
