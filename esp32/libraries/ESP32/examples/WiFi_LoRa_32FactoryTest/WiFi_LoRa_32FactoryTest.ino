@@ -15,7 +15,7 @@
  * - Timer test and some other Arduino basic functions.
  *
  *by Aaron.Lee from HelTec AutoMation, ChengDu, China
- *成都惠利特自动化科技有限公司
+ *鎴愰兘鎯犲埄鐗硅嚜鍔ㄥ寲绉戞妧鏈夐檺鍏徃
  *www.heltec.cn
  *
  *this project also realess in GitHub:
@@ -70,7 +70,7 @@ void logo(){
 
 void WIFISetUp(void)
 {
-	//WIFI初始化 + 扫描演示
+	//WIFI鍒濆鍖� + 鎵弿婕旂ず
 	// Set WiFi to station mode and disconnect from an AP if it was previously connected
 	WiFi.disconnect(true);
 	delay(1000);
@@ -126,7 +126,7 @@ void WIFIScan(unsigned int value)
     		display.clear();
 		display.drawString(0, 0, "no network found");
 		display.display();
-		while(1); //搜不到wifi就进入死循环，移交品保部检查问题
+		while(1); //鎼滀笉鍒皐ifi灏辫繘鍏ユ寰幆锛岀Щ浜ゅ搧淇濋儴妫�鏌ラ棶棰�
       }
     else
     {
@@ -158,8 +158,7 @@ void WIFIScan(unsigned int value)
 void setup()
 {
 	pinMode(Light,OUTPUT);
-
-	pinMode(RSTOLED,OUTPUT);
+	pinMode(Vext,OUTPUT);
 	digitalWrite(Vext, LOW);    //// OLED USE Vext as power supply, must turn ON Vext before OLED init
 	delay(50);
 

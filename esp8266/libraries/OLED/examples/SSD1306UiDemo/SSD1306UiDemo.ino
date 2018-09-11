@@ -21,27 +21,28 @@ void drawFrame1(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
   display->drawXbm(x, y, BT_width, BT_height, BT_bits);
   display->drawXbm(x + 12 + 1, y, WIFI_width, WIFI_height, WIFI_bits);
   display->drawXbm(x + 108, y, BAT_width, BAT_height, BAT_bits);
-  display->drawXbm(x + 34, y + 14, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
+  display->setFont(ArialMT_Plain_24);
+  display->drawString(x + 28, y + 5, "HelTec");
 }
 
 void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y) {
-  display->drawXbm(x, y, BT_width, BT_height, BT_bits);
-  display->drawXbm(x + 12 + 1, y, WIFI_width, WIFI_height, WIFI_bits);
-  display->drawXbm(x + 108, y, BAT_width, BAT_height, BAT_bits);
-  display->drawXbm(x + 34, y + 12, LoRa_Logo_width, LoRa_Logo_height, LoRa_Logo_bits);
+  //display->drawXbm(x, y, BT_width, BT_height, BT_bits);
+  //display->drawXbm(x + 12 + 1, y, WIFI_width, WIFI_height, WIFI_bits);
+  //display->drawXbm(x + 108, y, BAT_width, BAT_height, BAT_bits);
+  display->drawString(x + 10, y + 5, "WIFI KIT 8");
 }
 
 void drawFrame3(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y) {
-  display->drawXbm(x, y + 5, HelTec_LOGO_width, HelTec_LOGO_height, HelTec_LOGO_bits);
+  display->drawXbm(x + 25, y, HelTec_LOGO_width, HelTec_LOGO_height, HelTec_LOGO_bits);
 }
 
 void drawFrame4(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y) {
   display->setTextAlignment(TEXT_ALIGN_LEFT);
-  display->setFont(ArialMT_Plain_16);
-  display->drawString(x, y, "HelTec");
+  //display->setFont(ArialMT_Plain_16);
+  //display->drawString(x, y, "HelTec");
   display->setFont(ArialMT_Plain_10);
-  display->drawString(x, y + 25, "HelTec AutoMation");
-  display->drawString(x, y + 35, "www.heltec.cn");
+  display->drawString(x, y , "HelTec AutoMation");
+  display->drawString(x, y + 10, "www.heltec.cn");
 }
 
 FrameCallback frames[] = { drawFrame1, drawFrame2, drawFrame3, drawFrame4 };
