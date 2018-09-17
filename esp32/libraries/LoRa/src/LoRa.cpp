@@ -93,13 +93,13 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   // set auto AGC
   writeRegister(REG_MODEM_CONFIG_3, 0x04);
   // set output power to 12 dBm
-  //setTxPower(20,PABOOST);  //rfo
+  setTxPowerMax(20);  //PA_BOOST
   // set Spreading Factor to 7 (6~12)
-  //setSpreadingFactor(11);
+  setSpreadingFactor(11);
   // put in standby mode
-  //setSignalBandwidth(125E3);
+  setSignalBandwidth(125E3);
   //setCodingRate4(5);
-  //setSyncWord(0x34);
+  setSyncWord(0x34);
   crc();
   idle();
   return 1;
@@ -299,13 +299,13 @@ void LoRaClass::setTxPower(int level, int outputPin)
 	level = 17;
 	}
 	//writeRegister(REG_LR_OCP,0x3f);
-	writeRegister(REG_PaDac,0x84);//Open PA_BOOST
+	writeRegister(REG_PaDac,0x84);
 	writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2));//writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2));
 	
   }
 }
 
-void LoRaClass::setTxPower20(int level)
+void LoRaClass::setTxPowerMax(int level)
 {
 	if (level < 5)		{
 		level = 5;
