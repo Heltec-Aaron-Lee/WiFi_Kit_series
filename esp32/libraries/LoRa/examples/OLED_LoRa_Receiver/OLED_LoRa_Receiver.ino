@@ -26,16 +26,25 @@
 // Pin definetion of WIFI LoRa 32
 // HelTec AutoMation 2017 support@heltec.cn 
 #define SCK     5    // GPIO5  -- SX127x's SCK
+#define SDA     4    // GPIO4  -- SX127x's SDA
+#define SCL     15   // GPIO15 -- SX127X's SCL
 #define MISO    19   // GPIO19 -- SX127x's MISO
 #define MOSI    27   // GPIO27 -- SX127x's MOSI
 #define SS      18   // GPIO18 -- SX127x's CS
 #define RST     14   // GPIO14 -- SX127x's RESET
 #define DI00    26   // GPIO26 -- SX127x's IRQ(Interrupt Request)
-
+#define RST_LED 16   // GPIO16 -- OLED reset pin
+#define LED     25   // GPIO25 -- LED Light pin
 #define BAND    433E6  //you can set band here directly,e.g. 868E6,915E6
 #define PABOOST true
 
-SSD1306 display(0x3c, 4, 15);
+#define V2   1
+
+#ifdef V2 //WIFI Kit series V1 not support Vext control
+  #define Vext  21
+#endif
+
+SSD1306  display(0x3c, SDA, SCL, RST_LED);
 String rssi = "RSSI --";
 String packSize = "--";
 String packet ;
@@ -65,10 +74,9 @@ void cbk(int packetSize) {
 }
 
 void setup() {
-  pinMode(16,OUTPUT);
-  digitalWrite(16, LOW);    // set GPIO16 low to reset OLED
+  pinMode(Vext,OUTPUT);
+  digitalWrite(Vext, LOW);    // set GPIO16 low to reset OLED
   delay(50); 
-  digitalWrite(16, HIGH); // while OLED is running, must set GPIO16 in high、
   display.init();
   display.flipScreenVertically();  
   display.setFont(ArialMT_Plain_10);

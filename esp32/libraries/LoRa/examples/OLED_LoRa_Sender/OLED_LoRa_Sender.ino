@@ -25,19 +25,29 @@
 
 // Pin definetion of WIFI LoRa 32
 // HelTec AutoMation 2017 support@heltec.cn 
+#define SDA     4    // GPIO4  -- SX127x's SDA
 #define SCK     5    // GPIO5  -- SX127x's SCK
+#define SCL     15   // GPIO15 -- SX127X's SCL
 #define MISO    19   // GPIO19 -- SX127x's MISO
 #define MOSI    27   // GPIO27 -- SX127x's MOSI
 #define SS      18   // GPIO18 -- SX127x's CS
 #define RST     14   // GPIO14 -- SX127x's RESET
+#define RST_LED 16   // GPIO16 -- OLED reset pin
+#define LED     25   // GPIO25 -- LED Light pin
 #define DI00    26   // GPIO26 -- SX127x's IRQ(Interrupt Request)
 
 #define BAND    433E6  //you can set band here directly,e.g. 868E6,915E6
 #define PABOOST true
 
+#define V2   1
+
+#ifdef V2 //WIFI Kit series V1 not support Vext control
+  #define Vext  21
+#endif
+
 unsigned int counter = 0;
 
-SSD1306 display(0x3c, 4, 15);
+SSD1306  display(0x3c, SDA, SCL, RST_LED);
 String rssi = "RSSI --";
 String packSize = "--";
 String packet ;
@@ -51,13 +61,11 @@ void logo()
 
 void setup()
 {
-  pinMode(16,OUTPUT);
-  pinMode(25,OUTPUT);
+  pinMode(Vext,OUTPUT);
+  pinMode(LED,OUTPUT);
   
-  digitalWrite(16, LOW);    // set GPIO16 low to reset OLED
+  digitalWrite(Vext, LOW);    // set GPIO16 low to reset OLED
   delay(50); 
-  digitalWrite(16, HIGH); // while OLED is running, must set GPIO16 in high
-
   display.init();
   display.flipScreenVertically();  
   display.setFont(ArialMT_Plain_10);
@@ -96,8 +104,8 @@ void loop()
   LoRa.endPacket();
 
   counter++;
-  digitalWrite(25, HIGH);   // turn the LED on (HIGH is the voltage level)
+  digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(1000);                       // wait for a second
-  digitalWrite(25, LOW);    // turn the LED off by making the voltage LOW
+  digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
   delay(1000);                       // wait for a second
 }
