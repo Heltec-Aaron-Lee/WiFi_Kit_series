@@ -23,7 +23,7 @@ Serial.println(xPortGetCoreID());
 ![](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/esp32/libraries/ESP32/examples/ESP32_Dual_Core/resources/print_core.png)
 
 - Here are the examples we have prepared for you.
-### [example](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/esp32/libraries/ESP32/examples/ESP32_Dual_Core/examples/ShowCore)
+### [example](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/esp32/libraries/ESP32/examples/ESP32_Dual_Core/examples/Showcore)
 
 ## MoveCore
 --------
@@ -55,7 +55,7 @@ In this example the program is running as follows
 
 ![](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/esp32/libraries/ESP32/examples/ESP32_Dual_Core/resources/Task_Synchronization.png)
 
-The result of the operation is as follows£º
+The result of the operation is as followsÂ£Âº
 ![](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/esp32/libraries/ESP32/examples/ESP32_Dual_Core/resources/Result.png)
 At this time, 0 core and 1 core full speed synchronous processing independent tasks
 
