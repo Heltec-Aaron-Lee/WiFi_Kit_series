@@ -25,6 +25,8 @@
  + [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
  + [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
  + [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
+ 
+ - 中文的安装教程，还可以参考这里：http://www.heltec.cn/wifi_kit_install/
 
 ## 编码规则
 可以参考这篇文章来了解arduino的插件和编码规则：[EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder).
