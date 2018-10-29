@@ -488,6 +488,56 @@ void OLEDDisplay::drawString(int16_t xMove, int16_t yMove, String strUser) {
   }
   free(text);
 }
+//void OLEDDisplay::drawdata(int16_t xMove, int16_t yMove, int16_t Num) {
+//  uint16_t lineHeight = pgm_read_byte(fontData + HEIGHT_POS);
+//  unsigned char c = 0,i = 0,j = 0,ch[3];
+//  String strUser;
+//
+//  ch[0] = Num/100 + 48;//加上十进制的48是为了给Num加上ASCLL码的高4位0011 0000；
+//  ch[1] = Num%100/10 + 48;
+//  ch[2] = Num%10 + 48;
+//
+//  if(ch[0] == 48)     //用于把依次每位为"0"时，变成空格（即不显示）
+//  {
+//      ch[0] = 32;
+//				if(ch[1] == 48)
+//				{
+//						ch[1] = 32;
+//						if(ch[2] == 48)
+//							{
+//									ch[2] = 32;
+//							}
+//							else{ch[2] = Num%10 + 48;}
+//				}
+//				else{ch[1] = Num%100/10 + 48;}
+//  }
+//  else {ch[0] = Num/100 + 48;}
+//
+//  // char* text must be freed!
+//  char* text = utf8ascii(strUser);
+//
+//  uint16_t yOffset = 0;
+//  // If the string should be centered vertically too
+//  // we need to now how heigh the string is.
+//  if (textAlignment == TEXT_ALIGN_CENTER_BOTH) {
+//    uint16_t lb = 0;
+//    // Find number of linebreaks in text
+//    for (uint16_t i=0;text[i] != 0; i++) {
+//      lb += (text[i] == 10);
+//    }
+//    // Calculate center
+//    yOffset = (lb * lineHeight) / 2;
+//  }
+//
+//  uint16_t line = 0;
+//  char* textPart = strtok(text,"\n");
+//  while (textPart != NULL) {
+//    uint16_t length = strlen(textPart);
+//    drawStringInternal(xMove, yMove - yOffset + (line++) * lineHeight, textPart, length, getStringWidth(textPart, length));
+//    textPart = strtok(NULL, "\n");
+//  }
+//  free(text);
+//}
 
 void OLEDDisplay::drawStringMaxWidth(int16_t xMove, int16_t yMove, uint16_t maxLineWidth, String strUser) {
   uint16_t firstChar  = pgm_read_byte(fontData + FIRST_CHAR_POS);
