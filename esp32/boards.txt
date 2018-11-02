@@ -2,7 +2,9 @@ menu.UploadSpeed=Upload Speed
 menu.FlashFreq=Flash Frequency
 menu.FlashMode=Flash Mode
 menu.FlashSize=Flash Size
+menu.PartitionScheme=Partition Scheme
 menu.DebugLevel=Core Debug Level
+menu.PSRAM=PSRAM
 
 ##############################################################
 
@@ -10,7 +12,7 @@ wifi_kit_32.name=WIFI_Kit_32
 
 wifi_kit_32.upload.tool=esptool
 wifi_kit_32.upload.maximum_size=1310720
-wifi_kit_32.upload.maximum_data_size=294912
+wifi_kit_32.upload.maximum_data_size=327680
 wifi_kit_32.upload.wait_for_upload_port=true
 
 wifi_kit_32.serial.disableDTR=true
@@ -26,6 +28,7 @@ wifi_kit_32.build.flash_mode=dio
 wifi_kit_32.build.flash_size=4MB
 wifi_kit_32.build.boot=dio
 wifi_kit_32.build.partitions=default
+wifi_kit_32.build.defines=
 
 wifi_kit_32.menu.FlashFreq.80=80MHz
 wifi_kit_32.menu.FlashFreq.80.build.flash_freq=80m
@@ -53,7 +56,7 @@ wifi_lora_32.name=WIFI_LoRa_32
 
 wifi_lora_32.upload.tool=esptool
 wifi_lora_32.upload.maximum_size=1310720
-wifi_lora_32.upload.maximum_data_size=294912
+wifi_lora_32.upload.maximum_data_size=327680
 wifi_lora_32.upload.wait_for_upload_port=true
 
 wifi_lora_32.serial.disableDTR=true
@@ -69,6 +72,7 @@ wifi_lora_32.build.flash_mode=dio
 wifi_lora_32.build.flash_size=4MB
 wifi_lora_32.build.boot=dio
 wifi_lora_32.build.partitions=default
+wifi_lora_32.build.defines=
 
 wifi_lora_32.menu.FlashFreq.80=80MHz
 wifi_lora_32.menu.FlashFreq.80.build.flash_freq=80m
