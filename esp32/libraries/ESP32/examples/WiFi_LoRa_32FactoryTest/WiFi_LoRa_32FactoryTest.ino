@@ -14,12 +14,12 @@
  * 
  * - Timer test and some other Arduino basic functions.
  *
- *by Aaron.Lee from HelTec AutoMation, ChengDu, China
- *鎴愰兘鎯犲埄鐗硅嚜鍔ㄥ寲绉戞妧鏈夐檺鍏徃
- *www.heltec.cn
+ * by Aaron.Lee from HelTec AutoMation, ChengDu, China
+ * 成都惠利特自动化科技有限格式
+ * www.heltec.cn
  *
- *this project also realess in GitHub:
- *https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
+ * this project also realess in GitHub:
+ * https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
 */
 #include <SPI.h>
 #include <LoRa.h>
@@ -70,7 +70,6 @@ void logo(){
 
 void WIFISetUp(void)
 {
-	//WIFI鍒濆鍖� + 鎵弿婕旂ず
 	// Set WiFi to station mode and disconnect from an AP if it was previously connected
 	WiFi.disconnect(true);
 	delay(1000);
@@ -126,7 +125,7 @@ void WIFIScan(unsigned int value)
     		display.clear();
 		display.drawString(0, 0, "no network found");
 		display.display();
-		while(1); //鎼滀笉鍒皐ifi灏辫繘鍏ユ寰幆锛岀Щ浜ゅ搧淇濋儴妫�鏌ラ棶棰�
+		while(1);
       }
     else
     {

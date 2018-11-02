@@ -35,36 +35,12 @@ void print_wakeup_reason(){
 
   switch(wakeup_reason)
   {
-    case 1  :
-    {
-      Serial.println("Wakeup caused by external signal using RTC_IO");
-      delay(2);
-    } break;
-    case 2  :
-    {
-      Serial.println("Wakeup caused by external signal using RTC_CNTL");
-      delay(2);
-    } break;
-    case 3  :
-    {
-      Serial.println("Wakeup caused by timer");
-      delay(2);
-    } break;
-    case 4  :
-    {
-      Serial.println("Wakeup caused by touchpad");
-      delay(2);
-    } break;
-    case 5  :
-    {
-      Serial.println("Wakeup caused by ULP program");
-      delay(2);
-    } break;
-    default :
-    {
-      Serial.println("Wakeup was not caused by deep sleep");
-      delay(2);
-    } break;
+    case 1  : Serial.println("Wakeup caused by external signal using RTC_IO"); break;
+    case 2  : Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
+    case 3  : Serial.println("Wakeup caused by timer"); break;
+    case 4  : Serial.println("Wakeup caused by touchpad"); break;
+    case 5  : Serial.println("Wakeup caused by ULP program"); break;
+    default : Serial.printf("Wakeup was not caused by deep sleep: %d\n",wakeup_reason); break;
   }
 }
 
@@ -75,7 +51,6 @@ void setup(){
   //Increment boot number and print it every reboot
   ++bootCount;
   Serial.println("Boot number: " + String(bootCount));
-  delay(2);
 
   //Print the wakeup reason for ESP32
   print_wakeup_reason();
@@ -87,7 +62,6 @@ void setup(){
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
   Serial.println("Setup ESP32 to sleep for every " + String(TIME_TO_SLEEP) +
   " Seconds");
-  delay(10);
 
   /*
   Next we decide what all peripherals to shut down/keep on
@@ -110,7 +84,7 @@ void setup(){
   reset occurs.
   */
   Serial.println("Going to sleep now");
-  delay(2);
+  Serial.flush(); 
   esp_deep_sleep_start();
   Serial.println("This will never be printed");
 }
