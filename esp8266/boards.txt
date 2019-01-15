@@ -17,6 +17,7 @@ menu.dbg=Debug port
 menu.lvl=Debug Level
 menu.ip=lwIP Variant
 menu.vt=VTables
+menu.exception=Exceptions
 menu.led=Builtin Led
 menu.wipe=Erase Flash
 
@@ -45,8 +46,14 @@ heltec.menu.vt.heap=Heap
 heltec.menu.vt.heap.build.vtable_flags=-DVTABLES_IN_DRAM
 heltec.menu.vt.iram=IRAM
 heltec.menu.vt.iram.build.vtable_flags=-DVTABLES_IN_IRAM
+heltec.menu.exception.disabled=Disabled
+heltec.menu.exception.disabled.build.exception_flags=-fno-exceptions
+heltec.menu.exception.disabled.build.stdcpp_lib=-lstdc++
+heltec.menu.exception.enabled=Enabled
+heltec.menu.exception.enabled.build.exception_flags=-fexceptions
+heltec.menu.exception.enabled.build.stdcpp_lib=-lstdc++-exc
 heltec.upload.resetmethod=nodemcu
-heltec.build.flash_mode=qio
+heltec.build.flash_mode=dio
 heltec.build.flash_freq=40
 heltec.menu.eesz.4M=4M (no SPIFFS)
 heltec.menu.eesz.4M.build.flash_size=4M
@@ -85,14 +92,30 @@ heltec.menu.eesz.4M3M.build.rfcal_addr=0x3FC000
 heltec.menu.eesz.4M3M.build.spiffs_start=0x100000
 heltec.menu.eesz.4M3M.build.spiffs_end=0x3FB000
 heltec.menu.eesz.4M3M.build.spiffs_blocksize=8192
-heltec.menu.ip.lm2=v2 Lower Memory
-heltec.menu.ip.lm2.build.lwip_include=lwip2/include
-heltec.menu.ip.lm2.build.lwip_lib=-llwip2
-heltec.menu.ip.lm2.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=536
-heltec.menu.ip.hb2=v2 Higher Bandwidth
-heltec.menu.ip.hb2.build.lwip_include=lwip2/include
-heltec.menu.ip.hb2.build.lwip_lib=-llwip2_1460
-heltec.menu.ip.hb2.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=1460
+heltec.menu.ip.lm2f=v2 Lower Memory
+heltec.menu.ip.lm2f.build.lwip_include=lwip2/include
+heltec.menu.ip.lm2f.build.lwip_lib=-llwip2-536-feat
+heltec.menu.ip.lm2f.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0
+heltec.menu.ip.hb2f=v2 Higher Bandwidth
+heltec.menu.ip.hb2f.build.lwip_include=lwip2/include
+heltec.menu.ip.hb2f.build.lwip_lib=-llwip2-1460-feat
+heltec.menu.ip.hb2f.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=1 -DLWIP_IPV6=0
+heltec.menu.ip.lm2n=v2 Lower Memory (no features)
+heltec.menu.ip.lm2n.build.lwip_include=lwip2/include
+heltec.menu.ip.lm2n.build.lwip_lib=-llwip2-536
+heltec.menu.ip.lm2n.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=0 -DLWIP_IPV6=0
+heltec.menu.ip.hb2n=v2 Higher Bandwidth (no features)
+heltec.menu.ip.hb2n.build.lwip_include=lwip2/include
+heltec.menu.ip.hb2n.build.lwip_lib=-llwip2-1460
+heltec.menu.ip.hb2n.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=0 -DLWIP_IPV6=0
+heltec.menu.ip.lm6f=v2 IPv6 Lower Memory
+heltec.menu.ip.lm6f.build.lwip_include=lwip2/include
+heltec.menu.ip.lm6f.build.lwip_lib=-llwip6-536-feat
+heltec.menu.ip.lm6f.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=1
+heltec.menu.ip.hb6f=v2 IPv6 Higher Bandwidth
+heltec.menu.ip.hb6f.build.lwip_include=lwip2/include
+heltec.menu.ip.hb6f.build.lwip_lib=-llwip6-1460-feat
+heltec.menu.ip.hb6f.build.lwip_flags=-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=1 -DLWIP_IPV6=1
 heltec.menu.ip.hb1=v1.4 Higher Bandwidth
 heltec.menu.ip.hb1.build.lwip_lib=-llwip_gcc
 heltec.menu.ip.hb1.build.lwip_flags=-DLWIP_OPEN_SRC
@@ -162,12 +185,14 @@ heltec.menu.wipe.sdk=Sketch + WiFi Settings
 heltec.menu.wipe.sdk.upload.erase_cmd=-ca "{build.rfcal_addr}" -cz 0x4000
 heltec.menu.wipe.all=All Flash Contents
 heltec.menu.wipe.all.upload.erase_cmd=-ca 0x0 -cz "{build.flash_size_bytes}"
-heltec.menu.baud.115200=115200
-heltec.menu.baud.115200.upload.speed=115200
+heltec.menu.baud.921600=921600
+heltec.menu.baud.921600.upload.speed=921600
 heltec.menu.baud.9600=9600
 heltec.menu.baud.9600.upload.speed=9600
 heltec.menu.baud.57600=57600
 heltec.menu.baud.57600.upload.speed=57600
+heltec.menu.baud.115200=115200
+heltec.menu.baud.115200.upload.speed=115200
 heltec.menu.baud.230400.linux=230400
 heltec.menu.baud.230400.macosx=230400
 heltec.menu.baud.230400.upload.speed=230400
@@ -178,5 +203,4 @@ heltec.menu.baud.460800.macosx=460800
 heltec.menu.baud.460800.upload.speed=460800
 heltec.menu.baud.512000.windows=512000
 heltec.menu.baud.512000.upload.speed=512000
-heltec.menu.baud.921600=921600
-heltec.menu.baud.921600.upload.speed=921600
+

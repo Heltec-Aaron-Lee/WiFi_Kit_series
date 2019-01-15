@@ -14,7 +14,7 @@ https://github.com/me-no-dev/EspExceptionDecoder
 
 
 ### Hardware:
-Board:							?ESP32 Dev Module? ?node32? ?Heltec_ESP32?
+Board:							?ESP32 Dev Module? ?node32? ?ttgo_lora?
 Core Installation/update date:			?11/jul/2017?
 IDE name:							?Arduino IDE? ?Platform.io? ?IDF component?
 Flash Frequency:					?40Mhz?

@@ -10,7 +10,7 @@ menu.PSRAM=PSRAM
 
 wifi_kit_32.name=WIFI_Kit_32
 
-wifi_kit_32.upload.tool=esptool
+wifi_kit_32.upload.tool=esptool_py
 wifi_kit_32.upload.maximum_size=1310720
 wifi_kit_32.upload.maximum_data_size=327680
 wifi_kit_32.upload.wait_for_upload_port=true
@@ -54,7 +54,7 @@ wifi_kit_32.menu.UploadSpeed.512000.upload.speed=512000
 
 wifi_lora_32.name=WIFI_LoRa_32
 
-wifi_lora_32.upload.tool=esptool
+wifi_lora_32.upload.tool=esptool_py
 wifi_lora_32.upload.maximum_size=1310720
 wifi_lora_32.upload.maximum_data_size=327680
 wifi_lora_32.upload.wait_for_upload_port=true
@@ -98,7 +98,7 @@ wifi_lora_32.menu.UploadSpeed.512000.upload.speed=512000
 
 wireless_stick.name=Wireless_Stick
 
-wireless_stick.upload.tool=esptool
+wireless_stick.upload.tool=esptool_py
 wireless_stick.upload.maximum_size=1310720
 wireless_stick.upload.maximum_data_size=327680
 wireless_stick.upload.wait_for_upload_port=true
@@ -137,4 +137,3 @@ wireless_stick.menu.UploadSpeed.460800.macosx=460800
 wireless_stick.menu.UploadSpeed.460800.upload.speed=460800
 wireless_stick.menu.UploadSpeed.512000.windows=512000
 wireless_stick.menu.UploadSpeed.512000.upload.speed=512000
-

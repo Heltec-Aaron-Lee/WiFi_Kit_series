@@ -1,3 +1,7 @@
+esp32/.git
+esp32/.gitignore
+esp32/.gitmodules
+esp32/.github
 esp32/tools/xtensa-esp32-elf
 esp32/tools/dist
 esp32/tools/esptool
@@ -5,6 +9,9 @@ esp32/tools/esptool.exe
 esp32/tools/mkspiffs/mkspiffs
 esp32/tools/mkspiffs/mkspiffs.exe
 .DS_Store
+esp8266/.git
+esp8266/.gitignore
+esp8266/.gitmodules
 esp8266/tools/dist/
 esp8266/tools/xtensa-lx106-elf/
 esp8266/tools/esptool/

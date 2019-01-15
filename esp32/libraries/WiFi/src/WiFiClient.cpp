@@ -58,6 +58,11 @@ private:
         {
             if(!_buffer){
                 _buffer = (uint8_t *)malloc(_size);
+                if(!_buffer) {
+                    log_e("Not enough memory to allocate buffer");
+                    _failed = true;
+                    return 0;
+                }
             }
             if(_fill && _pos == _fill){
                 _fill = 0;
@@ -67,8 +72,10 @@ private:
                 return 0;
             }
             int res = recv(_fd, _buffer + _fill, _size - _fill, MSG_DONTWAIT);
-            if(res < 0 && errno != EWOULDBLOCK) {
-                _failed = true;
+            if(res < 0) {
+                if(errno != EWOULDBLOCK) {
+                    _failed = true;
+                }
                 return 0;
             }
             _fill += res;
@@ -240,6 +247,7 @@ int WiFiClient::setSocketOption(int option, char* value, size_t len)
 
 int WiFiClient::setTimeout(uint32_t seconds)
 {
+    Client::setTimeout(seconds * 1000);
     struct timeval tv;
     tv.tv_sec = seconds;
     tv.tv_usec = 0;
@@ -397,7 +405,8 @@ int WiFiClient::peek()
 
 int WiFiClient::available()
 {
-    if(!_connected) {
+    if(!_rxBuffer)
+    {
         return 0;
     }
     int res = _rxBuffer->available();
@@ -438,6 +447,8 @@ uint8_t WiFiClient::connected()
     if (_connected) {
         uint8_t dummy;
         int res = recv(fd(), &dummy, 0, MSG_DONTWAIT);
+        // avoid unused var warning by gcc
+        (void)res;
         switch (errno) {
             case EWOULDBLOCK:
             case ENOENT: //caused by vfs

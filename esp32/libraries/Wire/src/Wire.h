@@ -30,7 +30,7 @@
 #include "freertos/queue.h"
 #include "Stream.h"
 
-#define STICKBREAKER V1.0.1
+#define STICKBREAKER 'V1.1.0'
 #define I2C_BUFFER_LENGTH 128
 typedef void(*user_onRequest)(void);
 typedef void(*user_onReceive)(uint8_t*, int);
@@ -67,12 +67,13 @@ protected:
 public:
     TwoWire(uint8_t bus_num);
     ~TwoWire();
-    bool begin(int sda=-1, int scl=-1, uint32_t frequency=0);
+    bool begin(int sda=-1, int scl=-1, uint32_t frequency=0); // returns true, if successful init of i2c bus
+      // calling will attemp to recover hung bus
 
     void setClock(uint32_t frequency); // change bus clock without initing hardware
     size_t getClock(); // current bus clock rate in hz
 
-    void setTimeOut(uint16_t timeOutMillis);
+    void setTimeOut(uint16_t timeOutMillis); // default timeout of i2c transactions is 50ms
     uint16_t getTimeOut();
 
     uint8_t lastError();
@@ -87,7 +88,6 @@ public:
     void beginTransmission(int address);
 
     uint8_t endTransmission(bool sendStop);
-    uint8_t endTransmission(uint8_t sendStop);
     uint8_t endTransmission(void);
 
     uint8_t requestFrom(uint16_t address, uint8_t size, bool sendStop);
@@ -138,6 +138,8 @@ extern TwoWire Wire1;
 
 
 /*
+V1.1.0 08JAN2019 Support CPU Clock frequency changes
+V1.0.2 30NOV2018 stop returning I2C_ERROR_CONTINUE on ReSTART operations, regain compatibility with Arduino libs
 V1.0.1 02AUG2018 First Fix after release, Correct ReSTART handling, change Debug control, change begin()
   to a function, this allow reporting if bus cannot be initialized, Wire.begin() can be used to recover
   a hung bus busy condition.

@@ -231,7 +231,7 @@ echo " - updating platform.txt..."
 cat $srcdir/platform.txt | \
 sed "s/version=.*/version=$ver$extent/g" | \
 sed 's/runtime.tools.xtensa-esp32-elf-gcc.path={runtime.platform.path}\/tools\/xtensa-esp32-elf//g' | \
-sed 's/tools.esptool.path={runtime.platform.path}\/tools\/esptool/tools.esptool.path=\{runtime.tools.esptool.path\}/g' \
+sed 's/tools.esptool_py.path={runtime.platform.path}\/tools\/esptool/tools.esptool_py.path=\{runtime.tools.esptool_py.path\}/g' \
  > $outdir/platform.txt
 
 # Put core version and short hash of git version into core_version.h
@@ -332,10 +332,12 @@ pkgJsonDev=$releaseDir/$PACKAGE_JSON_DEV
 echo " - generating/merging _DEV_ JSON file (${pkgJsonDev})..."
 
 cat $srcdir/package/package_esp32_index.template.json | jq "$jq_arg" > $pkgJsonDev
+cd $srcdir
 if [ ! -z "$prev_any_release" ] && [ "$prev_any_release" != "null" ]; then
 	downloadAndMergePackageJSON "https://github.com/$TRAVIS_REPO_SLUG/releases/download/${prev_any_release}/${PACKAGE_JSON_DEV}" "${pkgJsonDev}" "${curlAuth}" "$releaseDir"
 	
 	# Release notes: GIT log comments (prev_any_release, current_release>
+	echo " - executing: git log --oneline $prev_any_release.."
 	git log --oneline $prev_any_release.. > $releaseDir/commits.txt
 fi	
 
@@ -350,6 +352,7 @@ if [ $bIsPrerelease -eq 0 ]; then
 		downloadAndMergePackageJSON "https://github.com/$TRAVIS_REPO_SLUG/releases/download/${prev_release}/${PACKAGE_JSON_REL}" "${pkgJsonRel}" "${curlAuth}" "$releaseDir"
 		
 		# Release notes: GIT log comments (prev_release, current_release>
+		echo " - executing: git log --oneline $prev_release.."
 		git log --oneline $prev_release.. > $releaseDir/commits.txt
 	fi
 fi

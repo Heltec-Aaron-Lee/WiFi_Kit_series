@@ -16,6 +16,7 @@
 
 WiFiMulti wifiMulti;
 
+/*
 const char* ca = \ 
 "-----BEGIN CERTIFICATE-----\n" \  
 "MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/\n" \  
@@ -44,7 +45,7 @@ const char* ca = \
 "PfZ+G6Z6h7mjem0Y+iWlkYcV4PIWL1iwBi8saCbGS5jN2p8M+X+Q7UNKEkROb3N6\n" \  
 "KOqkqm57TH2H3eDJAkSnh6/DNFu0Qg==\n" \  
 "-----END CERTIFICATE-----\n";
-
+*/
 
 void setup() {
 
@@ -72,8 +73,8 @@ void loop() {
 
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
-        http.begin("https://www.howsmyssl.com/a/check", ca); //HTTPS
-        //http.begin("http://example.com/index.html"); //HTTP
+        //http.begin("https://www.howsmyssl.com/a/check", ca); //HTTPS
+        http.begin("http://example.com/index.html"); //HTTP
 
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header

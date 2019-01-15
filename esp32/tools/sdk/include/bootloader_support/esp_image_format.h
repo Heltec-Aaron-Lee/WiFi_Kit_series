@@ -81,11 +81,32 @@ typedef struct {
 
 _Static_assert(sizeof(esp_image_header_t) == 24, "binary image header should be 24 bytes");
 
+#define ESP_IMAGE_HASH_LEN 32 /* Length of the appended SHA-256 digest */
+
 /* Header of binary image segment */
 typedef struct {
     uint32_t load_addr;
     uint32_t data_len;
 } esp_image_segment_header_t;
+
+#define ESP_APP_DESC_MAGIC_WORD 0xABCD5432 /*!< The magic word for the esp_app_desc structure that is in DROM. */
+
+/**
+ * @brief Description about application.
+ */
+typedef struct {
+    uint32_t magic_word;        /*!< Magic word ESP_APP_DESC_MAGIC_WORD */
+    uint32_t secure_version;    /*!< Secure version */
+    uint32_t reserv1[2];        /*!< --- */
+    char version[32];           /*!< Application version */
+    char project_name[32];      /*!< Project name */
+    char time[16];              /*!< Compile time */
+    char date[16];              /*!< Compile date*/
+    char idf_ver[32];           /*!< Version IDF */
+    uint8_t app_elf_sha256[32]; /*!< sha256 of elf file */
+    uint32_t reserv2[20];       /*!< --- */
+} esp_app_desc_t;
+_Static_assert(sizeof(esp_app_desc_t) == 256, "esp_app_desc_t should be 256 bytes");
 
 #define ESP_IMAGE_MAX_SEGMENTS 16
 
@@ -200,6 +221,16 @@ esp_err_t bootloader_load_image(const esp_partition_pos_t *part, esp_image_metad
  * @return As per esp_image_load_metadata().
  */
 esp_err_t esp_image_verify_bootloader(uint32_t *length);
+
+/**
+ * @brief Verify the bootloader image.
+ *
+ * @param[out] Metadata for the image. Only valid if result is ESP_OK.
+ *
+ * @return As per esp_image_load_metadata().
+ */
+esp_err_t esp_image_verify_bootloader_data(esp_image_metadata_t *data);
+
 
 typedef struct {
     uint32_t drom_addr;
