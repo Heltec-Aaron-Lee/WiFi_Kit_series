@@ -1,6 +1,6 @@
 # Heltec ESP32 & ESP8266 Series Arduino Develop Environment
 
-English | [简体中文](#ESP32+ESP8266开发环境)
+English | [简体中文](##ESP32+ESP8266开发环境)
 
 This environment is fully clone from espressif [ESP32](https://github.com/espressif/arduino-esp32) and [ESP8266](https://github.com/esp8266/Arduino) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP seies Dev boards users.
 
