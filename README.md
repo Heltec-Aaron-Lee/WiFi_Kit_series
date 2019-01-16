@@ -1,11 +1,13 @@
 # Heltec ESP32 & ESP8266 Series Arduino Develop Environment
 
-English | [简体中文](##ESP32+ESP8266开发环境)
+English | [简体中文](#ESP32/ESP8266开发环境)
 
 This environment is fully clone from espressif [ESP32](https://github.com/espressif/arduino-esp32) and [ESP8266](https://github.com/esp8266/Arduino) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP seies Dev boards users.
 
 *This environment not include on board OLED LoRa etc drivers and examples anymore, they had been moved to another libraries:*
+
 For ESP32 series: https://github.com/HelTecAutomation/Heltec_ESP32
+
 For ESP8266 series:
 
 ## Instructions
@@ -41,12 +43,14 @@ Before reporting an issue, make sure you've searched for similar one that was al
 
 
 
-## ESP32+ESP8266开发环境
+## ESP32/ESP8266开发环境
 
 本项目完全是从乐鑫提供的[ESP32](https://github.com/espressif/arduino-esp32)和[ESP8266](https://github.com/esp8266/Arduino)项目上克隆下来的，在此基础上，我们修改了“variants”文件夹和“boards.txt”里面的内容（增加开发板的定义和信息），这样可以方便用户（尤其是初学者）使用我司生产的ESP32和ESP8266系列开发板。
 
 *本项目只是开发环境，我们将板子上OLED、LoRa等资源的例程、驱动程序移到了一个独立的库里面（这样的好处是：如果您已经安装了乐鑫提供的标准的[ESP32](https://github.com/espressif/arduino-esp32)或[ESP8266](https://github.com/esp8266/Arduino)开发环境，只需要安装下面的库即可，就不再需要安装我们提供的这个开发环境了）*
+
 ESP32系列: https://github.com/HelTecAutomation/Heltec_ESP32
+
 ESP8266系列:
 
 ## 说明
