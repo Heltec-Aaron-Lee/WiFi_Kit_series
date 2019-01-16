@@ -39,7 +39,9 @@ Before reporting an issue, make sure you've searched for similar one that was al
 - website：www.heltec.cn
 
 
-## ESP32、ESP8266开发环境
+
+
+## ESP32+ESP8266开发环境
 
 本项目完全是从乐鑫提供的[ESP32](https://github.com/espressif/arduino-esp32)和[ESP8266](https://github.com/esp8266/Arduino)项目上克隆下来的，在此基础上，我们修改了“variants”文件夹和“boards.txt”里面的内容（增加开发板的定义和信息），这样可以方便用户（尤其是初学者）使用我司生产的ESP32和ESP8266系列开发板。
 
