@@ -4,6 +4,8 @@
 #include <stdint.h>
 
 #define WIFI_LoRa_32_V2
+#define DISPLAY_HEIGHT 64
+#define DISPLAY_WIDTH  128
 
 #define EXTERNAL_NUM_INTERRUPTS 16
 #define NUM_DIGITAL_PINS        40

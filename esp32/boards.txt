@@ -108,8 +108,8 @@ wireless_stick.serial.disableRTS=true
 
 wireless_stick.build.mcu=esp32
 wireless_stick.build.core=esp32
-wireless_stick.build.variant=wifi_lora_32
-wireless_stick.build.board=WIFI_LoRa_32
+wireless_stick.build.variant=wireless_stick
+wireless_stick.build.board=Wireless_Stick
 
 wireless_stick.build.f_cpu=240000000L
 wireless_stick.build.flash_mode=dio

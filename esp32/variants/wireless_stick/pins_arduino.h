@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#define Wireless_Stick
+#define DISPLAY_HEIGHT 32
+#define DISPLAY_WIDTH  64
+
 #define EXTERNAL_NUM_INTERRUPTS 16
 #define NUM_DIGITAL_PINS        40
 #define NUM_ANALOG_INPUTS       16
@@ -57,5 +61,15 @@ static const uint8_t T9 = 32;
 
 static const uint8_t DAC1 = 25;
 static const uint8_t DAC2 = 26;
+
+static const uint8_t Vext = 21;
+static const uint8_t LED  = 25;
+static const uint8_t RST_OLED = 16;
+static const uint8_t SCL_OLED = 15;
+static const uint8_t SDA_OLED = 4;
+static const uint8_t RST_LoRa = 14;
+static const uint8_t DIO0 = 26;
+static const uint8_t DIO1 = 35;
+static const uint8_t DIO2 = 34;
 
 #endif /* Pins_Arduino_h */
