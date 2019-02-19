@@ -253,7 +253,7 @@ wifi_lora_32_V2.build.flash_size=8MB
 wifi_lora_32_V2.build.flash_freq=40m
 wifi_lora_32_V2.build.flash_mode=dio
 wifi_lora_32_V2.build.boot=dio
-wifi_lora_32_V2.build.partitions=default
+wifi_lora_32_V2.build.partitions=default_8MB
 wifi_lora_32_V2.build.defines=
 
 wifi_lora_32_V2.menu.PSRAM.disabled=Disabled
@@ -261,8 +261,8 @@ wifi_lora_32_V2.menu.PSRAM.disabled.build.defines=
 wifi_lora_32_V2.menu.PSRAM.enabled=Enabled
 wifi_lora_32_V2.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
-wifi_lora_32_V2.menu.PartitionScheme.default=Default
-wifi_lora_32_V2.menu.PartitionScheme.default.build.partitions=default
+wifi_lora_32_V2.menu.PartitionScheme.default=default_8MB
+wifi_lora_32_V2.menu.PartitionScheme.default.build.partitions=default_8MB
 wifi_lora_32_V2.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
 wifi_lora_32_V2.menu.PartitionScheme.minimal.build.partitions=minimal
 wifi_lora_32_V2.menu.PartitionScheme.no_ota=No OTA (Large APP)
@@ -310,6 +310,7 @@ wifi_lora_32_V2.menu.FlashFreq.40.build.flash_freq=40m
 
 wifi_lora_32_V2.menu.FlashSize.8M=8MB (64Mb)
 wifi_lora_32_V2.menu.FlashSize.8M.build.flash_size=8MB
+wifi_lora_32_V2.menu.FlashSize.2M.build.partitions=default_8MB
 wifi_lora_32_V2.menu.FlashSize.4M=4MB (32Mb)
 wifi_lora_32_V2.menu.FlashSize.4M.build.flash_size=4MB
 wifi_lora_32_V2.menu.FlashSize.2M=2MB (16Mb)
@@ -369,7 +370,7 @@ wireless_stick.build.flash_size=8MB
 wireless_stick.build.flash_freq=40m
 wireless_stick.build.flash_mode=dio
 wireless_stick.build.boot=dio
-wireless_stick.build.partitions=default
+wireless_stick.build.partitions=default_8MB
 wireless_stick.build.defines=
 
 wireless_stick.menu.PSRAM.disabled=Disabled
@@ -377,8 +378,8 @@ wireless_stick.menu.PSRAM.disabled.build.defines=
 wireless_stick.menu.PSRAM.enabled=Enabled
 wireless_stick.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
-wireless_stick.menu.PartitionScheme.default=Default
-wireless_stick.menu.PartitionScheme.default.build.partitions=default
+wireless_stick.menu.PartitionScheme.default=default_8MB
+wireless_stick.menu.PartitionScheme.default.build.partitions=default_8MB
 wireless_stick.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
 wireless_stick.menu.PartitionScheme.minimal.build.partitions=minimal
 wireless_stick.menu.PartitionScheme.no_ota=No OTA (Large APP)
@@ -426,6 +427,7 @@ wireless_stick.menu.FlashFreq.40.build.flash_freq=40m
 
 wireless_stick.menu.FlashSize.8M=8MB (64Mb)
 wireless_stick.menu.FlashSize.8M.build.flash_size=8MB
+wireless_stick.menu.FlashSize.2M.build.partitions=default_8MB
 wireless_stick.menu.FlashSize.4M=4MB (32Mb)
 wireless_stick.menu.FlashSize.4M.build.flash_size=4MB
 wireless_stick.menu.FlashSize.2M=2MB (16Mb)
