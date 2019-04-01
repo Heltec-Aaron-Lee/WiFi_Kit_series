@@ -8,7 +8,7 @@ This environment is fully clone from espressif [ESP32](https://github.com/espres
 
 For ESP32 series: https://github.com/HelTecAutomation/Heltec_ESP32
 
-For ESP8266 series:
+For ESP8266 series: https://github.com/HelTecAutomation/Heltec_ESP8266
 
 ## Instructions
 - WIFI_Kit_32,WIFI_LoRa_32, WIFI_LoRa_32_V2, Wireless_Stick use ESP32 chip,the source codes and dev_environment:[esp32](esp32/)
@@ -51,7 +51,7 @@ Before reporting an issue, make sure you've searched for similar one that was al
 
 ESP32系列: https://github.com/HelTecAutomation/Heltec_ESP32
 
-ESP8266系列:
+ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 
 ## 说明
 - WIFI_Kit_32,WIFI_LoRa_32, WIFI_LoRa_32_V2, Wireless_Stick使用的是ESP32芯片，与之相关的开发环境、源码、例程，在本页面的[esp32](esp32/)文件夹内；
@@ -64,7 +64,7 @@ ESP8266系列:
  + [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
  + [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
  + [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
- 
+
  - 中文的安装教程，还可以参考这里：http://www.heltec.cn/wifi_kit_install/
 
 ## 编码规则
