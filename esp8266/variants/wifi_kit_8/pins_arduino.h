@@ -26,6 +26,8 @@
 #ifndef Pins_Arduino_h
 #define Pins_Arduino_h
 
+#define WIFI_Kit_8 true
+
 #define PIN_WIRE_SDA (4)
 #define PIN_WIRE_SCL (5)
 
