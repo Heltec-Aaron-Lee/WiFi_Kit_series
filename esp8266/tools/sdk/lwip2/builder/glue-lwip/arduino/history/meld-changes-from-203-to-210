@@ -1,0 +1,4 @@
+grep ^#define ../lwipopts.h | grep -v DEBUG > lwipopts-210.h.tmp
+grep ^#define lwipopts-203.h | grep -v DEBUG > lwipopts-203.h.tmp
+meld lwipopts-203.h.tmp lwipopts-210.h.tmp
+rm -f *.tmp

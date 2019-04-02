@@ -1,0 +1,17 @@
+diff --git a/src/core/udp.c b/src/core/udp.c
+index 9d2cb4af..40cdf190 100644
+--- a/src/core/udp.c
++++ b/src/core/udp.c
+@@ -1233,6 +1233,12 @@ udp_new(void)
+ #if LWIP_MULTICAST_TX_OPTIONS
+     udp_set_multicast_ttl(pcb, UDP_TTL);
+ #endif /* LWIP_MULTICAST_TX_OPTIONS */
++// Defaults to IPADDR_TYPE_V4 (0)
++#if LWIP_IPV4 && LWIP_IPV6
++    pcb->local_ip.type = IPADDR_TYPE_ANY;
++#elif LWIP_IPV6
++    pcb->local_ip.type = IPADDR_TYPE_V6;
++#endif
+   }
+   return pcb;
+ }
