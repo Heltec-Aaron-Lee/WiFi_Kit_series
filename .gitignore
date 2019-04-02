@@ -14,7 +14,6 @@ esp8266/.gitignore
 esp8266/.gitmodules
 esp8266/tools/dist/
 esp8266/tools/xtensa-lx106-elf/
-esp8266/tools/esptool/
 esp8266/tools/mkspiffs/
 esp8266/package/versions/
 esp8266/tools/sdk/lib/liblwip_src.a
