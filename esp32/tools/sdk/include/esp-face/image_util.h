@@ -27,6 +27,7 @@ extern "C"
 {
 #endif
 #include <stdint.h>
+#include <math.h>
 #include "mtmn.h"
 
 #define MAX_VALID_COUNT_PER_IMAGE (30)
@@ -41,6 +42,10 @@ extern "C"
 #define RGB565_MASK_GREEN 0x07E0
 #define RGB565_MASK_BLUE 0x001F
 
+    typedef enum
+    {
+        BINARY,
+    } en_threshold_mode;
     typedef struct
     {
         fptp_t landmark_p[10];
@@ -53,6 +58,7 @@ extern "C"
 
     typedef struct tag_box_list
     {
+        fptp_t *score;
         box_t *box;
         landmark_t *landmark;
         int len;
@@ -138,12 +144,19 @@ extern "C"
         for (int i = 0; i < boxes->len; i++)
         {
             box_t *box = &(boxes->box[i]);
-            float w, h;
-            image_get_width_and_height(box, &w, &h);
-            float l = DL_IMAGE_MAX(w, h);
 
-            box->box_p[0] = DL_IMAGE_MAX(0, box->box_p[0] + 0.5 * (w - l));
-            box->box_p[1] = DL_IMAGE_MAX(0, box->box_p[1] + 0.5 * (h - l));
+            int x1 = round(box->box_p[0]);
+            int y1 = round(box->box_p[1]);
+            int x2 = round(box->box_p[2]);
+            int y2 = round(box->box_p[3]);
+
+            int w = x2 - x1 + 1;
+            int h = y2 - y1 + 1;
+            int l = DL_IMAGE_MAX(w, h);
+
+            box->box_p[0] = round(DL_IMAGE_MAX(0, x1) + 0.5 * (w - l));
+            box->box_p[1] = round(DL_IMAGE_MAX(0, y1) + 0.5 * (h - l));
+
             box->box_p[2] = box->box_p[0] + l - 1;
             if (box->box_p[2] > width)
             {
@@ -214,6 +227,25 @@ extern "C"
     /**
      * @brief 
      * 
+     * @param dimage 
+     * @param dw 
+     * @param dh 
+     * @param dc 
+     * @param simage 
+     * @param sw 
+     * @param sc 
+     */
+    void image_zoom_in_twice(uint8_t *dimage,
+                             int dw,
+                             int dh,
+                             int dc,
+                             uint8_t *simage,
+                             int sw,
+                             int sc);
+
+    /**
+     * @brief 
+     * 
      * @param dst_image 
      * @param src_image 
      * @param dst_w 
@@ -233,7 +265,7 @@ extern "C"
      * @param ratio 
      * @param center 
      */
-    void image_cropper(dl_matrix3du_t *corp_image, dl_matrix3du_t *src_image, float rotate_angle, float ratio, float *center);
+    void image_cropper(uint8_t *corp_image, uint8_t *src_image, int dst_w, int dst_h, int dst_c, int src_w, int src_h, float rotate_angle, float ratio, float *center);
 
     /**
      * @brief 
@@ -270,6 +302,9 @@ extern "C"
      * @param width 
      */
     void draw_rectangle_rgb888(uint8_t *buf, box_array_t *boxes, int width);
+    void image_abs_diff(uint8_t *dst, uint8_t *src1, uint8_t *src2, int count);
+    void image_threshold(uint8_t *dst, uint8_t *src, int threshold, int value, int count, en_threshold_mode mode);
+    void image_erode(uint8_t *dst, uint8_t *src, int src_w, int src_h, int src_c);
 #ifdef __cplusplus
 }
 #endif

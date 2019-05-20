@@ -52,6 +52,8 @@ author: d. gauchard
 
 // this is dhcpserver taken from lwip-1.4-espressif
 #include "lwip/apps-esp/dhcpserver.h"
+// this is espconn taken from lwip-1.4-espressif
+#include "lwip/apps-esp/espconn.h"
 
 #define DBG "GLUE: "
 
@@ -141,9 +143,9 @@ static void new_display_netif (struct netif* netif)
 	if (netif->hwaddr_len == 6)
 		display_mac(netif->hwaddr);
 	new_display_netif_flags(netif->flags);
-	display_ip32(" ip=", netif->ip_addr.addr);
-	display_ip32(" mask=", netif->netmask.addr);
-	display_ip32(" gw=", netif->gw.addr);
+	display_ip32(" ip=", ip_2_ip4(&netif->ip_addr)->addr);
+	display_ip32(" mask=", ip_2_ip4(&netif->netmask)->addr);
+	display_ip32(" gw=", ip_2_ip4(&netif->gw)->addr);
 	uprint("\n");
 }
 
@@ -409,7 +411,16 @@ void esp2glue_lwip_init (void)
 	sntp_servermode_dhcp(1); /* get SNTP server via DHCP */
 	sntp_setoperatingmode(SNTP_OPMODE_POLL);
 	// start anyway the offline sntp timer
+#if ARDUINO
 	SNTP_SET_SYSTEM_TIME_US(0,0);
+#else
+	sntp_set_system_time(0);
+#endif
+}
+
+void esp2glue_espconn_init(void)
+{
+	espconn_init();
 }
 
 void esp2glue_alloc_for_recv (size_t len, void** pbuf, void** data)

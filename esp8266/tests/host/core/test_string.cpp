@@ -17,6 +17,7 @@
 #include <string.h>
 #include <WString.h>
 #include <limits.h>
+#include <StreamString.h>
 
 TEST_CASE("String::trim", "[core][String]")
 {
@@ -427,4 +428,27 @@ TEST_CASE("String SSO handles junk in memory", "[core][String]")
   repl(("%sysname%"), "CO2_defect", *s, useURLencode);
   REQUIRE(*s == "CO2_defect");
   s->~String();
+}
+
+
+TEST_CASE("Issue #5949 - Overlapping src/dest in replace", "[core][String]")
+{
+  String blah = "blah";
+  blah.replace("xx", "y");
+  REQUIRE(blah == "blah");
+  blah.replace("x", "yy");
+  REQUIRE(blah == "blah");
+  blah.replace(blah, blah);
+  REQUIRE(blah == "blah");
+}
+
+
+TEST_CASE("Issue #2736 - StreamString SSO fix", "[core][StreamString]")
+{
+    StreamString s;
+    s.print('{');
+    s.print('\"');
+    s.print(String("message"));
+    s.print('\"');
+    REQUIRE(s == "{\"message\"");
 }

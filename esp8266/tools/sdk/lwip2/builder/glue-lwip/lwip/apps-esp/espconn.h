@@ -121,6 +121,7 @@ enum espconn_option{
 	ESPCONN_NODELAY = 0x02,
 	ESPCONN_COPY = 0x04,
 	ESPCONN_KEEPALIVE = 0x08,
+    ESPCONN_MANUALRECV = 0x10,
 	ESPCONN_END
 };
 
@@ -685,6 +686,7 @@ extern ipv4_addr_t espconn_dns_getserver(u8_t numdns);
 
 
 void ICACHE_FLASH_ATTR espconn_pbuf_delete(espconn_buf **phead, espconn_buf* pdelete);
+void ICACHE_FLASH_ATTR espconn_init (void);
 
 #endif
 

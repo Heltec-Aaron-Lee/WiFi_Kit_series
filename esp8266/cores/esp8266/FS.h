@@ -24,6 +24,8 @@
 #include <memory>
 #include <Arduino.h>
 
+class SDClass;
+
 namespace fs {
 
 class File;
@@ -107,7 +109,7 @@ public:
     File openNextFile();
 
     String readString() override;
-	
+
 protected:
     FileImplPtr _p;
 
@@ -181,7 +183,7 @@ public:
 
     bool begin();
     void end();
-    
+
     bool format();
     bool info(FSInfo& info);
 
@@ -206,8 +208,12 @@ public:
     bool rmdir(const char* path);
     bool rmdir(const String& path);
 
+    bool gc();
+
+    friend class ::SDClass; // More of a frenemy, but SD needs internal implementation to get private FAT bits
 protected:
     FSImplPtr _impl;
+    FSImplPtr getImpl() { return _impl; }
 };
 
 } // namespace fs

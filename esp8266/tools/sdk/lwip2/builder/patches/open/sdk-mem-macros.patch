@@ -1,0 +1,21 @@
+diff --git a/src/core/mem.c b/src/core/mem.c
+index db3b7cc5..76df7c1e 100644
+--- a/src/core/mem.c
++++ b/src/core/mem.c
+@@ -95,13 +95,13 @@ mem_trim(void *mem, mem_size_t size)
+  * allow these defines to be overridden.
+  */
+ #ifndef mem_clib_free
+-#define mem_clib_free free
++#define mem_clib_free(s) vPortFree(s, "", 0)
+ #endif
+ #ifndef mem_clib_malloc
+-#define mem_clib_malloc malloc
++#define mem_clib_malloc(s) pvPortMalloc(s, "", 0)
+ #endif
+ #ifndef mem_clib_calloc
+-#define mem_clib_calloc calloc
++#define mem_clib_calloc(l, s) pvPortCalloc(l, s, "", 0)
+ #endif
+ 
+ #if LWIP_STATS && MEM_STATS

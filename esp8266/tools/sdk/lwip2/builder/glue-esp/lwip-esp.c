@@ -388,10 +388,12 @@ void dhcps_start (struct ip_info* info)
 
 void espconn_init (void)
 {
-	// not implemented yet
 	// called at boot/reset
 	// annoying message to hide:
 	//STUB(espconn_init);
+#if OPENSDK
+	esp2glue_espconn_init();
+#endif
 }
 
 void dhcp_cleanup (struct netif* netif)

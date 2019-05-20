@@ -46,7 +46,11 @@ $(LWIP_LIB_RELEASE): $(LWIP_LIB)
 $(LWIP_LIB):
 	make -f makefiles/Makefile.glue-esp BUILD=$(BUILD) V=$(V)
 	make -f makefiles/Makefile.glue target=$(target) BUILD=$(BUILD) TCP_MSS=$(TCP_MSS) LWIP_FEATURES=$(LWIP_FEATURES) LWIP_IPV6=$(LWIP_IPV6) V=$(V)
+ifeq ($(target),arduino)
 	make -C lwip2-src/src -f ../../makefiles/Makefile.lwip2 BUILD=../../$(BUILD) LWIP_LIB=../../$(LWIP_LIB) SDK=../../$(SDK) TOOLS=../../$(TOOLS) TCP_MSS=$(TCP_MSS) LWIP_FEATURES=$(LWIP_FEATURES) LWIP_IPV6=$(LWIP_IPV6) V=$(V)
+else
+	make -C lwip2-src/src -f ../../makefiles/Makefile.lwip2 BUILD=../../$(BUILD) LWIP_LIB=../../$(LWIP_LIB) TCP_MSS=$(TCP_MSS) LWIP_FEATURES=$(LWIP_FEATURES) LWIP_IPV6=$(LWIP_IPV6) V=$(V)
+endif
 
 section-show:
 	@for i in $(IRAM); do \
@@ -65,7 +69,10 @@ install: $(AUTO) $(LWIP_LIB_RELEASE)
 	echo "#endif" >> $(LWIP_INCLUDES_RELEASE)/lwipopts.h
 	cat glue-lwip/$(target)/lwipopts.h >> $(LWIP_INCLUDES_RELEASE)/lwipopts.h
 	echo "warning: this directory is re/over/written from lwip2 builder upon lwip2 rebuild" > $(LWIP_INCLUDES_RELEASE)/README.md
+ifneq ($(target),open)
 	touch $(LWIP_INCLUDES_RELEASE)/espconn.h
+endif
 
 clean:
 	rm -rf $(BUILD) $(LWIP_LIB) $(AUTO)
+	cd lwip2-src; rm -f src/.patched src/core/*.c.orig src/core/ipv6/*.c.orig; git checkout -- src;

@@ -30,6 +30,18 @@ author: d. gauchard
 #ifndef GLUE_H
 #define GLUE_H
 
+#ifndef ARDUINO
+#define ARDUINO 0
+#endif
+
+#ifndef OPENSDK
+#define OPENSDK 0
+#endif
+
+#if !ARDUINO && !OPENSDK
+#error Must defined ARDUINO or OPENSDK
+#endif
+
 #include "gluedebug.h"
 
 #ifdef __cplusplus
@@ -75,6 +87,7 @@ typedef enum
 } glue_netif_flags_t;
 
 void		esp2glue_lwip_init		(void);
+void		esp2glue_espconn_init		(void);
 void		esp2glue_dhcps_start		(struct ip_info* info);
 err_glue_t	esp2glue_dhcp_start		(int netif_idx);
 void		esp2glue_dhcp_stop		(int netif_idx);

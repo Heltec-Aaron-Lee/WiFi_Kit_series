@@ -23,4 +23,4 @@ OD			= $(TOOLS)objdump
 
 BUILD			?= build
 BUILD_FLAGS += -Wall -Wextra -c -Os -g -Wpointer-arith -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -falign-functions=4 -MMD -ffunction-sections -fdata-sections
-BUILD_DEFINES = -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -DLWIP_OPEN_SRC -DLWIP_BUILD -DUSE_OPTIMIZE_PRINTF -DTARGET=$(target) -DTCP_MSS=$(TCP_MSS) -DLWIP_FEATURES=$(LWIP_FEATURES) -DLWIP_IPV6=$(LWIP_IPV6)
+BUILD_DEFINES = -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -DLWIP_OPEN_SRC -DLWIP_BUILD -DUSE_OPTIMIZE_PRINTF -DTARGET=$(target) -D$(DEFINE_TARGET)=1 -DTCP_MSS=$(TCP_MSS) -DLWIP_FEATURES=$(LWIP_FEATURES) -DLWIP_IPV6=$(LWIP_IPV6)

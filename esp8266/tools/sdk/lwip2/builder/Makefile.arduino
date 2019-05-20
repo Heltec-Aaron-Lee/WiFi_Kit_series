@@ -8,6 +8,7 @@
 		test $$feat = 1 && featname=-feat ;\
 		make -f makefiles/Makefile.build-lwip2 \
 			target=arduino \
+			DEFINE_TARGET=ARDUINO \
 			SDK=../.. \
 			LWIP_ESP=../../lwip/include \
 			LWIP_LIB=liblwip$$((2+4*v6))-$$mss$$featname.a \

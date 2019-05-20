@@ -16,7 +16,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
 import re
@@ -25,7 +25,7 @@ import subprocess
 import sys
 import tempfile
 
-fmodeb = { 'dout': 3, 'dio': 2, 'quot': 1, 'qio': 0 }
+fmodeb = { 'dout': 3, 'dio': 2, 'qout': 1, 'qio': 0 }
 ffreqb = { '40': 0, '26': 1, '20': 2, '80': 15 }
 fsizeb = { '512K': 0, '256K': 1, '1M': 2, '2M': 3, '4M': 4, '8M': 8, '16M': 9 }
 
@@ -109,7 +109,7 @@ def main():
 
     out = open(args.out, "wb")
     write_bin(out, args.eboot, ['.text'], 4096, args.flash_mode, args.flash_size, args.flash_freq, args.path)
-    write_bin(out, args.app, ['.irom0.text', '.text', '.data', '.rodata'], 0, args.flash_mode, args.flash_size, args.flash_freq, args.path)
+    write_bin(out, args.app, ['.irom0.text', '.text', '.text1', '.data', '.rodata'], 0, args.flash_mode, args.flash_size, args.flash_freq, args.path)
     out.close()
 
     return 0

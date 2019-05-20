@@ -354,6 +354,13 @@ addr-ctx: hashes
 addr-ctx: auth_type
 addr-ctx: hash_id
 
+cc: set-mfln-status ( val -- ) {
+	int val = T0_POP();
+	ENG->max_frag_len_negotiated = val;
+}
+
+
+
 \ Length of the Secure Renegotiation extension. This is 5 for the
 \ first handshake, 17 for a renegotiation (if the server supports the
 \ extension), or 0 if we know that the server does not support the
@@ -577,7 +584,9 @@ cc: ext-ALPN-length ( -- len ) {
 \ up to our input buffer length.
 : read-server-frag ( lim -- lim )
 	read16 1 = ifnot ERR_BAD_FRAGLEN fail then
-	read8 8 + addr-log_max_frag_len get8 = ifnot ERR_BAD_FRAGLEN fail then ;
+	read8 8 + addr-log_max_frag_len get8 = ifnot ERR_BAD_FRAGLEN fail then
+	1 set-mfln-status \ Set the MFLN flag, we got one
+	;
 
 \ Parse server Secure Renegotiation extension. This is called only if
 \ the client sent that extension, so we only have two cases to
@@ -696,6 +705,8 @@ cc: DEBUG-BLOB ( addr len -- ) {
 
 	\ Compression method. Should be 0 (no compression).
 	read8 if ERR_BAD_COMPRESSION fail then
+
+        0 set-mfln-status \ Clear the mfln-negotiated flag until we find MFLN OK
 
 	\ Parse extensions (if any). If there is no extension, then the
 	\ read limit (on the TOS) should be 0 at that point.
