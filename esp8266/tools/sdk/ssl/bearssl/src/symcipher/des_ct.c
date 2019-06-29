@@ -36,22 +36,22 @@
  *  -- bit x of sk1 comes from bit QR1[x] of kr
  */
 
-static const unsigned char QL0[] = {
+static const unsigned char QL0[] PROGMEM = {
 	17,  4, 27, 23, 13, 22,  7, 18,
 	16, 24,  2, 20,  1,  8, 15, 26
 };
 
-static const unsigned char QR0[] = {
+static const unsigned char QR0[] PROGMEM = {
 	25, 19,  9,  1,  5, 11, 23,  8,
 	17,  0, 22,  3,  6, 20, 27, 24
 };
 
-static const unsigned char QL1[] = {
+static const unsigned char QL1[] PROGMEM = {
 	28, 28, 14, 11, 28, 28, 25,  0,
 	28, 28,  5,  9, 28, 28, 12, 21
 };
 
-static const unsigned char QR1[] = {
+static const unsigned char QR1[] PROGMEM = {
 	28, 28, 15,  4, 28, 28, 26, 16,
 	28, 28, 12,  7, 28, 28, 10, 14
 };
@@ -90,10 +90,10 @@ keysched_unit(uint32_t *skey, const void *key)
 		for (j = 0; j < 16; j ++) {
 			sk0 <<= 1;
 			sk1 <<= 1;
-			sk0 |= ((kl >> QL0[j]) & (uint32_t)1) << 16;
-			sk0 |= (kr >> QR0[j]) & (uint32_t)1;
-			sk1 |= ((kl >> QL1[j]) & (uint32_t)1) << 16;
-			sk1 |= (kr >> QR1[j]) & (uint32_t)1;
+			sk0 |= ((kl >> pgm_read_byte(&QL0[j])) & (uint32_t)1) << 16;
+			sk0 |= (kr >> pgm_read_byte(&QR0[j])) & (uint32_t)1;
+			sk1 |= ((kl >> pgm_read_byte(&QL1[j])) & (uint32_t)1) << 16;
+			sk1 |= (kr >> pgm_read_byte(&QR1[j])) & (uint32_t)1;
 		}
 
 		skey[(i << 1) + 0] = sk0;
