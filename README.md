@@ -2,21 +2,21 @@
 
 English | [简体中文](#简体中文)
 
-This environment is fully clone from espressif [ESP32](https://github.com/espressif/arduino-esp32) and [ESP8266](https://github.com/esp8266/Arduino) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP seies Dev boards users.
+This environment is fully cloned from espressif [ESP32](https://github.com/espressif/arduino-esp32) and [ESP8266](https://github.com/esp8266/Arduino) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP series Dev boards users.
 
-*This environment not include on board OLED LoRa etc drivers and examples anymore, they had been moved to another libraries:*
+*This environment does not include onboard OLED LoRa etc drivers and examples anymore, they had been moved to another library:*
 
 For ESP32 series: https://github.com/HelTecAutomation/Heltec_ESP32
 
 For ESP8266 series: https://github.com/HelTecAutomation/Heltec_ESP8266
 
 ## Instructions
-- WIFI_Kit_32,WIFI_LoRa_32, WIFI_LoRa_32_V2, Wireless_Stick use ESP32 chip,the source codes and dev_environment:[esp32](esp32/)
+- WIFI_Kit_32,WIFI_LoRa_32, WIFI_LoRa_32_V2, Wireless_Stick, Wireless_Stick_Lite, Wireless_Shell use ESP32 chip,the source codes and dev_environment:[esp32](esp32/)
 - WIFI_Kit_8 use esp8266 chip,the source codes and dev_environment:[esp8266](esp8266/)
 
 ## Installation Instructions
 
-- Using Arduino IDE
+- Using Git
   + [Instructions for Windows](InstallGuide/windows.md)
   + [Instructions for Mac](InstallGuide/mac.md)
   + [Instructions for Debian/Ubuntu Linux](InstallGuide/debian_ubuntu.md)
@@ -24,7 +24,7 @@ For ESP8266 series: https://github.com/HelTecAutomation/Heltec_ESP8266
   + [Instructions for openSUSE](InstallGuide/opensuse.md)
   
   
-  - Read reference linstall guide document：[English version install manual](http://www.heltec.cn/the-installation-method-of-wifi-kit-series-products-in-arduino-development-environment/?lang=en)
+  - Read reference install guide document：[English version install manual](http://www.heltec.cn/the-installation-method-of-wifi-kit-series-products-in-arduino-development-environment/?lang=en)
 
 ## Decoding exceptions
 
@@ -58,14 +58,14 @@ ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 - WIFI Kit 8 使用的是ESP8266芯片，与之相关的开发环境、源码、例程，在本页面的[esp8266](esp8266/)文件夹内；
 
 ## 安装方法
-- 首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请在https://www.arduino.cc/en/Main/Software 下载并安装；
- + [Windows操作系统 -- 安装方法](InstallGuide/windows.md)
- + [MacOS操作系统 -- 安装方法](InstallGuide/mac.md)
- + [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
- + [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
- + [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
+- 首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请参考这篇文档：[https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino](https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino)
+   - [Windows操作系统 -- 安装方法](InstallGuide/windows.md)
+   - [MacOS操作系统 -- 安装方法](InstallGuide/mac.md)
+   - [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
+   - [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
+   - [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
 
- - 中文的安装教程，还可以参考这里：http://www.heltec.cn/wifi_kit_install/
+   - 更多安装方法，还可以参考这里：http://www.heltec.cn/wifi_kit_install/
 
 ## 编码规则
 可以参考这篇文章来了解arduino的插件和编码规则：[EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder).
