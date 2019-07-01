@@ -59,7 +59,7 @@ static const uint32_t K[64] PROGMEM = {
 	0xF7537E82, 0xBD3AF235, 0x2AD7D2BB, 0xEB86D391
 };
 
-static const unsigned char MP[48] = {
+static const unsigned char MP_flash[48] PROGMEM = {
 	1, 6, 11, 0, 5, 10, 15, 4, 9, 14, 3, 8, 13, 2, 7, 12,
 	5, 8, 11, 14, 1, 4, 7, 10, 13, 0, 3, 6, 9, 12, 15, 2,
 	0, 7, 14, 5, 12, 3, 10, 1, 8, 15, 6, 13, 4, 11, 2, 9
@@ -72,6 +72,8 @@ br_md5_round(const unsigned char *buf, uint32_t *val)
 	uint32_t m[16];
 	uint32_t a, b, c, d;
 	int i;
+	uint8_t MP[48];
+	memcpy_P(MP, MP_flash, 48);
 
 	a = val[0];
 	b = val[1];
