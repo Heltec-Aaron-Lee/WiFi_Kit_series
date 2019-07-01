@@ -7,7 +7,6 @@
 - [Installation Instructions](#installation-instructions)
 - [Decoding Exceptions](#decoding-exceptions)
 - [Issue/Bug report template](#issuebug-report-template)
-- [ESP32Dev Board PINMAP](#esp32dev-board-pinmap)
 
 ## Development Status
 [Latest stable release ![Release Version](https://img.shields.io/github/release/espressif/arduino-esp32.svg?style=plastic) ![Release Date](https://img.shields.io/github/release-date/espressif/arduino-esp32.svg?style=plastic)](https://github.com/espressif/arduino-esp32/releases/latest/) ![Downloads](https://img.shields.io/github/downloads/espressif/arduino-esp32/latest/total.svg?style=plastic)
@@ -41,11 +40,6 @@ You can use [EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecod
 Before reporting an issue, make sure you've searched for similar one that was already created. Also make sure to go through all the issues labelled as [for reference](https://github.com/espressif/arduino-esp32/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3A%22for%20reference%22%20).
 
 Finally, if you're sure no one else had the issue, follow the [ISSUE_TEMPLATE](docs/ISSUE_TEMPLATE.md) while reporting any issue.
-
-
-## ESP32Dev Board PINMAP
-
-![Pin Functions](docs/esp32_pinmap.png)
 
 ## Hint
 
