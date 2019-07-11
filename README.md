@@ -109,4 +109,4 @@ ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 - **官网：[https://heltec.org](https://heltec.org/)**
 - **Heltec文档页: [https://docs.heltec.cn](https://docs.heltec.cn)**
 - **Heltec论坛 (仅英语): [http://community.heltec.cn/](http://community.heltec.cn/)**
-- **QQ群: 799093974**
+- **QQ群: 799093974(中文)**
