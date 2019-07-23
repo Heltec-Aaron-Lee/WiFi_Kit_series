@@ -147,7 +147,7 @@ br_ecdsa_i15_sign_raw(const br_ec_impl *impl,
 	 */
 	br_i15_from_monty(k, n, n0i);
 	br_i15_from_monty(k, n, n0i);
-	memcpy(tt, cd->order, nlen);
+	memcpy_P(tt, cd->order, nlen);
 	tt[nlen - 1] -= 2;
 	br_i15_modpow(k, tt, nlen, n, n0i, t1, t2);
 

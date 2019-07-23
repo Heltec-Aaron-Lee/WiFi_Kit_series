@@ -215,7 +215,7 @@ sha2small_update(br_sha224_context *cc, const void *data, size_t len)
 		if (clen > len) {
 			clen = len;
 		}
-		memcpy(cc->buf + ptr, buf, clen);
+		memcpy_P(cc->buf + ptr, buf, clen);
 		ptr += clen;
 		buf += clen;
 		len -= clen;

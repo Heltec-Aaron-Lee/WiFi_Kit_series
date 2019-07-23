@@ -74,14 +74,14 @@ static const uint16_t C255_A24[] = {
 	0x0000
 };
 
-static const unsigned char GEN[] = {
+static const unsigned char GEN[] PROGMEM = {
 	0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-static const unsigned char ORDER[] = {
+static const unsigned char ORDER[] PROGMEM = {
 	0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -135,7 +135,7 @@ c255_add(uint16_t *d, const uint16_t *a, const uint16_t *b)
 	uint32_t ctl;
 	uint16_t t[18];
 
-	memcpy(t, a, sizeof t);
+	memcpy_P(t, a, sizeof t);
 	ctl = br_i15_add(t, b, 1);
 	ctl |= NOT(br_i15_sub(t, C255_P, 0));
 	br_i15_sub(t, C255_P, ctl);
@@ -147,7 +147,7 @@ c255_sub(uint16_t *d, const uint16_t *a, const uint16_t *b)
 {
 	uint16_t t[18];
 
-	memcpy(t, a, sizeof t);
+	memcpy_P(t, a, sizeof t);
 	br_i15_add(t, C255_P, br_i15_sub(t, b, 1));
 	memcpy(d, t, sizeof t);
 }
@@ -240,7 +240,7 @@ api_mul(unsigned char *G, size_t Glen,
 	memcpy(z3, x2, ILEN);
 
 	memset(k, 0, (sizeof k) - kblen);
-	memcpy(k + (sizeof k) - kblen, kb, kblen);
+	memcpy_P(k + (sizeof k) - kblen, kb, kblen);
 	k[31] &= 0xF8;
 	k[0] &= 0x7F;
 	k[0] |= 0x40;

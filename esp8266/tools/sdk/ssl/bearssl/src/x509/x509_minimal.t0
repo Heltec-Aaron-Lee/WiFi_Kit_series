@@ -323,14 +323,14 @@ eqbigint(const unsigned char *b1, size_t len1,
 		b1 ++;
 		len1 --;
 	}
-	while (len2 > 0 && *b2 == 0) {
+	while (len2 > 0 && pgm_read_byte(b2) == 0) {
 		b2 ++;
 		len2 --;
 	}
 	if (len1 != len2) {
 		return 0;
 	}
-	return memcmp(b1, b2, len1) == 0;
+	return memcmp_P(b1, b2, len1) == 0;
 }
 
 /*
@@ -382,7 +382,7 @@ static int check_single_direct_trust(br_x509_minimal_context *ctx,
 		return 0;
 	}
 	kt = ctx->pkey.key_type;
-	if ((ta->pkey.key_type & 0x0F) != kt) {
+	if ((pgm_read_byte(&ta->pkey.key_type) & 0x0F) != kt) {
 		return 0;
 	}
 	switch (kt) {
@@ -402,7 +402,7 @@ static int check_single_direct_trust(br_x509_minimal_context *ctx,
 	case BR_KEYTYPE_EC:
 		if (ctx->pkey.key.ec.curve != ta->pkey.key.ec.curve
 			|| ctx->pkey.key.ec.qlen != ta->pkey.key.ec.qlen
-			|| memcmp(ctx->pkey.key.ec.q,
+			|| memcmp_P(ctx->pkey.key.ec.q,
 				ta->pkey.key.ec.q,
 				ta->pkey.key.ec.qlen) != 0)
 		{
@@ -456,7 +456,7 @@ verify_signature(br_x509_minimal_context *ctx, const br_x509_pkey *pk)
 	int kt;
 
 	kt = ctx->cert_signer_key_type;
-	if ((pk->key_type & 0x0F) != kt) {
+	if ((pgm_read_byte(&pk->key_type) & 0x0F) != kt) {
 		return BR_ERR_X509_WRONG_KEY_TYPE;
 	}
 	switch (kt) {

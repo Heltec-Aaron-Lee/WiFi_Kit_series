@@ -11,7 +11,7 @@ BUILD = esp8266m32
 TOOLCHAIN_PREFIX := xtensa-lx106-elf-
 CC := $(TOOLCHAIN_PREFIX)gcc
 CFLAGS = -W -Wall -g -Os -Wpointer-arith -Wl,-EL -nostdlib -mlongcalls -mno-text-section-literals -ffunction-sections -fdata-sections -Werror
-CFLAGS += -D__ets__ -DICACHE_FLASH -DESP8266 -DESP8266M32
+CFLAGS += -D__ets__ -DICACHE_FLASH -DESP8266 -DESP8266M32 -DPGM_READ_UNALIGNED=0
 LD := $(TOOLCHAIN_PREFIX)ld
 AR := $(TOOLCHAIN_PREFIX)ar
 

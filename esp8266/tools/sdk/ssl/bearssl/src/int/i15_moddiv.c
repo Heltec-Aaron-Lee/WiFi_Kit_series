@@ -81,7 +81,7 @@ finish_mod(uint16_t *a, size_t len, const uint16_t *m, uint32_t neg)
 		uint32_t aw, mw;
 
 		aw = a[k];
-		mw = m[k];
+		mw = pgm_read_word(&m[k]);
 		cc = (aw - mw - cc) >> 31;
 	}
 
@@ -98,7 +98,7 @@ finish_mod(uint16_t *a, size_t len, const uint16_t *m, uint32_t neg)
 		uint32_t aw, mw;
 
 		aw = a[k];
-		mw = (m[k] ^ xm) & ym;
+		mw = (pgm_read_word(&m[k]) ^ xm) & ym;
 		aw = aw - mw - cc;
 		a[k] = aw & 0x7FFF;
 		cc = aw >> 31;
@@ -202,9 +202,9 @@ co_reduce_mod(uint16_t *a, uint16_t *b, size_t len,
 		wa = a[k];
 		wb = b[k];
 		za = wa * (uint32_t)pa + wb * (uint32_t)pb
-			+ m[k] * (uint32_t)fa + (uint32_t)cca;
+			+ pgm_read_word(&m[k]) * (uint32_t)fa + (uint32_t)cca;
 		zb = wa * (uint32_t)qa + wb * (uint32_t)qb
-			+ m[k] * (uint32_t)fb + (uint32_t)ccb;
+			+ pgm_read_word(&m[k]) * (uint32_t)fb + (uint32_t)ccb;
 		if (k > 0) {
 			a[k - 1] = za & 0x7FFF;
 			b[k - 1] = zb & 0x7FFF;
@@ -305,20 +305,20 @@ br_i15_moddiv(uint16_t *x, const uint16_t *y, const uint16_t *m, uint16_t m0i,
 	uint16_t *a, *b, *u, *v;
 	uint32_t num, r;
 
-	len = (m[0] + 15) >> 4;
+	len = (pgm_read_word(&m[0]) + 15) >> 4;
 	a = t;
 	b = a + len;
 	u = x + 1;
 	v = b + len;
-	memcpy(a, y + 1, len * sizeof *y);
-	memcpy(b, m + 1, len * sizeof *m);
+	memcpy_P(a, y + 1, len * sizeof *y);
+	memcpy_P(b, m + 1, len * sizeof *m);
 	memset(v, 0, len * sizeof *v);
 
 	/*
 	 * Loop below ensures that a and b are reduced by some bits each,
 	 * for a total of at least 14 bits.
 	 */
-	for (num = ((m[0] - (m[0] >> 4)) << 1) + 14; num >= 14; num -= 14) {
+	for (num = ((pgm_read_word(&m[0]) - (pgm_read_word(&m[0]) >> 4)) << 1) + 14; num >= 14; num -= 14) {
 		size_t j;
 		uint32_t c0, c1;
 		uint32_t a0, a1, b0, b1;

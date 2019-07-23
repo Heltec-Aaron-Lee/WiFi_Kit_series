@@ -285,7 +285,7 @@ do_ecdhe_part1(br_ssl_server_context *ctx, int curve)
 	 */
 	order = ctx->eng.iec->order(curve, &olen);
 	mask = 0xFF;
-	while (mask >= order[0]) {
+	while (mask >= pgm_read_byte(&order[0])) {
 		mask >>= 1;
 	}
 	br_hmac_drbg_generate(&ctx->eng.rng, ctx->ecdhe_key, olen);

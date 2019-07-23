@@ -69,6 +69,7 @@ cc_choose(const br_ssl_client_certificate_class **pctx,
 /*
  * OID for hash functions in RSA signatures.
  */
+#if 0
 static const unsigned char HASH_OID_SHA1[] = {
 	0x05, 0x2B, 0x0E, 0x03, 0x02, 0x1A
 };
@@ -78,16 +79,23 @@ static const unsigned char HASH_OID_SHA224[] = {
 };
 
 static const unsigned char HASH_OID_SHA256[] = {
-	0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01
+        0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01
 };
 
 static const unsigned char HASH_OID_SHA384[] = {
-	0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x02
+        0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x02
 };
 
 static const unsigned char HASH_OID_SHA512[] = {
 	0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x03
 };
+#endif
+// EFP3 - use copy of these present in another file.  GCC won't merge local static arrays, even if they're equal, it seems
+extern const unsigned char HASH_OID_SHA1[];
+extern const unsigned char HASH_OID_SHA224[];
+extern const unsigned char HASH_OID_SHA256[];
+extern const unsigned char HASH_OID_SHA384[];
+extern const unsigned char HASH_OID_SHA512[];
 
 static const unsigned char *HASH_OID[] PROGMEM = {
 	HASH_OID_SHA1,

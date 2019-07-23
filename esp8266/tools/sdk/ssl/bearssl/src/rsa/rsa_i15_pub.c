@@ -50,7 +50,7 @@ br_rsa_i15_public(unsigned char *x, size_t xlen,
 	 */
 	n = pk->n;
 	nlen = pk->nlen;
-	while (nlen > 0 && *n == 0) {
+	while (nlen > 0 && pgm_read_byte(n) == 0) {
 		n ++;
 		nlen --;
 	}

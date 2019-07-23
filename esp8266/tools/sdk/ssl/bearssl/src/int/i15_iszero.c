@@ -32,8 +32,8 @@ br_i15_iszero(const uint16_t *x)
 	size_t u;
 
 	z = 0;
-	for (u = (x[0] + 15) >> 4; u > 0; u --) {
-		z |= x[u];
+	for (u = (pgm_read_word(&x[0]) + 15) >> 4; u > 0; u --) {
+		z |= pgm_read_word(&x[u]);
 	}
 	return ~(z | -z) >> 31;
 }

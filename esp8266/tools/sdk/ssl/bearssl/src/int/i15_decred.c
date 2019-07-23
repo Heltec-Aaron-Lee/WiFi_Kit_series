@@ -38,7 +38,7 @@ br_i15_decode_reduce(uint16_t *x,
 	/*
 	 * Get the encoded bit length.
 	 */
-	m_ebitlen = m[0];
+	m_ebitlen = pgm_read_word(&m[0]);
 
 	/*
 	 * Special case for an invalid (null) modulus.
@@ -78,7 +78,7 @@ br_i15_decode_reduce(uint16_t *x,
 	while (k < len) {
 		uint32_t v;
 
-		v = buf[k ++];
+		v = pgm_read_byte(&buf[k ++]);
 		acc = (acc << 8) | v;
 		acc_len += 8;
 		if (acc_len >= 15) {

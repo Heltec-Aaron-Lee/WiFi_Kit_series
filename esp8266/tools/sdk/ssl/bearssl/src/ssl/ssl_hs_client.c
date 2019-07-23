@@ -296,7 +296,7 @@ make_pms_ecdh(br_ssl_client_context *ctx, unsigned ecdhe, int prf_id)
 	 */
 	order = ctx->eng.iec->order(curve, &olen);
 	mask = 0xFF;
-	while (mask >= order[0]) {
+	while (mask >= pgm_read_byte(&order[0])) {
 		mask >>= 1;
 	}
 	br_hmac_drbg_generate(&ctx->eng.rng, key, olen);
@@ -312,7 +312,7 @@ make_pms_ecdh(br_ssl_client_context *ctx, unsigned ecdhe, int prf_id)
 		return -BR_ERR_INVALID_ALGORITHM;
 	}
 
-	memcpy(point, point_src, glen);
+	memcpy_P(point, point_src, glen);
 	if (!ctx->eng.iec->mul(point, glen, key, olen, curve)) {
 		return -BR_ERR_INVALID_ALGORITHM;
 	}

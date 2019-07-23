@@ -37,7 +37,7 @@ br_i15_add(uint16_t *a, const uint16_t *b, uint32_t ctl)
 		uint32_t aw, bw, naw;
 
 		aw = a[u];
-		bw = b[u];
+		bw = pgm_read_word(&b[u]);
 		naw = aw + bw + cc;
 		cc = naw >> 15;
 		a[u] = MUX(ctl, naw & 0x7FFF, aw);

@@ -114,7 +114,7 @@ br_ecdsa_i15_vrfy_raw(const br_ec_impl *impl,
 	 * the inversion (because (1/s)*R = 1/(s/R)).
 	 */
 	br_i15_from_monty(s, n, n0i);
-	memcpy(tx, cd->order, nlen);
+	memcpy_P(tx, cd->order, nlen);
 	tx[nlen - 1] -= 2;
 	br_i15_modpow(s, tx, nlen, n, n0i, t1, t2);
 

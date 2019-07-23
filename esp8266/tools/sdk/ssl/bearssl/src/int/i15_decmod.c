@@ -57,7 +57,7 @@ br_i15_decode_mod(uint16_t *x, const void *src, size_t len, const uint16_t *m)
 	uint32_t r;
 
 	buf = src;
-	mlen = (m[0] + 15) >> 4;
+	mlen = (pgm_read_word(&m[0]) + 15) >> 4;
 	tlen = (mlen << 1);
 	if (tlen < len) {
 		tlen = len;
@@ -76,7 +76,7 @@ br_i15_decode_mod(uint16_t *x, const void *src, size_t len, const uint16_t *m)
 			uint32_t b;
 
 			if (u < len) {
-				b = buf[len - 1 - u];
+				b = pgm_read_byte(&buf[len - 1 - u]);
 			} else {
 				b = 0;
 			}
@@ -94,7 +94,7 @@ br_i15_decode_mod(uint16_t *x, const void *src, size_t len, const uint16_t *m)
 					} else {
 						uint32_t cc;
 
-						cc = (uint32_t)CMP(xw, m[v]);
+						cc = (uint32_t)CMP(xw, pgm_read_word(&m[v]));
 						r = MUX(EQ(cc, 0), r, cc);
 					}
 				} else {
@@ -119,6 +119,6 @@ br_i15_decode_mod(uint16_t *x, const void *src, size_t len, const uint16_t *m)
 		r |= (r << 1);
 	}
 
-	x[0] = m[0];
+	x[0] = pgm_read_word(&m[0]);
 	return r & (uint32_t)1;
 }

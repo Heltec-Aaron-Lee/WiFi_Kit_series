@@ -39,7 +39,7 @@ br_i15_modpow_opt(uint16_t *x,
 	/*
 	 * Get modulus size.
 	 */
-	mwlen = (m[0] + 31) >> 4;
+	mwlen = (pgm_read_word(&m[0]) + 31) >> 4;
 	mlen = mwlen * sizeof m[0];
 	mwlen += (mwlen & 1);
 	t1 = tmp;
@@ -86,8 +86,8 @@ br_i15_modpow_opt(uint16_t *x,
 	 * be done efficiently by setting the high word to 1, then doing
 	 * one word-sized shift.
 	 */
-	br_i15_zero(x, m[0]);
-	x[(m[0] + 15) >> 4] = 1;
+	br_i15_zero(x, pgm_read_word(&m[0]));
+	x[(pgm_read_word(&m[0]) + 15) >> 4] = 1;
 	br_i15_muladd_small(x, 0, m);
 
 	/*
@@ -106,7 +106,7 @@ br_i15_modpow_opt(uint16_t *x,
 		k = win_len;
 		if (acc_len < win_len) {
 			if (elen > 0) {
-				acc = (acc << 8) | *e ++;
+				acc = (acc << 8) | pgm_read_byte(&*e ++);
 				elen --;
 				acc_len += 8;
 			} else {
@@ -131,7 +131,7 @@ br_i15_modpow_opt(uint16_t *x,
 		 * already set; otherwise, we do a constant-time lookup.
 		 */
 		if (win_len > 1) {
-			br_i15_zero(t2, m[0]);
+			br_i15_zero(t2, pgm_read_word(&m[0]));
 			base = t2 + mwlen;
 			for (u = 1; u < ((uint32_t)1 << k); u ++) {
 				uint32_t mask;

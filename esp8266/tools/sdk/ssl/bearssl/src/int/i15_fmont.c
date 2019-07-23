@@ -30,7 +30,7 @@ br_i15_from_monty(uint16_t *x, const uint16_t *m, uint16_t m0i)
 {
 	size_t len, u, v;
 
-	len = (m[0] + 15) >> 4;
+	len = (pgm_read_word(&m[0]) + 15) >> 4;
 	for (u = 0; u < len; u ++) {
 		uint32_t f, cc;
 
@@ -39,7 +39,7 @@ br_i15_from_monty(uint16_t *x, const uint16_t *m, uint16_t m0i)
 		for (v = 0; v < len; v ++) {
 			uint32_t z;
 
-			z = (uint32_t)x[v + 1] + MUL15(f, m[v + 1]) + cc;
+			z = (uint32_t)x[v + 1] + MUL15(f, pgm_read_word(&m[v + 1])) + cc;
 			cc = z >> 15;
 			if (v != 0) {
 				x[v] = z & 0x7FFF;

@@ -66,14 +66,14 @@ br_i15_muladd_small(uint16_t *x, uint16_t z, const uint16_t *m)
 	/*
 	 * Simple case: the modulus fits on one word.
 	 */
-	m_bitlen = m[0];
+	m_bitlen = pgm_read_word(&m[0]);
 	if (m_bitlen == 0) {
 		return;
 	}
 	if (m_bitlen <= 15) {
 		uint32_t rem;
 
-		divrem16(((uint32_t)x[1] << 15) | z, m[1], &rem);
+		divrem16(((uint32_t)x[1] << 15) | z, pgm_read_word(&m[1]), &rem);
 		x[1] = rem;
 		return;
 	}
@@ -112,14 +112,14 @@ br_i15_muladd_small(uint16_t *x, uint16_t z, const uint16_t *m)
 		memmove(x + 2, x + 1, (mlen - 1) * sizeof *x);
 		x[1] = z;
 		a = (a0 << 15) + x[mlen];
-		b = m[mlen];
+		b = pgm_read_word(&m[mlen]);
 	} else {
 		a0 = (x[mlen] << (15 - mblr)) | (x[mlen - 1] >> mblr);
 		memmove(x + 2, x + 1, (mlen - 1) * sizeof *x);
 		x[1] = z;
 		a = (a0 << 15) | (((x[mlen] << (15 - mblr))
 			| (x[mlen - 1] >> mblr)) & 0x7FFF);
-		b = (m[mlen] << (15 - mblr)) | (m[mlen - 1] >> mblr);
+		b = (pgm_read_word(&m[mlen]) << (15 - mblr)) | (pgm_read_word(&m[mlen - 1]) >> mblr);
 	}
 	q = divrem16(a, b, NULL);
 
@@ -147,7 +147,7 @@ br_i15_muladd_small(uint16_t *x, uint16_t z, const uint16_t *m)
 	for (u = 1; u <= mlen; u ++) {
 		uint32_t mw, zl, xw, nxw;
 
-		mw = m[u];
+		mw = pgm_read_word(&m[u]);
 		zl = MUL15(mw, q) + cc;
 		cc = zl >> 15;
 		zl &= 0x7FFF;

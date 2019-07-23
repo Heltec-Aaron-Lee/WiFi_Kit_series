@@ -7,6 +7,6 @@
 include conf/Unix.mk
 
 BUILD = build32
-CFLAGS = -W -Wall -Os -fPIC -m32 -DBR_LOMUL
+CFLAGS = -W -Wall -Os -fPIC -m32 -DBR_LOMUL -DBR_SLOW_MUL15=1
 LDFLAGS = -m32
 LDDLLFLAGS = -shared -m32

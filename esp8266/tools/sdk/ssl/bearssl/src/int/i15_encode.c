@@ -33,7 +33,7 @@ br_i15_encode(void *dst, size_t len, const uint16_t *x)
 	uint32_t acc;
 	int acc_len;
 
-	xlen = (x[0] + 15) >> 4;
+	xlen = (pgm_read_word(&x[0]) + 15) >> 4;
 	if (xlen == 0) {
 		memset(dst, 0, len);
 		return;
@@ -45,7 +45,7 @@ br_i15_encode(void *dst, size_t len, const uint16_t *x)
 	while (len -- > 0) {
 		if (acc_len < 8) {
 			if (u <= xlen) {
-				acc += (uint32_t)x[u ++] << acc_len;
+				acc += (uint32_t)pgm_read_word(&x[u ++]) << acc_len;
 			}
 			acc_len += 15;
 		}
