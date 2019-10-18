@@ -47,7 +47,6 @@ extern "C" {
 
 #include "esp32-hal-log.h"
 #include <vector>
-
 #include "sdkconfig.h"
 
 static xQueueHandle _network_event_queue;
@@ -133,24 +132,19 @@ static bool wifiLowLevelDeinit(){
 
 static bool _esp_wifi_started = false;
 
-static bool espWiFiStart(bool persistent){
+static bool espWiFiStart(){
     if(_esp_wifi_started){
         return true;
-    }
-    if(!wifiLowLevelInit(persistent)){
-        return false;
     }
     esp_err_t err = esp_wifi_start();
     if (err != ESP_OK) {
         log_e("esp_wifi_start %d", err);
-        wifiLowLevelDeinit();
         return false;
     }
     _esp_wifi_started = true;
     system_event_t event;
     event.event_id = SYSTEM_EVENT_WIFI_READY;
     WiFiGenericClass::_eventCallback(nullptr, &event);
-
     return true;
 }
 
@@ -190,6 +184,7 @@ wifi_event_id_t WiFiEventCbList::current_id = 1;
 static std::vector<WiFiEventCbList_t> cbEventList;
 
 bool WiFiGenericClass::_persistent = true;
+bool WiFiGenericClass::_long_range = false;
 wifi_mode_t WiFiGenericClass::_forceSleepLastMode = WIFI_MODE_NULL;
 
 WiFiGenericClass::WiFiGenericClass()
@@ -367,7 +362,7 @@ esp_err_t WiFiGenericClass::_eventCallback(void *arg, system_event_t *event)
             (reason >= WIFI_REASON_BEACON_TIMEOUT && reason != WIFI_REASON_AUTH_FAIL)) &&
             WiFi.getAutoReconnect())
         {
-            WiFi.disconnect(true);
+            WiFi.disconnect();
             WiFi.begin();
         }
     } else if(event->event_id == SYSTEM_EVENT_STA_GOT_IP) {
@@ -472,6 +467,16 @@ void WiFiGenericClass::persistent(bool persistent)
 
 
 /**
+ * enable WiFi long range mode
+ * @param enable
+ */
+void WiFiGenericClass::enableLongRange(bool enable)
+{
+    _long_range = enable;
+}
+
+
+/**
  * set new mode
  * @param m WiFiMode_t
  */
@@ -482,7 +487,7 @@ bool WiFiGenericClass::mode(wifi_mode_t m)
         return true;
     }
     if(!cm && m){
-        if(!espWiFiStart(_persistent)){
+        if(!wifiLowLevelInit(_persistent)){
             return false;
         }
     } else if(cm && !m){
@@ -495,6 +500,25 @@ bool WiFiGenericClass::mode(wifi_mode_t m)
         log_e("Could not set mode! %d", err);
         return false;
     }
+    if(_long_range){
+        if(m & WIFI_MODE_STA){
+            err = esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_LR);
+            if(err != ESP_OK){
+                log_e("Could not enable long range on STA! %d", err);
+                return false;
+            }
+        }
+        if(m & WIFI_MODE_AP){
+            err = esp_wifi_set_protocol(WIFI_IF_AP, WIFI_PROTOCOL_LR);
+            if(err != ESP_OK){
+                log_e("Could not enable long range on AP! %d", err);
+                return false;
+            }
+        }
+    }
+    if(!espWiFiStart()){
+        return false;
+    }
     return true;
 }
 
@@ -504,7 +528,7 @@ bool WiFiGenericClass::mode(wifi_mode_t m)
  */
 wifi_mode_t WiFiGenericClass::getMode()
 {
-    if(!_esp_wifi_started){
+    if(!lowLevelInitDone){
         return WIFI_MODE_NULL;
     }
     wifi_mode_t mode;
@@ -656,3 +680,45 @@ int WiFiGenericClass::hostByName(const char* aHostname, IPAddress& aResult)
     return (uint32_t)aResult != 0;
 }
 
+IPAddress WiFiGenericClass::calculateNetworkID(IPAddress ip, IPAddress subnet) {
+	IPAddress networkID;
+
+	for (size_t i = 0; i < 4; i++)
+		networkID[i] = subnet[i] & ip[i];
+
+	return networkID;
+}
+
+IPAddress WiFiGenericClass::calculateBroadcast(IPAddress ip, IPAddress subnet) {
+    IPAddress broadcastIp;
+    
+    for (int i = 0; i < 4; i++)
+        broadcastIp[i] = ~subnet[i] | ip[i];
+
+    return broadcastIp;
+}
+
+uint8_t WiFiGenericClass::calculateSubnetCIDR(IPAddress subnetMask) {
+	uint8_t CIDR = 0;
+
+	for (uint8_t i = 0; i < 4; i++) {
+		if (subnetMask[i] == 0x80)  // 128
+			CIDR += 1;
+		else if (subnetMask[i] == 0xC0)  // 192
+			CIDR += 2;
+		else if (subnetMask[i] == 0xE0)  // 224
+			CIDR += 3;
+		else if (subnetMask[i] == 0xF0)  // 242
+			CIDR += 4;
+		else if (subnetMask[i] == 0xF8)  // 248
+			CIDR += 5;
+		else if (subnetMask[i] == 0xFC)  // 252
+			CIDR += 6;
+		else if (subnetMask[i] == 0xFE)  // 254
+			CIDR += 7;
+		else if (subnetMask[i] == 0xFF)  // 255
+			CIDR += 8;
+	}
+
+	return CIDR;
+}

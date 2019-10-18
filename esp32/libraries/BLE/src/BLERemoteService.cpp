@@ -14,6 +14,8 @@
 #include <esp_err.h>
 #include "esp32-hal-log.h"
 
+#pragma GCC diagnostic warning "-Wunused-but-set-parameter"
+
 BLERemoteService::BLERemoteService(
 		esp_gatt_id_t srvcId,
 		BLEClient*    pClient,
@@ -164,7 +166,7 @@ void BLERemoteService::retrieveCharacteristics() {
 	uint16_t offset = 0;
 	esp_gattc_char_elem_t result;
 	while (true) {
-		uint16_t count = 10;  // this value is used as in parameter that allows to search max 10 chars with the same uuid
+		uint16_t count = 1; // only room for 1 result allocated, so go one by one
 		esp_gatt_status_t status = ::esp_ble_gattc_get_all_char(
 			getClient()->getGattcIf(),
 			getClient()->getConnId(),
@@ -225,10 +227,23 @@ std::map<std::string, BLERemoteCharacteristic*>* BLERemoteService::getCharacteri
 } // getCharacteristics
 
 /**
+ * @brief Retrieve a map of all the characteristics of this service.
+ * @return A map of all the characteristics of this service.
+ */
+std::map<uint16_t, BLERemoteCharacteristic*>* BLERemoteService::getCharacteristicsByHandle() {
+	// If is possible that we have not read the characteristics associated with the service so do that
+	// now.  The request to retrieve the characteristics by calling "retrieveCharacteristics" is a blocking
+	// call and does not return until all the characteristics are available.
+	if (!m_haveCharacteristics) {
+		retrieveCharacteristics();
+	}
+	return &m_characteristicMapByHandle;
+} // getCharacteristicsByHandle
+
+/**
  * @brief This function is designed to get characteristics map when we have multiple characteristics with the same UUID
  */
 void BLERemoteService::getCharacteristics(std::map<uint16_t, BLERemoteCharacteristic*>* pCharacteristicMap) {
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 	pCharacteristicMap = &m_characteristicMapByHandle;
 }  // Get the characteristics map.
 

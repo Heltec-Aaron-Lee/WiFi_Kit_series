@@ -69,6 +69,7 @@ CORE_CPP_FILES := $(addprefix $(CORE_PATH)/,\
 	libb64/cdecode.cpp \
 	Schedule.cpp \
 	HardwareSerial.cpp \
+	crc32.cpp \
 	) \
 	$(addprefix $(LIBRARIES_PATH)/ESP8266SdFat/src/, \
 		FatLib/FatFile.cpp \
@@ -287,6 +288,7 @@ MOCK_ARDUINO_LIBS := $(addprefix common/,\
 	MockEsp.cpp \
 	MockEEPROM.cpp \
 	MockSPI.cpp \
+	strl.cpp \
 )
 
 CPP_SOURCES_CORE_EMU = \

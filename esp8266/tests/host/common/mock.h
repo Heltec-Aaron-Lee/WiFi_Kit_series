@@ -37,6 +37,7 @@
 #ifdef __cplusplus
 #include <vector>
 #endif
+#include <stddef.h>
 
 
 #ifdef __cplusplus
@@ -49,6 +50,8 @@ char* ltoa (long val, char *s, int radix);
 }
 #endif
 
+size_t strlcat(char *dst, const char *src, size_t size);
+size_t strlcpy(char *dst, const char *src, size_t size);
 
 // exotic typedefs used in the sdk
 
@@ -82,7 +85,7 @@ int ets_printf (const char* fmt, ...) __attribute__ ((format (printf, 1, 2)));
 int mockverbose (const char* fmt, ...) __attribute__ ((format (printf, 1, 2)));
 
 extern const char* host_interface; // cmdline parameter
-
+extern bool serial_timestamp;
 extern int mock_port_shifter;
 
 #define NO_GLOBAL_BINDING 0xffffffff
