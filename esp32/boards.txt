@@ -263,6 +263,7 @@ wifi_lora_32_V2.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-p
 
 wifi_lora_32_V2.menu.PartitionScheme.default=default_8MB
 wifi_lora_32_V2.menu.PartitionScheme.default.build.partitions=default_8MB
+wifi_lora_32_V2.menu.PartitionScheme.default.upload.maximum_size=3342336‬
 wifi_lora_32_V2.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
 wifi_lora_32_V2.menu.PartitionScheme.minimal.build.partitions=minimal
 wifi_lora_32_V2.menu.PartitionScheme.no_ota=No OTA (Large APP)
