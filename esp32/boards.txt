@@ -236,7 +236,7 @@ wifi_lora_32.menu.DebugLevel.verbose.build.code_debug=5
 wifi_lora_32_V2.name=WiFi LoRa 32(V2)
 
 wifi_lora_32_V2.upload.tool=esptool_py
-wifi_lora_32_V2.upload.maximum_size=1310720
+wifi_lora_32_V2.upload.maximum_size=3342336
 wifi_lora_32_V2.upload.maximum_data_size=327680
 wifi_lora_32_V2.upload.wait_for_upload_port=true
 
@@ -263,7 +263,6 @@ wifi_lora_32_V2.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-p
 
 wifi_lora_32_V2.menu.PartitionScheme.default=default_8MB
 wifi_lora_32_V2.menu.PartitionScheme.default.build.partitions=default_8MB
-wifi_lora_32_V2.menu.PartitionScheme.default.upload.maximum_size=3342336‬
 wifi_lora_32_V2.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
 wifi_lora_32_V2.menu.PartitionScheme.minimal.build.partitions=minimal
 wifi_lora_32_V2.menu.PartitionScheme.no_ota=No OTA (Large APP)
@@ -354,7 +353,7 @@ wifi_lora_32_V2.menu.DebugLevel.verbose.build.code_debug=5
 wireless_stick.name=Wireless Stick
 
 wireless_stick.upload.tool=esptool_py
-wireless_stick.upload.maximum_size=1310720
+wireless_stick.upload.maximum_size=3342336
 wireless_stick.upload.maximum_data_size=327680
 wireless_stick.upload.wait_for_upload_port=true
 
