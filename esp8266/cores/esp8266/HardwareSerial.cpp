@@ -36,10 +36,10 @@ HardwareSerial::HardwareSerial(int uart_nr)
     : _uart_nr(uart_nr), _rx_size(256)
 {}
 
-void HardwareSerial::begin(unsigned long baud, SerialConfig config, SerialMode mode, uint8_t tx_pin)
+void HardwareSerial::begin(unsigned long baud, SerialConfig config, SerialMode mode, uint8_t tx_pin, bool invert)
 {
     end();
-    _uart = uart_init(_uart_nr, baud, (int) config, (int) mode, tx_pin, _rx_size);
+    _uart = uart_init(_uart_nr, baud, (int) config, (int) mode, tx_pin, _rx_size, invert);
 #if defined(DEBUG_ESP_PORT) && !defined(NDEBUG)
     if (static_cast<void*>(this) == static_cast<void*>(&DEBUG_ESP_PORT))
     {
@@ -66,7 +66,7 @@ void HardwareSerial::updateBaudRate(unsigned long baud)
         return;
     }
 
-    uart_set_baudrate(_uart, baud);    
+    uart_set_baudrate(_uart, baud);
 }
 
 size_t HardwareSerial::setRxBufferSize(size_t size){
@@ -133,14 +133,14 @@ unsigned long HardwareSerial::testBaudrate()
 unsigned long HardwareSerial::detectBaudrate(time_t timeoutMillis)
 {
     esp8266::polledTimeout::oneShotFastMs timeOut(timeoutMillis);
-    unsigned long detectedBaudrate;
+    unsigned long detectedBaudrate = 0;
     while (!timeOut) {
         if ((detectedBaudrate = testBaudrate())) {
           break;
         }
         yield();
         delay(100);
-    }    
+    }
     return detectedBaudrate;
 }
 
