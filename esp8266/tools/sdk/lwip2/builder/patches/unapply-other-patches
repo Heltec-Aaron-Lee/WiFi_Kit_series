@@ -1,0 +1,14 @@
+
+[ -f "$1" ] || { echo "give the one to keep, others will be reverted"; exit 1; }
+
+not=$(ls -i "$1" | awk '{print $1;}')
+
+for p in *.patch; do
+    i=$(ls -i "$p" | awk '{print $1;}')
+    if [ "$i" = "$not" ]; then
+        echo NOT $p
+    else
+        echo $p
+        (cd ../lwip2-src/; patch -p1 -R < ../patches/$p)
+    fi
+done

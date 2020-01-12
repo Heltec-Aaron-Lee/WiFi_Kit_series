@@ -1,0 +1,26 @@
+
+V ?= 0
+ifeq ($(V), 0)
+VERBC = @echo "C  $@";
+VERBAR = @echo "AR $@";
+else
+VERBC =
+VERBAR = 
+endif
+
+# (0,0):g++ otherwise gcc
+ifeq (1,0)
+CC			= $(TOOLS)g++
+BUILD_FLAGS 		+= -std=c++11 -DTRUE=true -DFALSE=false
+else
+CC			= $(VERBC) $(TOOLS)gcc
+BUILD_FLAGS 		+= -std=gnu99
+endif
+
+AR			= $(VERBAR) $(TOOLS)ar
+OC			= $(TOOLS)objcopy
+OD			= $(TOOLS)objdump
+
+BUILD			?= build
+BUILD_FLAGS += -Wall -Wextra -c -Os -g -Wpointer-arith -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -falign-functions=4 -MMD -ffunction-sections -fdata-sections
+BUILD_DEFINES = -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -DLWIP_OPEN_SRC -DLWIP_BUILD -DUSE_OPTIMIZE_PRINTF -DTARGET=$(target) -D$(DEFINE_TARGET)=1 -DTCP_MSS=$(TCP_MSS) -DLWIP_FEATURES=$(LWIP_FEATURES) -DLWIP_IPV6=$(LWIP_IPV6)

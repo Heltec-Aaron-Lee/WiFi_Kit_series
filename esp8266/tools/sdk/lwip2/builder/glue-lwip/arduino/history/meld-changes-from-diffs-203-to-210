@@ -1,0 +1,12 @@
+
+grep ^#define lwipopts-203.h | grep -v DEBUG > lwipopts-203.h.tmp
+grep ^#define original-opts-203.h | grep -v DEBUG > original-opts-203.h.tmp
+diff -U 1 original-opts-203.h.tmp lwipopts-203.h.tmp | grep '^\+' > changes203.tmp
+
+grep ^#define ../lwipopts.h | grep -v DEBUG > lwipopts-210.h.tmp
+grep ^#define original-opts-210.h | grep -v DEBUG > original-opts-210.h.tmp
+diff -U 1 original-opts-210.h.tmp lwipopts-210.h.tmp | grep '^\+' > changes210.tmp
+
+meld changes203.tmp changes210.tmp
+
+rm -f *.tmp

@@ -1,0 +1,5 @@
+NAPT for lwIP-2.1.2
+This is based on
+    https://github.com/jonask1337/esp-lwip (patch for lwIP-2.0.3)
+which is based on
+    https://github.com/NeoCat/esp8266-Arduino/tree/ip_napt (patch for lwIP-1.4.0rc2)

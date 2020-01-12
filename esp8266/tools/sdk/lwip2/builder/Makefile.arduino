@@ -1,0 +1,21 @@
+
+%:
+	for v6 in 0 1; do \
+	for mss in 536 1460; do \
+	for feat in 0 1; do \
+		test \( $$feat = 0 \) -a \( $$v6 = 1 \) && continue; \
+		featname= ;\
+		test $$feat = 1 && featname=-feat ;\
+		make -f makefiles/Makefile.build-lwip2 \
+			target=arduino \
+			DEFINE_TARGET=ARDUINO \
+			SDK=../.. \
+			LWIP_ESP=../../lwip/include \
+			LWIP_LIB=liblwip$$((2+4*v6))-$$mss$$featname.a \
+			LWIP_LIB_RELEASE=../../lib/liblwip$$((2+4*v6))-$$mss$$featname.a \
+			LWIP_INCLUDES_RELEASE=../include \
+			TOOLS=../../../xtensa-lx106-elf/bin/xtensa-lx106-elf- \
+			TCP_MSS=$$mss LWIP_FEATURES=$$feat LWIP_IPV6=$$v6 \
+			BUILD=build-$$mss$$featname-v$$((4+2*v6)) \
+			$@ ; \
+	done; done; done
