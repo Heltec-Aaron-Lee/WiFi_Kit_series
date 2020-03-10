@@ -1,42 +1,61 @@
-# Steps to install Arduino ESP32 support on Windows
-### Tested on 32 and 64 bit Windows 10 machines
+# Steps to install Heltec ESP32&ESP8266 Arduino support on Windows
+**Tested on 32 and 64 bit Windows 10 machines**
 
-1. Download and install the latest Arduino IDE ```Windows Installer``` from [arduino.cc](https://www.arduino.cc/en/Main/Software)
-2. Download and install Git from [git-scm.com](https://git-scm.com/download/win)
--  If you don't install Git,you choose ```dowload zip``` from the home page and Unzip the file to ```/Documents/Arduino/hardware/heltec```  ,Skip steps three to step four
-3. Execute the command under the **\Documents\Arduino\hardware** path
-   Start ```Git Bash``` and run through the following steps:
+Before operation, please make sure Git and Arduino are correctly installed on you computer. If not, please refer to this document: [How to install Git and Arduino IDE](https://heltec-automation-docs.readthedocs.io/en/latest/general/how_to_install_git_and_arduino.html)
 
-    - Input ```git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec ```
+&nbsp;
 
-        ![Step 3](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/location.png)
+Executed commands **MUST** under the **user name/Documents/Arduino/hardware** path!
 
-4. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
+Start ```Git Bash``` and run through the following steps:
 
-     ![Step 4](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/win-gui-6.png)
+ - Input `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec `
 
-5. When ```get.exe``` finishes, you should see the following files in the directory
+![](win-screenshots/location.png)
 
-     ![Step 5](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/esp32-1.png)
+## Finish Arduino ESP32 support on Windows
 
-6. Plug your ESP32 board and wait for the drivers to install (or install manually any that might be required)
-7. Start Arduino IDE
-8. Select your board in ```Tools > Board``` menu ```WiFi_Kit_32```or ```WiFi_LoRa_32```
-9. Select the COM port that the board is attached to
-10. Compile and upload (You might need to hold the ```PRG``` button while uploading)
+Open `/Documents/Arduino/hardware/heltec/esp32/tools` and double-click `get.exe`
 
-    ![Arduino IDE Example](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/InstallGuide/win-screenshots/arduino-ide.png)
-### How to update to the latest code
+![](win-screenshots/win-gui-6.png)
 
-1. Open ```/Documents/Arduino/hardware/heltec``` created start ```Git Bash``` and input ```git pull```!
+When `get.exe` finish, the folder should like this:
 
-    ![Update Step 1](https://github.com/lxyzn/picture/blob/master/git.pull.png)
+![](win-screenshots/esp32-1.png)
 
-2. Wait for git to pull any changes and close ```Git Bash```
-3. Open ```/Documents/Arduino/hardware/heltec/esp32/tools``` and double-click ```get.exe```
+Connect your ESP32 board to computer via a high quality USB cable and wait for the CP2102 drivers install automatically (or [install manually](https://heltec-automation-docs.readthedocs.io/en/latest/general/establish_serial_connection.html)).
 
-    ![Step 4](https://github.com/lxyzn/picture/blob/master/git.pull.png)
+1. Start Arduino IDE
+2. Select your board in ```Tools > Board``` menu `WiFi_Kit_32` or `WiFi_LoRa_32`, etc.
+3. Select the COM port that the board is attached to
+4. Compile and upload (You might need to hold the ```PRG``` button while uploading)
+
+![](win-screenshots/arduino-ide.png)
+
+&nbsp;
 
 
-# Steps to install Arduino ESP8266 support on Windows
-[Please click here](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/esp8266/README.md)
+## Finish Arduino ESP8266 support on Windows
+In the `/Documents/Arduino/hardware/heltec/esp8266/tools`, run the following command to finish ESP8266 tools chain install:
+
+`python get.py`
+
+After `get.py` running finish, the folder should like this:
+
+![](win-screenshots/esp8266.png)
+
+Now the ESP8266 based board are available in the Arduino IDE:
+
+![](win-screenshots/kit8.png)
+
+
+
+## Update to the latest code
+
+Open ```/Documents/Arduino/hardware/heltec``` created start ```Git Bash``` and input ```git pull```!
+
+![](win-screenshots/git-pull.png)
+
+Wait for git to pull any changes and close `Git Bash`.
+
+Open `/Documents/Arduino/hardware/heltec/esp32/tools` and double-click `get.exe`.
