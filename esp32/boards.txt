@@ -6,7 +6,8 @@ menu.FlashSize=Flash Size
 menu.PartitionScheme=Partition Scheme
 menu.DebugLevel=Core Debug Level
 menu.PSRAM=PSRAM
-
+menu.LORAWAN_REGION=LoRaWan Region
+menu.LoRaWanDebugLevel=LoRaWan Debug Level
 ##############################################################
 
 wifi_kit_32.name=WiFi Kit 32
@@ -26,32 +27,18 @@ wifi_kit_32.build.board=WIFI_KIT_32
 
 wifi_kit_32.build.f_cpu=240000000L
 wifi_kit_32.build.flash_size=4MB
-wifi_kit_32.build.flash_freq=40m
+wifi_kit_32.build.flash_freq=80m
 wifi_kit_32.build.flash_mode=dio
 wifi_kit_32.build.boot=dio
 wifi_kit_32.build.partitions=default
 wifi_kit_32.build.defines=
+wifi_kit_32.build.band=LoRaWAN_NONE
+wifi_kit_32.build.LoRaWanDebugLevel=0
 
 wifi_kit_32.menu.PSRAM.disabled=Disabled
 wifi_kit_32.menu.PSRAM.disabled.build.defines=
 wifi_kit_32.menu.PSRAM.enabled=Enabled
 wifi_kit_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
-
-wifi_kit_32.menu.PartitionScheme.default=Default
-wifi_kit_32.menu.PartitionScheme.default.build.partitions=default
-wifi_kit_32.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
-wifi_kit_32.menu.PartitionScheme.minimal.build.partitions=minimal
-wifi_kit_32.menu.PartitionScheme.no_ota=No OTA (Large APP)
-wifi_kit_32.menu.PartitionScheme.no_ota.build.partitions=no_ota
-wifi_kit_32.menu.PartitionScheme.no_ota.upload.maximum_size=2097152
-wifi_kit_32.menu.PartitionScheme.huge_app=Huge APP (3MB No OTA)
-wifi_kit_32.menu.PartitionScheme.huge_app.build.partitions=huge_app
-wifi_kit_32.menu.PartitionScheme.huge_app.upload.maximum_size=3145728
-wifi_kit_32.menu.PartitionScheme.min_spiffs=Minimal SPIFFS (Large APPS with OTA)
-wifi_kit_32.menu.PartitionScheme.min_spiffs.build.partitions=min_spiffs
-wifi_kit_32.menu.PartitionScheme.min_spiffs.upload.maximum_size=1966080
-wifi_kit_32.menu.PartitionScheme.fatflash=16M Fat
-wifi_kit_32.menu.PartitionScheme.fatflash.build.partitions=ffat
 
 wifi_kit_32.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_kit_32.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -59,37 +46,6 @@ wifi_kit_32.menu.CPUFreq.160=160MHz (WiFi/BT)
 wifi_kit_32.menu.CPUFreq.160.build.f_cpu=160000000L
 wifi_kit_32.menu.CPUFreq.80=80MHz (WiFi/BT)
 wifi_kit_32.menu.CPUFreq.80.build.f_cpu=80000000L
-wifi_kit_32.menu.CPUFreq.26=26MHz (26MHz XTAL)
-wifi_kit_32.menu.CPUFreq.26.build.f_cpu=26000000L
-wifi_kit_32.menu.CPUFreq.13=13MHz (26MHz XTAL)
-wifi_kit_32.menu.CPUFreq.13.build.f_cpu=13000000L
-
-wifi_kit_32.menu.FlashMode.qio=QIO
-wifi_kit_32.menu.FlashMode.qio.build.flash_mode=dio
-wifi_kit_32.menu.FlashMode.qio.build.boot=qio
-wifi_kit_32.menu.FlashMode.dio=DIO
-wifi_kit_32.menu.FlashMode.dio.build.flash_mode=dio
-wifi_kit_32.menu.FlashMode.dio.build.boot=dio
-wifi_kit_32.menu.FlashMode.qout=QOUT
-wifi_kit_32.menu.FlashMode.qout.build.flash_mode=dout
-wifi_kit_32.menu.FlashMode.qout.build.boot=qout
-wifi_kit_32.menu.FlashMode.dout=DOUT
-wifi_kit_32.menu.FlashMode.dout.build.flash_mode=dout
-wifi_kit_32.menu.FlashMode.dout.build.boot=dout
-
-wifi_kit_32.menu.FlashFreq.40=40MHz
-wifi_kit_32.menu.FlashFreq.40.build.flash_freq=40m
-wifi_kit_32.menu.FlashFreq.80=80MHz
-wifi_kit_32.menu.FlashFreq.80.build.flash_freq=80m
-
-wifi_kit_32.menu.FlashSize.4M=4MB (32Mb)
-wifi_kit_32.menu.FlashSize.4M.build.flash_size=4MB
-wifi_kit_32.menu.FlashSize.2M=2MB (16Mb)
-wifi_kit_32.menu.FlashSize.2M.build.flash_size=2MB
-wifi_kit_32.menu.FlashSize.2M.build.partitions=minimal
-wifi_kit_32.menu.FlashSize.16M=16MB (128Mb)
-wifi_kit_32.menu.FlashSize.16M.build.flash_size=16MB
-wifi_kit_32.menu.FlashSize.16M.build.partitions=ffat
 
 wifi_kit_32.menu.UploadSpeed.921600=921600
 wifi_kit_32.menu.UploadSpeed.921600.upload.speed=921600
@@ -118,7 +74,6 @@ wifi_kit_32.menu.DebugLevel.debug=Debug
 wifi_kit_32.menu.DebugLevel.debug.build.code_debug=4
 wifi_kit_32.menu.DebugLevel.verbose=Verbose
 wifi_kit_32.menu.DebugLevel.verbose.build.code_debug=5
-
 ##############################################################
 
 wifi_lora_32.name=WiFi LoRa 32
@@ -138,7 +93,7 @@ wifi_lora_32.build.board=WIFI_LORA_32
 
 wifi_lora_32.build.f_cpu=240000000L
 wifi_lora_32.build.flash_size=4MB
-wifi_lora_32.build.flash_freq=40m
+wifi_lora_32.build.flash_freq=80m
 wifi_lora_32.build.flash_mode=dio
 wifi_lora_32.build.boot=dio
 wifi_lora_32.build.partitions=default
@@ -149,59 +104,12 @@ wifi_lora_32.menu.PSRAM.disabled.build.defines=
 wifi_lora_32.menu.PSRAM.enabled=Enabled
 wifi_lora_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
-wifi_lora_32.menu.PartitionScheme.default=Default
-wifi_lora_32.menu.PartitionScheme.default.build.partitions=default
-wifi_lora_32.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
-wifi_lora_32.menu.PartitionScheme.minimal.build.partitions=minimal
-wifi_lora_32.menu.PartitionScheme.no_ota=No OTA (Large APP)
-wifi_lora_32.menu.PartitionScheme.no_ota.build.partitions=no_ota
-wifi_lora_32.menu.PartitionScheme.no_ota.upload.maximum_size=2097152
-wifi_lora_32.menu.PartitionScheme.huge_app=Huge APP (3MB No OTA)
-wifi_lora_32.menu.PartitionScheme.huge_app.build.partitions=huge_app
-wifi_lora_32.menu.PartitionScheme.huge_app.upload.maximum_size=3145728
-wifi_lora_32.menu.PartitionScheme.min_spiffs=Minimal SPIFFS (Large APPS with OTA)
-wifi_lora_32.menu.PartitionScheme.min_spiffs.build.partitions=min_spiffs
-wifi_lora_32.menu.PartitionScheme.min_spiffs.upload.maximum_size=1966080
-wifi_lora_32.menu.PartitionScheme.fatflash=16M Fat
-wifi_lora_32.menu.PartitionScheme.fatflash.build.partitions=ffat
-
 wifi_lora_32.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_lora_32.menu.CPUFreq.240.build.f_cpu=240000000L
 wifi_lora_32.menu.CPUFreq.160=160MHz (WiFi/BT)
 wifi_lora_32.menu.CPUFreq.160.build.f_cpu=160000000L
 wifi_lora_32.menu.CPUFreq.80=80MHz (WiFi/BT)
-wifi_lora_32.menu.CPUFreq.80.build.f_cpu=80000000L
-wifi_lora_32.menu.CPUFreq.26=26MHz (26MHz XTAL)
-wifi_lora_32.menu.CPUFreq.26.build.f_cpu=26000000L
-wifi_lora_32.menu.CPUFreq.13=13MHz (26MHz XTAL)
-wifi_lora_32.menu.CPUFreq.13.build.f_cpu=13000000L
-
-wifi_lora_32.menu.FlashMode.qio=QIO
-wifi_lora_32.menu.FlashMode.qio.build.flash_mode=dio
-wifi_lora_32.menu.FlashMode.qio.build.boot=qio
-wifi_lora_32.menu.FlashMode.dio=DIO
-wifi_lora_32.menu.FlashMode.dio.build.flash_mode=dio
-wifi_lora_32.menu.FlashMode.dio.build.boot=dio
-wifi_lora_32.menu.FlashMode.qout=QOUT
-wifi_lora_32.menu.FlashMode.qout.build.flash_mode=dout
-wifi_lora_32.menu.FlashMode.qout.build.boot=qout
-wifi_lora_32.menu.FlashMode.dout=DOUT
-wifi_lora_32.menu.FlashMode.dout.build.flash_mode=dout
-wifi_lora_32.menu.FlashMode.dout.build.boot=dout
-
-wifi_lora_32.menu.FlashFreq.40=40MHz
-wifi_lora_32.menu.FlashFreq.40.build.flash_freq=40m
-wifi_lora_32.menu.FlashFreq.80=80MHz
-wifi_lora_32.menu.FlashFreq.80.build.flash_freq=80m
-
-wifi_lora_32.menu.FlashSize.4M=4MB (32Mb)
-wifi_lora_32.menu.FlashSize.4M.build.flash_size=4MB
-wifi_lora_32.menu.FlashSize.2M=2MB (16Mb)
-wifi_lora_32.menu.FlashSize.2M.build.flash_size=2MB
-wifi_lora_32.menu.FlashSize.2M.build.partitions=minimal
-wifi_lora_32.menu.FlashSize.16M=16MB (128Mb)
-wifi_lora_32.menu.FlashSize.16M.build.flash_size=16MB
-wifi_lora_32.menu.FlashSize.16M.build.partitions=ffat
+wifi_lora_32.menu.CPUFreq.160.build.f_cpu=80000000L
 
 wifi_lora_32.menu.UploadSpeed.921600=921600
 wifi_lora_32.menu.UploadSpeed.921600.upload.speed=921600
@@ -231,6 +139,35 @@ wifi_lora_32.menu.DebugLevel.debug.build.code_debug=4
 wifi_lora_32.menu.DebugLevel.verbose=Verbose
 wifi_lora_32.menu.DebugLevel.verbose.build.code_debug=5
 
+wifi_lora_32.menu.LORAWAN_REGION.0=REGION_EU868
+wifi_lora_32.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+wifi_lora_32.menu.LORAWAN_REGION.1=REGION_EU433
+wifi_lora_32.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+wifi_lora_32.menu.LORAWAN_REGION.2=REGION_CN470
+wifi_lora_32.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+wifi_lora_32.menu.LORAWAN_REGION.3=REGION_US915
+wifi_lora_32.menu.LORAWAN_REGION.3.build.band=REGION_US915
+wifi_lora_32.menu.LORAWAN_REGION.4=REGION_AU915
+wifi_lora_32.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+wifi_lora_32.menu.LORAWAN_REGION.5=REGION_CN779
+wifi_lora_32.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+wifi_lora_32.menu.LORAWAN_REGION.6=REGION_AS923
+wifi_lora_32.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+wifi_lora_32.menu.LORAWAN_REGION.7=REGION_KR920
+wifi_lora_32.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+wifi_lora_32.menu.LORAWAN_REGION.8=REGION_IN865
+wifi_lora_32.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+wifi_lora_32.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+wifi_lora_32.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wifi_lora_32.menu.LoRaWanDebugLevel.0=None
+wifi_lora_32.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+wifi_lora_32.menu.LoRaWanDebugLevel.1=Freq
+wifi_lora_32.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+wifi_lora_32.menu.LoRaWanDebugLevel.2=Freq && DIO
+wifi_lora_32.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+wifi_lora_32.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+wifi_lora_32.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
 ##############################################################
 
 wifi_lora_32_V2.name=WiFi LoRa 32(V2)
@@ -250,9 +187,9 @@ wifi_lora_32_V2.build.board=WIFI_LORA_32_V2
 
 wifi_lora_32_V2.build.f_cpu=240000000L
 wifi_lora_32_V2.build.flash_size=8MB
-wifi_lora_32_V2.build.flash_freq=40m
+wifi_lora_32_V2.build.flash_freq=80m
 wifi_lora_32_V2.build.flash_mode=dio
-wifi_lora_32_V2.build.boot=dio
+wifi_lora_32_V2.build.boot=qio
 wifi_lora_32_V2.build.partitions=default_8MB
 wifi_lora_32_V2.build.defines=
 
@@ -261,64 +198,12 @@ wifi_lora_32_V2.menu.PSRAM.disabled.build.defines=
 wifi_lora_32_V2.menu.PSRAM.enabled=Enabled
 wifi_lora_32_V2.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
-wifi_lora_32_V2.menu.PartitionScheme.default=default_8MB
-wifi_lora_32_V2.menu.PartitionScheme.default.build.partitions=default_8MB
-wifi_lora_32_V2.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
-wifi_lora_32_V2.menu.PartitionScheme.minimal.build.partitions=minimal
-wifi_lora_32_V2.menu.PartitionScheme.no_ota=No OTA (Large APP)
-wifi_lora_32_V2.menu.PartitionScheme.no_ota.build.partitions=no_ota
-wifi_lora_32_V2.menu.PartitionScheme.no_ota.upload.maximum_size=2097152
-wifi_lora_32_V2.menu.PartitionScheme.huge_app=Huge APP (3MB No OTA)
-wifi_lora_32_V2.menu.PartitionScheme.huge_app.build.partitions=huge_app
-wifi_lora_32_V2.menu.PartitionScheme.huge_app.upload.maximum_size=3145728
-wifi_lora_32_V2.menu.PartitionScheme.min_spiffs=Minimal SPIFFS (Large APPS with OTA)
-wifi_lora_32_V2.menu.PartitionScheme.min_spiffs.build.partitions=min_spiffs
-wifi_lora_32_V2.menu.PartitionScheme.min_spiffs.upload.maximum_size=1966080
-wifi_lora_32_V2.menu.PartitionScheme.fatflash=16M Fat
-wifi_lora_32_V2.menu.PartitionScheme.fatflash.build.partitions=ffat
-
 wifi_lora_32_V2.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_lora_32_V2.menu.CPUFreq.240.build.f_cpu=240000000L
 wifi_lora_32_V2.menu.CPUFreq.160=160MHz (WiFi/BT)
 wifi_lora_32_V2.menu.CPUFreq.160.build.f_cpu=160000000L
 wifi_lora_32_V2.menu.CPUFreq.80=80MHz (WiFi/BT)
 wifi_lora_32_V2.menu.CPUFreq.80.build.f_cpu=80000000L
-wifi_lora_32_V2.menu.CPUFreq.40=40MHz (40MHz XTAL)
-wifi_lora_32_V2.menu.CPUFreq.40.build.f_cpu=40000000L
-wifi_lora_32_V2.menu.CPUFreq.20=20MHz (40MHz XTAL)
-wifi_lora_32_V2.menu.CPUFreq.20.build.f_cpu=20000000L
-wifi_lora_32_V2.menu.CPUFreq.10=10MHz (40MHz XTAL)
-wifi_lora_32_V2.menu.CPUFreq.10.build.f_cpu=10000000L
-
-wifi_lora_32_V2.menu.FlashMode.qio=QIO
-wifi_lora_32_V2.menu.FlashMode.qio.build.flash_mode=dio
-wifi_lora_32_V2.menu.FlashMode.qio.build.boot=qio
-wifi_lora_32_V2.menu.FlashMode.dio=DIO
-wifi_lora_32_V2.menu.FlashMode.dio.build.flash_mode=dio
-wifi_lora_32_V2.menu.FlashMode.dio.build.boot=dio
-wifi_lora_32_V2.menu.FlashMode.qout=QOUT
-wifi_lora_32_V2.menu.FlashMode.qout.build.flash_mode=dout
-wifi_lora_32_V2.menu.FlashMode.qout.build.boot=qout
-wifi_lora_32_V2.menu.FlashMode.dout=DOUT
-wifi_lora_32_V2.menu.FlashMode.dout.build.flash_mode=dout
-wifi_lora_32_V2.menu.FlashMode.dout.build.boot=dout
-
-wifi_lora_32_V2.menu.FlashFreq.80=80MHz
-wifi_lora_32_V2.menu.FlashFreq.80.build.flash_freq=80m
-wifi_lora_32_V2.menu.FlashFreq.40=40MHz
-wifi_lora_32_V2.menu.FlashFreq.40.build.flash_freq=40m
-
-wifi_lora_32_V2.menu.FlashSize.8M=8MB (64Mb)
-wifi_lora_32_V2.menu.FlashSize.8M.build.flash_size=8MB
-wifi_lora_32_V2.menu.FlashSize.8M.build.partitions=default_8MB
-wifi_lora_32_V2.menu.FlashSize.4M=4MB (32Mb)
-wifi_lora_32_V2.menu.FlashSize.4M.build.flash_size=4MB
-wifi_lora_32_V2.menu.FlashSize.2M=2MB (16Mb)
-wifi_lora_32_V2.menu.FlashSize.2M.build.flash_size=2MB
-wifi_lora_32_V2.menu.FlashSize.2M.build.partitions=minimal
-wifi_lora_32_V2.menu.FlashSize.16M=16MB (128Mb)
-wifi_lora_32_V2.menu.FlashSize.16M.build.flash_size=16MB
-wifi_lora_32_V2.menu.FlashSize.16M.build.partitions=ffat
 
 wifi_lora_32_V2.menu.UploadSpeed.921600=921600
 wifi_lora_32_V2.menu.UploadSpeed.921600.upload.speed=921600
@@ -348,6 +233,35 @@ wifi_lora_32_V2.menu.DebugLevel.debug.build.code_debug=4
 wifi_lora_32_V2.menu.DebugLevel.verbose=Verbose
 wifi_lora_32_V2.menu.DebugLevel.verbose.build.code_debug=5
 
+wifi_lora_32_V2.menu.LORAWAN_REGION.0=REGION_EU868
+wifi_lora_32_V2.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+wifi_lora_32_V2.menu.LORAWAN_REGION.1=REGION_EU433
+wifi_lora_32_V2.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+wifi_lora_32_V2.menu.LORAWAN_REGION.2=REGION_CN470
+wifi_lora_32_V2.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+wifi_lora_32_V2.menu.LORAWAN_REGION.3=REGION_US915
+wifi_lora_32_V2.menu.LORAWAN_REGION.3.build.band=REGION_US915
+wifi_lora_32_V2.menu.LORAWAN_REGION.4=REGION_AU915
+wifi_lora_32_V2.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+wifi_lora_32_V2.menu.LORAWAN_REGION.5=REGION_CN779
+wifi_lora_32_V2.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+wifi_lora_32_V2.menu.LORAWAN_REGION.6=REGION_AS923
+wifi_lora_32_V2.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+wifi_lora_32_V2.menu.LORAWAN_REGION.7=REGION_KR920
+wifi_lora_32_V2.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+wifi_lora_32_V2.menu.LORAWAN_REGION.8=REGION_IN865
+wifi_lora_32_V2.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+wifi_lora_32_V2.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+wifi_lora_32_V2.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.0=None
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.1=Freq
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.2=Freq && DIO
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+wifi_lora_32_V2.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
 ##############################################################
 
 wireless_stick.name=Wireless Stick
@@ -367,7 +281,7 @@ wireless_stick.build.board=WIRELESS_STICK
 
 wireless_stick.build.f_cpu=240000000L
 wireless_stick.build.flash_size=8MB
-wireless_stick.build.flash_freq=40m
+wireless_stick.build.flash_freq=80m
 wireless_stick.build.flash_mode=dio
 wireless_stick.build.boot=dio
 wireless_stick.build.partitions=default_8MB
@@ -378,64 +292,12 @@ wireless_stick.menu.PSRAM.disabled.build.defines=
 wireless_stick.menu.PSRAM.enabled=Enabled
 wireless_stick.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
-wireless_stick.menu.PartitionScheme.default=default_8MB
-wireless_stick.menu.PartitionScheme.default.build.partitions=default_8MB
-wireless_stick.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
-wireless_stick.menu.PartitionScheme.minimal.build.partitions=minimal
-wireless_stick.menu.PartitionScheme.no_ota=No OTA (Large APP)
-wireless_stick.menu.PartitionScheme.no_ota.build.partitions=no_ota
-wireless_stick.menu.PartitionScheme.no_ota.upload.maximum_size=2097152
-wireless_stick.menu.PartitionScheme.huge_app=Huge APP (3MB No OTA)
-wireless_stick.menu.PartitionScheme.huge_app.build.partitions=huge_app
-wireless_stick.menu.PartitionScheme.huge_app.upload.maximum_size=3145728
-wireless_stick.menu.PartitionScheme.min_spiffs=Minimal SPIFFS (Large APPS with OTA)
-wireless_stick.menu.PartitionScheme.min_spiffs.build.partitions=min_spiffs
-wireless_stick.menu.PartitionScheme.min_spiffs.upload.maximum_size=1966080
-wireless_stick.menu.PartitionScheme.fatflash=16M Fat
-wireless_stick.menu.PartitionScheme.fatflash.build.partitions=ffat
-
 wireless_stick.menu.CPUFreq.240=240MHz (WiFi/BT)
 wireless_stick.menu.CPUFreq.240.build.f_cpu=240000000L
 wireless_stick.menu.CPUFreq.160=160MHz (WiFi/BT)
 wireless_stick.menu.CPUFreq.160.build.f_cpu=160000000L
 wireless_stick.menu.CPUFreq.80=80MHz (WiFi/BT)
 wireless_stick.menu.CPUFreq.80.build.f_cpu=80000000L
-wireless_stick.menu.CPUFreq.40=40MHz (40MHz XTAL)
-wireless_stick.menu.CPUFreq.40.build.f_cpu=40000000L
-wireless_stick.menu.CPUFreq.20=20MHz (40MHz XTAL)
-wireless_stick.menu.CPUFreq.20.build.f_cpu=20000000L
-wireless_stick.menu.CPUFreq.10=10MHz (40MHz XTAL)
-wireless_stick.menu.CPUFreq.10.build.f_cpu=10000000L
-
-wireless_stick.menu.FlashMode.qio=QIO
-wireless_stick.menu.FlashMode.qio.build.flash_mode=dio
-wireless_stick.menu.FlashMode.qio.build.boot=qio
-wireless_stick.menu.FlashMode.dio=DIO
-wireless_stick.menu.FlashMode.dio.build.flash_mode=dio
-wireless_stick.menu.FlashMode.dio.build.boot=dio
-wireless_stick.menu.FlashMode.qout=QOUT
-wireless_stick.menu.FlashMode.qout.build.flash_mode=dout
-wireless_stick.menu.FlashMode.qout.build.boot=qout
-wireless_stick.menu.FlashMode.dout=DOUT
-wireless_stick.menu.FlashMode.dout.build.flash_mode=dout
-wireless_stick.menu.FlashMode.dout.build.boot=dout
-
-wireless_stick.menu.FlashFreq.80=80MHz
-wireless_stick.menu.FlashFreq.80.build.flash_freq=80m
-wireless_stick.menu.FlashFreq.40=40MHz
-wireless_stick.menu.FlashFreq.40.build.flash_freq=40m
-
-wireless_stick.menu.FlashSize.8M=8MB (64Mb)
-wireless_stick.menu.FlashSize.8M.build.flash_size=8MB
-wireless_stick.menu.FlashSize.8M.build.partitions=default_8MB
-wireless_stick.menu.FlashSize.4M=4MB (32Mb)
-wireless_stick.menu.FlashSize.4M.build.flash_size=4MB
-wireless_stick.menu.FlashSize.2M=2MB (16Mb)
-wireless_stick.menu.FlashSize.2M.build.flash_size=2MB
-wireless_stick.menu.FlashSize.2M.build.partitions=minimal
-wireless_stick.menu.FlashSize.16M=16MB (128Mb)
-wireless_stick.menu.FlashSize.16M.build.flash_size=16MB
-wireless_stick.menu.FlashSize.16M.build.partitions=ffat
 
 wireless_stick.menu.UploadSpeed.921600=921600
 wireless_stick.menu.UploadSpeed.921600.upload.speed=921600
@@ -465,6 +327,35 @@ wireless_stick.menu.DebugLevel.debug.build.code_debug=4
 wireless_stick.menu.DebugLevel.verbose=Verbose
 wireless_stick.menu.DebugLevel.verbose.build.code_debug=5
 
+wireless_stick.menu.LORAWAN_REGION.0=REGION_EU868
+wireless_stick.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+wireless_stick.menu.LORAWAN_REGION.1=REGION_EU433
+wireless_stick.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+wireless_stick.menu.LORAWAN_REGION.2=REGION_CN470
+wireless_stick.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+wireless_stick.menu.LORAWAN_REGION.3=REGION_US915
+wireless_stick.menu.LORAWAN_REGION.3.build.band=REGION_US915
+wireless_stick.menu.LORAWAN_REGION.4=REGION_AU915
+wireless_stick.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+wireless_stick.menu.LORAWAN_REGION.5=REGION_CN779
+wireless_stick.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+wireless_stick.menu.LORAWAN_REGION.6=REGION_AS923
+wireless_stick.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+wireless_stick.menu.LORAWAN_REGION.7=REGION_KR920
+wireless_stick.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+wireless_stick.menu.LORAWAN_REGION.8=REGION_IN865
+wireless_stick.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+wireless_stick.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+wireless_stick.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wireless_stick.menu.LoRaWanDebugLevel.0=None
+wireless_stick.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+wireless_stick.menu.LoRaWanDebugLevel.1=Freq
+wireless_stick.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+wireless_stick.menu.LoRaWanDebugLevel.2=Freq && DIO
+wireless_stick.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+wireless_stick.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+wireless_stick.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
 ##############################################################
 
 wireless_stick_lite.name=Wireless Stick Lite
@@ -495,62 +386,12 @@ wireless_stick_lite.menu.PSRAM.disabled.build.defines=
 wireless_stick_lite.menu.PSRAM.enabled=Enabled
 wireless_stick_lite.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
-wireless_stick_lite.menu.PartitionScheme.default=default
-wireless_stick_lite.menu.PartitionScheme.default.build.partitions=default
-wireless_stick_lite.menu.PartitionScheme.minimal=Minimal (2MB FLASH)
-wireless_stick_lite.menu.PartitionScheme.minimal.build.partitions=minimal
-wireless_stick_lite.menu.PartitionScheme.no_ota=No OTA (Large APP)
-wireless_stick_lite.menu.PartitionScheme.no_ota.build.partitions=no_ota
-wireless_stick_lite.menu.PartitionScheme.no_ota.upload.maximum_size=2097152
-wireless_stick_lite.menu.PartitionScheme.huge_app=Huge APP (3MB No OTA)
-wireless_stick_lite.menu.PartitionScheme.huge_app.build.partitions=huge_app
-wireless_stick_lite.menu.PartitionScheme.huge_app.upload.maximum_size=3145728
-wireless_stick_lite.menu.PartitionScheme.min_spiffs=Minimal SPIFFS (Large APPS with OTA)
-wireless_stick_lite.menu.PartitionScheme.min_spiffs.build.partitions=min_spiffs
-wireless_stick_lite.menu.PartitionScheme.min_spiffs.upload.maximum_size=1966080
-wireless_stick_lite.menu.PartitionScheme.fatflash=16M Fat
-wireless_stick_lite.menu.PartitionScheme.fatflash.build.partitions=ffat
-
 wireless_stick_lite.menu.CPUFreq.240=240MHz (WiFi/BT)
 wireless_stick_lite.menu.CPUFreq.240.build.f_cpu=240000000L
 wireless_stick_lite.menu.CPUFreq.160=160MHz (WiFi/BT)
 wireless_stick_lite.menu.CPUFreq.160.build.f_cpu=160000000L
 wireless_stick_lite.menu.CPUFreq.80=80MHz (WiFi/BT)
 wireless_stick_lite.menu.CPUFreq.80.build.f_cpu=80000000L
-wireless_stick_lite.menu.CPUFreq.40=40MHz (40MHz XTAL)
-wireless_stick_lite.menu.CPUFreq.40.build.f_cpu=40000000L
-wireless_stick_lite.menu.CPUFreq.20=20MHz (40MHz XTAL)
-wireless_stick_lite.menu.CPUFreq.20.build.f_cpu=20000000L
-wireless_stick_lite.menu.CPUFreq.10=10MHz (40MHz XTAL)
-wireless_stick_lite.menu.CPUFreq.10.build.f_cpu=10000000L
-
-wireless_stick_lite.menu.FlashMode.qio=QIO
-wireless_stick_lite.menu.FlashMode.qio.build.flash_mode=dio
-wireless_stick_lite.menu.FlashMode.qio.build.boot=qio
-wireless_stick_lite.menu.FlashMode.dio=DIO
-wireless_stick_lite.menu.FlashMode.dio.build.flash_mode=dio
-wireless_stick_lite.menu.FlashMode.dio.build.boot=dio
-wireless_stick_lite.menu.FlashMode.qout=QOUT
-wireless_stick_lite.menu.FlashMode.qout.build.flash_mode=dout
-wireless_stick_lite.menu.FlashMode.qout.build.boot=qout
-wireless_stick_lite.menu.FlashMode.dout=DOUT
-wireless_stick_lite.menu.FlashMode.dout.build.flash_mode=dout
-wireless_stick_lite.menu.FlashMode.dout.build.boot=dout
-
-wireless_stick_lite.menu.FlashFreq.80=80MHz
-wireless_stick_lite.menu.FlashFreq.80.build.flash_freq=80m
-wireless_stick_lite.menu.FlashFreq.40=40MHz
-wireless_stick_lite.menu.FlashFreq.40.build.flash_freq=40m
-
-wireless_stick_lite.menu.FlashSize.4M=4MB (32Mb)
-wireless_stick_lite.menu.FlashSize.4M.build.flash_size=4MB
-wireless_stick_lite.menu.FlashSize.4M.build.partitions=default
-wireless_stick_lite.menu.FlashSize.2M=2MB (16Mb)
-wireless_stick_lite.menu.FlashSize.2M.build.flash_size=2MB
-wireless_stick_lite.menu.FlashSize.2M.build.partitions=minimal
-wireless_stick_lite.menu.FlashSize.16M=16MB (128Mb)
-wireless_stick_lite.menu.FlashSize.16M.build.flash_size=16MB
-wireless_stick_lite.menu.FlashSize.16M.build.partitions=ffat
 
 wireless_stick_lite.menu.UploadSpeed.921600=921600
 wireless_stick_lite.menu.UploadSpeed.921600.upload.speed=921600
@@ -579,3 +420,33 @@ wireless_stick_lite.menu.DebugLevel.debug=Debug
 wireless_stick_lite.menu.DebugLevel.debug.build.code_debug=4
 wireless_stick_lite.menu.DebugLevel.verbose=Verbose
 wireless_stick_lite.menu.DebugLevel.verbose.build.code_debug=5
+
+wireless_stick_lite.menu.LORAWAN_REGION.0=REGION_EU868
+wireless_stick_lite.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+wireless_stick_lite.menu.LORAWAN_REGION.1=REGION_EU433
+wireless_stick_lite.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+wireless_stick_lite.menu.LORAWAN_REGION.2=REGION_CN470
+wireless_stick_lite.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+wireless_stick_lite.menu.LORAWAN_REGION.3=REGION_US915
+wireless_stick_lite.menu.LORAWAN_REGION.3.build.band=REGION_US915
+wireless_stick_lite.menu.LORAWAN_REGION.4=REGION_AU915
+wireless_stick_lite.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+wireless_stick_lite.menu.LORAWAN_REGION.5=REGION_CN779
+wireless_stick_lite.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+wireless_stick_lite.menu.LORAWAN_REGION.6=REGION_AS923
+wireless_stick_lite.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+wireless_stick_lite.menu.LORAWAN_REGION.7=REGION_KR920
+wireless_stick_lite.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+wireless_stick_lite.menu.LORAWAN_REGION.8=REGION_IN865
+wireless_stick_lite.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+wireless_stick_lite.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+wireless_stick_lite.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wireless_stick_lite.menu.LoRaWanDebugLevel.0=None
+wireless_stick_lite.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+wireless_stick_lite.menu.LoRaWanDebugLevel.1=Freq
+wireless_stick_lite.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+wireless_stick_lite.menu.LoRaWanDebugLevel.2=Freq && DIO
+wireless_stick_lite.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+wireless_stick_lite.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+wireless_stick_lite.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
