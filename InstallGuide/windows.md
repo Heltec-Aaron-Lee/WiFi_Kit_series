@@ -5,13 +5,16 @@ Before operation, please make sure Git and Arduino are correctly installed on yo
 
 &nbsp;
 
-Executed commands **MUST** under the **user name/Documents/Arduino/hardware** path!
+**Executed commands MUST under the ```[YOUR_USER_NAME]/Documents/Arduino/hardware``` path!**
 
-Start ```Git Bash``` and run through the following steps:
-
- - Input `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec `
+- Open a ```Git Bash``` session pointing to ```[YOUR_USER_NAME]/Documents/Arduino/hardware``` and execute `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec `
 
 ![](win-screenshots/location.png)
+
+ - The final development framework location should be ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec```
+ - Switch to the heltec directory via ```cd heltec``` and execute ```git submodule update --init --recursive``` 
+
+&nbsp;
 
 ## Finish Arduino ESP32 support on Windows
 
