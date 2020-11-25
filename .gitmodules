@@ -1,0 +1,3 @@
+[submodule "esp32/libraries/ESP32_AzureIoT_Arduino"]
+	path = esp32/libraries/ESP32_AzureIoT_Arduino
+	url = https://github.com/VSChina/ESP32_AzureIoT_Arduino.git
