@@ -1,3 +1,12 @@
 [submodule "esp32/libraries/ESP32_AzureIoT_Arduino"]
 	path = esp32/libraries/ESP32_AzureIoT_Arduino
 	url = https://github.com/VSChina/ESP32_AzureIoT_Arduino.git
+[submodule "esp8266/libraries/ESP8266SdFat"]
+	path = esp8266/libraries/ESP8266SdFat
+	url = https://github.com/earlephilhower/ESP8266SdFat.git
+[submodule "esp8266/libraries/LittleFS/lib/littlefs"]
+	path = esp8266/libraries/LittleFS/lib/littlefs
+	url = https://github.com/esp8266/Arduino/libraries/LittleFS.git
+[submodule "esp8266/libraries/SoftwareSerial"]
+	path = esp8266/libraries/SoftwareSerial
+	url = https://github.com/PaulStoffregen/SoftwareSerial.git
