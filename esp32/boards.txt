@@ -35,10 +35,10 @@ wifi_kit_32.build.defines=
 wifi_kit_32.build.band=LoRaWAN_NONE
 wifi_kit_32.build.LoRaWanDebugLevel=0
 
-wifi_kit_32.menu.PSRAM.disabled=Disabled
-wifi_kit_32.menu.PSRAM.disabled.build.defines=
-wifi_kit_32.menu.PSRAM.enabled=Enabled
-wifi_kit_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+# wifi_kit_32.menu.PSRAM.disabled=Disabled
+# wifi_kit_32.menu.PSRAM.disabled.build.defines=
+# wifi_kit_32.menu.PSRAM.enabled=Enabled
+# wifi_kit_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
 wifi_kit_32.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_kit_32.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -99,10 +99,10 @@ wifi_lora_32.build.boot=dio
 wifi_lora_32.build.partitions=default
 wifi_lora_32.build.defines=
 
-wifi_lora_32.menu.PSRAM.disabled=Disabled
-wifi_lora_32.menu.PSRAM.disabled.build.defines=
-wifi_lora_32.menu.PSRAM.enabled=Enabled
-wifi_lora_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+# wifi_lora_32.menu.PSRAM.disabled=Disabled
+# wifi_lora_32.menu.PSRAM.disabled.build.defines=
+# wifi_lora_32.menu.PSRAM.enabled=Enabled
+# wifi_lora_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
 wifi_lora_32.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_lora_32.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -193,10 +193,10 @@ wifi_lora_32_V2.build.boot=qio
 wifi_lora_32_V2.build.partitions=default_8MB
 wifi_lora_32_V2.build.defines=
 
-wifi_lora_32_V2.menu.PSRAM.disabled=Disabled
-wifi_lora_32_V2.menu.PSRAM.disabled.build.defines=
-wifi_lora_32_V2.menu.PSRAM.enabled=Enabled
-wifi_lora_32_V2.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+# wifi_lora_32_V2.menu.PSRAM.enabled=Enabled
+# wifi_lora_32_V2.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+# wifi_lora_32_V2.menu.PSRAM.disabled=Disabled
+# wifi_lora_32_V2.menu.PSRAM.disabled.build.defines=
 
 wifi_lora_32_V2.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_lora_32_V2.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -287,10 +287,10 @@ wireless_stick.build.boot=dio
 wireless_stick.build.partitions=default_8MB
 wireless_stick.build.defines=
 
-wireless_stick.menu.PSRAM.disabled=Disabled
-wireless_stick.menu.PSRAM.disabled.build.defines=
-wireless_stick.menu.PSRAM.enabled=Enabled
-wireless_stick.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+# wireless_stick.menu.PSRAM.disabled=Disabled
+# wireless_stick.menu.PSRAM.disabled.build.defines=
+# wireless_stick.menu.PSRAM.enabled=Enabled
+# wireless_stick.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
 wireless_stick.menu.CPUFreq.240=240MHz (WiFi/BT)
 wireless_stick.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -381,10 +381,10 @@ wireless_stick_lite.build.boot=dio
 wireless_stick_lite.build.partitions=default
 wireless_stick_lite.build.defines=
 
-wireless_stick_lite.menu.PSRAM.disabled=Disabled
-wireless_stick_lite.menu.PSRAM.disabled.build.defines=
-wireless_stick_lite.menu.PSRAM.enabled=Enabled
-wireless_stick_lite.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+# wireless_stick_lite.menu.PSRAM.disabled=Disabled
+# wireless_stick_lite.menu.PSRAM.disabled.build.defines=
+# wireless_stick_lite.menu.PSRAM.enabled=Enabled
+# wireless_stick_lite.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
 
 wireless_stick_lite.menu.CPUFreq.240=240MHz (WiFi/BT)
 wireless_stick_lite.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -450,3 +450,97 @@ wireless_stick_lite.menu.LoRaWanDebugLevel.2=Freq && DIO
 wireless_stick_lite.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
 wireless_stick_lite.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
 wireless_stick_lite.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+##############################################################
+
+wireless_bridge.name=Wireless Bridge
+
+wireless_bridge.upload.tool=esptool_py
+wireless_bridge.upload.maximum_size=3342336
+wireless_bridge.upload.maximum_data_size=327680
+wireless_bridge.upload.wait_for_upload_port=true
+
+wireless_bridge.serial.disableDTR=true
+wireless_bridge.serial.disableRTS=true
+
+wireless_bridge.build.mcu=esp32
+wireless_bridge.build.core=esp32
+wireless_bridge.build.variant=wireless_bridge
+wireless_bridge.build.board=wireless_bridge
+
+wireless_bridge.build.f_cpu=240000000L
+wireless_bridge.build.flash_size=8MB
+wireless_bridge.build.flash_freq=80m
+wireless_bridge.build.flash_mode=dio
+wireless_bridge.build.boot=dio
+wireless_bridge.build.partitions=default_8MB
+wireless_bridge.build.defines=
+
+wireless_bridge.menu.PSRAM.enabled=Enabled
+wireless_bridge.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+wireless_bridge.menu.PSRAM.disabled=Disabled
+wireless_bridge.menu.PSRAM.disabled.build.defines=
+
+wireless_bridge.menu.CPUFreq.240=240MHz (WiFi/BT)
+wireless_bridge.menu.CPUFreq.240.build.f_cpu=240000000L
+wireless_bridge.menu.CPUFreq.160=160MHz (WiFi/BT)
+wireless_bridge.menu.CPUFreq.160.build.f_cpu=160000000L
+wireless_bridge.menu.CPUFreq.80=80MHz (WiFi/BT)
+wireless_bridge.menu.CPUFreq.80.build.f_cpu=80000000L
+
+wireless_bridge.menu.UploadSpeed.921600=921600
+wireless_bridge.menu.UploadSpeed.921600.upload.speed=921600
+wireless_bridge.menu.UploadSpeed.115200=115200
+wireless_bridge.menu.UploadSpeed.115200.upload.speed=115200
+wireless_bridge.menu.UploadSpeed.256000.windows=256000
+wireless_bridge.menu.UploadSpeed.256000.upload.speed=256000
+wireless_bridge.menu.UploadSpeed.230400.windows.upload.speed=256000
+wireless_bridge.menu.UploadSpeed.230400=230400
+wireless_bridge.menu.UploadSpeed.230400.upload.speed=230400
+wireless_bridge.menu.UploadSpeed.460800.linux=460800
+wireless_bridge.menu.UploadSpeed.460800.macosx=460800
+wireless_bridge.menu.UploadSpeed.460800.upload.speed=460800
+wireless_bridge.menu.UploadSpeed.512000.windows=512000
+wireless_bridge.menu.UploadSpeed.512000.upload.speed=512000
+
+wireless_bridge.menu.DebugLevel.none=None
+wireless_bridge.menu.DebugLevel.none.build.code_debug=0
+wireless_bridge.menu.DebugLevel.error=Error
+wireless_bridge.menu.DebugLevel.error.build.code_debug=1
+wireless_bridge.menu.DebugLevel.warn=Warn
+wireless_bridge.menu.DebugLevel.warn.build.code_debug=2
+wireless_bridge.menu.DebugLevel.info=Info
+wireless_bridge.menu.DebugLevel.info.build.code_debug=3
+wireless_bridge.menu.DebugLevel.debug=Debug
+wireless_bridge.menu.DebugLevel.debug.build.code_debug=4
+wireless_bridge.menu.DebugLevel.verbose=Verbose
+wireless_bridge.menu.DebugLevel.verbose.build.code_debug=5
+
+wireless_bridge.menu.LORAWAN_REGION.0=REGION_EU868
+wireless_bridge.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+wireless_bridge.menu.LORAWAN_REGION.1=REGION_EU433
+wireless_bridge.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+wireless_bridge.menu.LORAWAN_REGION.2=REGION_CN470
+wireless_bridge.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+wireless_bridge.menu.LORAWAN_REGION.3=REGION_US915
+wireless_bridge.menu.LORAWAN_REGION.3.build.band=REGION_US915
+wireless_bridge.menu.LORAWAN_REGION.4=REGION_AU915
+wireless_bridge.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+wireless_bridge.menu.LORAWAN_REGION.5=REGION_CN779
+wireless_bridge.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+wireless_bridge.menu.LORAWAN_REGION.6=REGION_AS923
+wireless_bridge.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+wireless_bridge.menu.LORAWAN_REGION.7=REGION_KR920
+wireless_bridge.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+wireless_bridge.menu.LORAWAN_REGION.8=REGION_IN865
+wireless_bridge.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+wireless_bridge.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+wireless_bridge.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wireless_bridge.menu.LoRaWanDebugLevel.0=None
+wireless_bridge.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+wireless_bridge.menu.LoRaWanDebugLevel.1=Freq
+wireless_bridge.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+wireless_bridge.menu.LoRaWanDebugLevel.2=Freq && DIO
+wireless_bridge.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+wireless_bridge.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+wireless_bridge.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
