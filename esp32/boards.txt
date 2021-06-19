@@ -8,6 +8,7 @@ menu.DebugLevel=Core Debug Level
 menu.PSRAM=PSRAM
 menu.LORAWAN_REGION=LoRaWan Region
 menu.LoRaWanDebugLevel=LoRaWan Debug Level
+menu.LORAWAN_DEVEUI=LORAWAN_DEVEUI
 ##############################################################
 
 wifi_kit_32.name=WiFi Kit 32
@@ -160,6 +161,11 @@ wifi_lora_32.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wifi_lora_32.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wifi_lora_32.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
+wifi_lora_32.menu.LORAWAN_DEVEUI.0=CUSTOM
+wifi_lora_32.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wifi_lora_32.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wifi_lora_32.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
 wifi_lora_32.menu.LoRaWanDebugLevel.0=None
 wifi_lora_32.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
 wifi_lora_32.menu.LoRaWanDebugLevel.1=Freq
@@ -253,6 +259,12 @@ wifi_lora_32_V2.menu.LORAWAN_REGION.8=REGION_IN865
 wifi_lora_32_V2.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wifi_lora_32_V2.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wifi_lora_32_V2.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0=CUSTOM
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
 
 wifi_lora_32_V2.menu.LoRaWanDebugLevel.0=None
 wifi_lora_32_V2.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
@@ -348,6 +360,12 @@ wireless_stick.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_stick.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_stick.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
+wireless_stick.menu.LORAWAN_DEVEUI.0=CUSTOM
+wireless_stick.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wireless_stick.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wireless_stick.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+
 wireless_stick.menu.LoRaWanDebugLevel.0=None
 wireless_stick.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
 wireless_stick.menu.LoRaWanDebugLevel.1=Freq
@@ -442,6 +460,11 @@ wireless_stick_lite.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_stick_lite.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_stick_lite.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
+wireless_stick_lite.menu.LORAWAN_DEVEUI.0=CUSTOM
+wireless_stick_lite.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wireless_stick_lite.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wireless_stick_lite.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
 wireless_stick_lite.menu.LoRaWanDebugLevel.0=None
 wireless_stick_lite.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
 wireless_stick_lite.menu.LoRaWanDebugLevel.1=Freq
@@ -535,6 +558,11 @@ wireless_bridge.menu.LORAWAN_REGION.8=REGION_IN865
 wireless_bridge.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_bridge.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_bridge.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wireless_bridge.menu.LORAWAN_DEVEUI.0=CUSTOM
+wireless_bridge.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wireless_bridge.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wireless_bridge.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
 
 wireless_bridge.menu.LoRaWanDebugLevel.0=None
 wireless_bridge.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
