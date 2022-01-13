@@ -576,7 +576,7 @@ wireless_bridge.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
 
 
 ##############################################################
-lora_eink_board.name=lora eink board
+lora_eink_board.name=Lora Eink Board
 lora_eink_board.upload.tool=esptool_py
 lora_eink_board.upload.maximum_size=1638400
 lora_eink_board.upload.maximum_data_size=327680
