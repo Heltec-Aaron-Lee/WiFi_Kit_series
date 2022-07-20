@@ -7,6 +7,7 @@ menu.PartitionScheme=Partition Scheme
 menu.DebugLevel=Core Debug Level
 menu.PSRAM=PSRAM
 menu.LORAWAN_REGION=LoRaWan Region
+menu.LORAWAN_PREAMBLE_LENGTH=LORAWAN_PREAMBLE_LENGTH
 menu.LoRaWanDebugLevel=LoRaWan Debug Level
 menu.LORAWAN_DEVEUI=LORAWAN_DEVEUI
 ##############################################################
@@ -161,6 +162,11 @@ wifi_lora_32.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wifi_lora_32.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wifi_lora_32.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 wifi_lora_32.menu.LORAWAN_DEVEUI.0=CUSTOM
 wifi_lora_32.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
 wifi_lora_32.menu.LORAWAN_DEVEUI.1=Generate By ChipID
@@ -262,6 +268,11 @@ wifi_lora_32_V2.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 wifi_lora_32_V2.menu.LORAWAN_REGION.10=REGION_LA915
 wifi_lora_32_V2.menu.LORAWAN_REGION.10.build.band=REGION_LA915
 
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0=CUSTOM
 wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
 wifi_lora_32_V2.menu.LORAWAN_DEVEUI.1=Generate By ChipID
@@ -360,6 +371,11 @@ wireless_stick.menu.LORAWAN_REGION.8=REGION_IN865
 wireless_stick.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_stick.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_stick.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 
 wireless_stick.menu.LORAWAN_DEVEUI.0=CUSTOM
 wireless_stick.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
@@ -461,6 +477,11 @@ wireless_stick_lite.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_stick_lite.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_stick_lite.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 wireless_stick_lite.menu.LORAWAN_DEVEUI.0=CUSTOM
 wireless_stick_lite.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
 wireless_stick_lite.menu.LORAWAN_DEVEUI.1=Generate By ChipID
@@ -560,6 +581,11 @@ wireless_bridge.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_bridge.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_bridge.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
+wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 wireless_bridge.menu.LORAWAN_DEVEUI.0=CUSTOM
 wireless_bridge.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
 wireless_bridge.menu.LORAWAN_DEVEUI.1=Generate By ChipID
@@ -651,10 +677,17 @@ lora_eink_board.menu.LORAWAN_REGION.8=REGION_IN865
 lora_eink_board.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 lora_eink_board.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 lora_eink_board.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 lora_eink_board.menu.LORAWAN_DEVEUI.0=CUSTOM
 lora_eink_board.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
 lora_eink_board.menu.LORAWAN_DEVEUI.1=Generate By ChipID
 lora_eink_board.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
 lora_eink_board.menu.LoRaWanDebugLevel.0=None
 lora_eink_board.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
 lora_eink_board.menu.LoRaWanDebugLevel.1=Freq
