@@ -5,7 +5,7 @@
  *      Author: chegewara
  */
 #include "sdkconfig.h"
-#if defined(CONFIG_BT_ENABLED)
+#if defined(CONFIG_BLUEDROID_ENABLED)
 
 #include "BLEHIDDevice.h"
 #include "BLE2904.h"
@@ -42,7 +42,10 @@ BLEHIDDevice::BLEHIDDevice(BLEServer* server) {
 
 	m_batteryLevelCharacteristic = m_batteryService->createCharacteristic((uint16_t) 0x2a19, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
 	m_batteryLevelCharacteristic->addDescriptor(batteryLevelDescriptor);
-	m_batteryLevelCharacteristic->addDescriptor(new BLE2902());
+	BLE2902 *batLevelIndicator = new BLE2902();
+	// Battery Level Notification is ON by default, making it work always on BLE Pairing and Bonding
+	batLevelIndicator->setNotifications(true);
+	m_batteryLevelCharacteristic->addDescriptor(batLevelIndicator);
 
 	/*
 	 * This value is setup here because its default value in most usage cases, its very rare to use boot mode
@@ -240,5 +243,5 @@ BLEService* BLEHIDDevice::batteryService() {
 	return m_batteryService;
 }
 
-#endif // CONFIG_BT_ENABLED
+#endif // CONFIG_BLUEDROID_ENABLED
 

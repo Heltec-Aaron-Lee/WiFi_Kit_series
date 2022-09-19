@@ -12,7 +12,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include "FreeRTOS.h"
+#include "RTOS.h"
 #include <esp_err.h>
 #include <nvs.h>
 #include <esp_wifi.h>
@@ -368,7 +368,7 @@ std::vector<std::string> GeneralUtils::split(std::string source, char delimiter)
  */
 const char* GeneralUtils::errorToString(esp_err_t errCode) {
 	switch (errCode) {
-#if CONFIG_LOG_DEFAULT_LEVEL > 4
+#if ARDUHAL_LOG_LEVEL >= ARDUHAL_LOG_LEVEL_DEBUG
 		case ESP_OK:
 			return "ESP_OK";
 		case ESP_FAIL:
@@ -453,7 +453,7 @@ const char* GeneralUtils::wifiErrorToString(uint8_t errCode) {
 	if (errCode == UINT8_MAX) return "Not Connected (default value)";
 
 	switch ((wifi_err_reason_t) errCode) {
-#if CONFIG_LOG_DEFAULT_LEVEL > 4
+#if ARDUHAL_LOG_LEVEL >= ARDUHAL_LOG_LEVEL_DEBUG
 		case WIFI_REASON_UNSPECIFIED:
 			return "WIFI_REASON_UNSPECIFIED";
 		case WIFI_REASON_AUTH_EXPIRE:

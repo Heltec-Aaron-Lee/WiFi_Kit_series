@@ -73,6 +73,11 @@ public:
     }
 
     size_t printf(const char * format, ...)  __attribute__ ((format (printf, 2, 3)));
+
+    // add availableForWrite to make compatible with Arduino Print.h
+    // default to zero, meaning "a single write may block"
+    // should be overriden by subclasses with buffering
+    virtual int availableForWrite() { return 0; }
     size_t print(const __FlashStringHelper *);
     size_t print(const String &);
     size_t print(const char[]);
@@ -103,6 +108,9 @@ public:
     size_t println(const Printable&);
     size_t println(struct tm * timeinfo, const char * format = NULL);
     size_t println(void);
+    
+    virtual void flush() { /* Empty implementation for backward compatibility */ }
+    
 };
 
 #endif

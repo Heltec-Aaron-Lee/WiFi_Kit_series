@@ -8,12 +8,12 @@
 #ifndef COMPONENTS_CPP_UTILS_BLEDESCRIPTOR_H_
 #define COMPONENTS_CPP_UTILS_BLEDESCRIPTOR_H_
 #include "sdkconfig.h"
-#if defined(CONFIG_BT_ENABLED)
+#if defined(CONFIG_BLUEDROID_ENABLED)
 #include <string>
 #include "BLEUUID.h"
 #include "BLECharacteristic.h"
 #include <esp_gatts_api.h>
-#include "FreeRTOS.h"
+#include "RTOS.h"
 
 class BLEService;
 class BLECharacteristic;
@@ -51,7 +51,7 @@ private:
 	uint16_t                m_handle;
 	BLEDescriptorCallbacks* m_pCallback;
 	BLECharacteristic*      m_pCharacteristic;
-	esp_gatt_perm_t				  m_permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE;
+	esp_gatt_perm_t         m_permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE;
 	FreeRTOS::Semaphore     m_semaphoreCreateEvt = FreeRTOS::Semaphore("CreateEvt");
 	esp_attr_value_t        m_value;
 
@@ -73,5 +73,5 @@ public:
 	virtual void onRead(BLEDescriptor* pDescriptor);
 	virtual void onWrite(BLEDescriptor* pDescriptor);
 };
-#endif /* CONFIG_BT_ENABLED */
+#endif /* CONFIG_BLUEDROID_ENABLED */
 #endif /* COMPONENTS_CPP_UTILS_BLEDESCRIPTOR_H_ */

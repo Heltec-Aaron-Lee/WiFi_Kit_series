@@ -22,7 +22,7 @@ using namespace fs;
 
 SDFS::SDFS(FSImplPtr impl): FS(impl), _pdrv(0xFF) {}
 
-bool SDFS::begin(uint8_t ssPin, SPIClass &spi, uint32_t frequency, const char * mountpoint, uint8_t max_files)
+bool SDFS::begin(uint8_t ssPin, SPIClass &spi, uint32_t frequency, const char * mountpoint, uint8_t max_files, bool format_if_empty)
 {
     if(_pdrv != 0xFF) {
         return true;
@@ -35,7 +35,7 @@ bool SDFS::begin(uint8_t ssPin, SPIClass &spi, uint32_t frequency, const char * 
         return false;
     }
 
-    if(!sdcard_mount(_pdrv, mountpoint, max_files)){
+    if(!sdcard_mount(_pdrv, mountpoint, max_files, format_if_empty)){
         sdcard_unmount(_pdrv);
         sdcard_uninit(_pdrv);
         _pdrv = 0xFF;
@@ -75,6 +75,22 @@ uint64_t SDFS::cardSize()
     return (uint64_t)sectors * sectorSize;
 }
 
+size_t SDFS::numSectors()
+{
+    if(_pdrv == 0xFF) {
+        return 0;
+    }
+    return sdcard_num_sectors(_pdrv);
+}
+
+size_t SDFS::sectorSize()
+{
+    if(_pdrv == 0xFF) {
+        return 0;
+    }
+    return sdcard_sector_size(_pdrv);
+}
+
 uint64_t SDFS::totalBytes()
 {
 	FATFS* fsinfo;
@@ -102,5 +118,16 @@ uint64_t SDFS::usedBytes()
 #endif
 	return size;
 }
+
+bool SDFS::readRAW(uint8_t* buffer, uint32_t sector)
+{
+    return sd_read_raw(_pdrv, buffer, sector);
+}
+
+bool SDFS::writeRAW(uint8_t* buffer, uint32_t sector)
+{
+    return sd_write_raw(_pdrv, buffer, sector);
+}
+
 
 SDFS SD = SDFS(FSImplPtr(new VFSImpl()));

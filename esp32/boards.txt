@@ -1,4 +1,9 @@
 menu.UploadSpeed=Upload Speed
+menu.USBMode=USB Mode
+menu.CDCOnBoot=USB CDC On Boot
+menu.MSCOnBoot=USB Firmware MSC On Boot
+menu.DFUOnBoot=USB DFU On Boot
+menu.UploadMode=Upload Mode
 menu.CPUFreq=CPU Frequency
 menu.FlashFreq=Flash Frequency
 menu.FlashMode=Flash Mode
@@ -6,26 +11,304 @@ menu.FlashSize=Flash Size
 menu.PartitionScheme=Partition Scheme
 menu.DebugLevel=Core Debug Level
 menu.PSRAM=PSRAM
+menu.Revision=Board Revision
 menu.LORAWAN_REGION=LoRaWan Region
-menu.LORAWAN_PREAMBLE_LENGTH=LORAWAN_PREAMBLE_LENGTH
 menu.LoRaWanDebugLevel=LoRaWan Debug Level
+menu.LoopCore=Arduino Runs On
+menu.EventsCore=Events Run On
+menu.MemoryType=Memory Type
+menu.LORAWAN_PREAMBLE_LENGTH=LORAWAN_PREAMBLE_LENGTH
+menu.LORAWAN_DebugLevel=LoRaWan Debug Level
 menu.LORAWAN_DEVEUI=LORAWAN_DEVEUI
+##############################################################
+### DO NOT PUT BOARDS ABOVE THE OFFICIAL ESPRESSIF BOARDS! ###
+##############################################################
+
+WIFI_LoRa_32_V3.name=WiFi LoRa 32(V3)
+WIFI_LoRa_32_V3.vid.0=0x303a
+WIFI_LoRa_32_V3.pid.0=0x1001
+
+WIFI_LoRa_32_V3.bootloader.tool=esptool_py
+WIFI_LoRa_32_V3.bootloader.tool.default=esptool_py
+
+WIFI_LoRa_32_V3.upload.tool=esptool_py
+WIFI_LoRa_32_V3.upload.tool.default=esptool_py
+WIFI_LoRa_32_V3.upload.tool.network=esp_ota
+
+WIFI_LoRa_32_V3.upload.maximum_size=1310720
+WIFI_LoRa_32_V3.upload.maximum_data_size=327680
+WIFI_LoRa_32_V3.upload.flags=
+WIFI_LoRa_32_V3.upload.extra_flags=
+WIFI_LoRa_32_V3.upload.use_1200bps_touch=false
+WIFI_LoRa_32_V3.upload.wait_for_upload_port=false
+
+WIFI_LoRa_32_V3.serial.disableDTR=false
+WIFI_LoRa_32_V3.serial.disableRTS=false
+
+WIFI_LoRa_32_V3.build.tarch=xtensa
+WIFI_LoRa_32_V3.build.bootloader_addr=0x0
+WIFI_LoRa_32_V3.build.target=esp32s3
+WIFI_LoRa_32_V3.build.mcu=esp32s3
+WIFI_LoRa_32_V3.build.core=esp32
+WIFI_LoRa_32_V3.build.variant=WIFI_LoRa_32_V3
+WIFI_LoRa_32_V3.build.board=WIFI_LoRa_32_V3
+
+WIFI_LoRa_32_V3.build.usb_mode=1
+WIFI_LoRa_32_V3.build.cdc_on_boot=0
+WIFI_LoRa_32_V3.build.msc_on_boot=0
+WIFI_LoRa_32_V3.build.dfu_on_boot=0
+WIFI_LoRa_32_V3.build.f_cpu=240000000L
+WIFI_LoRa_32_V3.build.flash_size=8MB
+WIFI_LoRa_32_V3.build.flash_freq=80m
+WIFI_LoRa_32_V3.build.flash_mode=dio
+WIFI_LoRa_32_V3.build.boot=qio
+WIFI_LoRa_32_V3.build.boot_freq=80m
+WIFI_LoRa_32_V3.build.partitions=default_8MB
+WIFI_LoRa_32_V3.build.loop_core=
+WIFI_LoRa_32_V3.build.event_core=
+WIFI_LoRa_32_V3.build.psram_type=qspi
+WIFI_LoRa_32_V3.build.memory_type={build.boot}_{build.psram_type}
+
+WIFI_LoRa_32_V3.menu.LoopCore.1=Core 1
+WIFI_LoRa_32_V3.menu.LoopCore.1.build.loop_core=-DARDUINO_RUNNING_CORE=1
+WIFI_LoRa_32_V3.menu.LoopCore.0=Core 0
+WIFI_LoRa_32_V3.menu.LoopCore.0.build.loop_core=-DARDUINO_RUNNING_CORE=0
+
+WIFI_LoRa_32_V3.menu.EventsCore.1=Core 1
+WIFI_LoRa_32_V3.menu.EventsCore.1.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=1
+WIFI_LoRa_32_V3.menu.EventsCore.0=Core 0
+WIFI_LoRa_32_V3.menu.EventsCore.0.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=0
+
+WIFI_LoRa_32_V3.menu.CPUFreq.240=240MHz (WiFi)
+WIFI_LoRa_32_V3.menu.CPUFreq.240.build.f_cpu=240000000L
+WIFI_LoRa_32_V3.menu.CPUFreq.160=160MHz (WiFi)
+WIFI_LoRa_32_V3.menu.CPUFreq.160.build.f_cpu=160000000L
+WIFI_LoRa_32_V3.menu.CPUFreq.80=80MHz (WiFi)
+WIFI_LoRa_32_V3.menu.CPUFreq.80.build.f_cpu=80000000L
+WIFI_LoRa_32_V3.menu.CPUFreq.40=40MHz
+WIFI_LoRa_32_V3.menu.CPUFreq.40.build.f_cpu=40000000L
+WIFI_LoRa_32_V3.menu.CPUFreq.20=20MHz
+WIFI_LoRa_32_V3.menu.CPUFreq.20.build.f_cpu=20000000L
+WIFI_LoRa_32_V3.menu.CPUFreq.10=10MHz
+WIFI_LoRa_32_V3.menu.CPUFreq.10.build.f_cpu=10000000L
+
+WIFI_LoRa_32_V3.menu.UploadSpeed.921600=921600
+WIFI_LoRa_32_V3.menu.UploadSpeed.921600.upload.speed=921600
+WIFI_LoRa_32_V3.menu.UploadSpeed.115200=115200
+WIFI_LoRa_32_V3.menu.UploadSpeed.115200.upload.speed=115200
+WIFI_LoRa_32_V3.menu.UploadSpeed.256000.windows=256000
+WIFI_LoRa_32_V3.menu.UploadSpeed.256000.upload.speed=256000
+WIFI_LoRa_32_V3.menu.UploadSpeed.230400.windows.upload.speed=256000
+WIFI_LoRa_32_V3.menu.UploadSpeed.230400=230400
+WIFI_LoRa_32_V3.menu.UploadSpeed.230400.upload.speed=230400
+WIFI_LoRa_32_V3.menu.UploadSpeed.460800.linux=460800
+WIFI_LoRa_32_V3.menu.UploadSpeed.460800.macosx=460800
+WIFI_LoRa_32_V3.menu.UploadSpeed.460800.upload.speed=460800
+WIFI_LoRa_32_V3.menu.UploadSpeed.512000.windows=512000
+WIFI_LoRa_32_V3.menu.UploadSpeed.512000.upload.speed=512000
+
+WIFI_LoRa_32_V3.menu.DebugLevel.none=None
+WIFI_LoRa_32_V3.menu.DebugLevel.none.build.code_debug=0
+WIFI_LoRa_32_V3.menu.DebugLevel.error=Error
+WIFI_LoRa_32_V3.menu.DebugLevel.error.build.code_debug=1
+WIFI_LoRa_32_V3.menu.DebugLevel.warn=Warn
+WIFI_LoRa_32_V3.menu.DebugLevel.warn.build.code_debug=2
+WIFI_LoRa_32_V3.menu.DebugLevel.info=Info
+WIFI_LoRa_32_V3.menu.DebugLevel.info.build.code_debug=3
+WIFI_LoRa_32_V3.menu.DebugLevel.debug=Debug
+WIFI_LoRa_32_V3.menu.DebugLevel.debug.build.code_debug=4
+WIFI_LoRa_32_V3.menu.DebugLevel.verbose=Verbose
+WIFI_LoRa_32_V3.menu.DebugLevel.verbose.build.code_debug=5
+
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.0=REGION_EU868
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.1=REGION_EU433
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.2=REGION_CN470
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.3=REGION_US915
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.3.build.band=REGION_US915
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.4=REGION_AU915
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.5=REGION_CN779
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.6=REGION_AS923
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.7=REGION_KR920
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.8=REGION_IN865
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+WIFI_LoRa_32_V3.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.0=None
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.1=Freq
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.2=Freq && DIO
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+WIFI_LoRa_32_V3.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+WIFI_LoRa_32_V3.menu.LORAWAN_DEVEUI.0=CUSTOM
+WIFI_LoRa_32_V3.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+WIFI_LoRa_32_V3.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+WIFI_LoRa_32_V3.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+WIFI_LoRa_32_V3.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+WIFI_LoRa_32_V3.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+WIFI_LoRa_32_V3.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+WIFI_LoRa_32_V3.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
+WIFI_LoRa_32_V3.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+WIFI_LoRa_32_V3.build.extra_libs=-lheltec
+##############################################################
+
+wireless_mini_shell.name=Wireless Mini Shell
+wireless_mini_shell.vid.0=0x303a
+wireless_mini_shell.pid.0=0x1001
+
+wireless_mini_shell.bootloader.tool=esptool_py
+wireless_mini_shell.bootloader.tool.default=esptool_py
+
+wireless_mini_shell.upload.tool=esptool_py
+wireless_mini_shell.upload.tool.default=esptool_py
+wireless_mini_shell.upload.tool.network=esp_ota
+
+wireless_mini_shell.upload.maximum_size=1310720
+wireless_mini_shell.upload.maximum_data_size=327680
+wireless_mini_shell.upload.flags=
+wireless_mini_shell.upload.extra_flags=
+wireless_mini_shell.upload.use_1200bps_touch=false
+wireless_mini_shell.upload.wait_for_upload_port=false
+
+wireless_mini_shell.serial.disableDTR=false
+wireless_mini_shell.serial.disableRTS=false
+
+wireless_mini_shell.build.tarch=riscv32
+wireless_mini_shell.build.target=esp
+wireless_mini_shell.build.mcu=esp32c3
+wireless_mini_shell.build.core=esp32
+wireless_mini_shell.build.variant=esp32c3
+wireless_mini_shell.build.board=Wireless_Mini_Shell
+wireless_mini_shell.build.bootloader_addr=0x0
+
+wireless_mini_shell.build.cdc_on_boot=0
+wireless_mini_shell.build.f_cpu=160000000L
+wireless_mini_shell.build.flash_size=4MB
+wireless_mini_shell.build.flash_freq=80m
+wireless_mini_shell.build.flash_mode=dio
+wireless_mini_shell.build.boot=qio
+wireless_mini_shell.build.partitions=default
+
+wireless_mini_shell.menu.LORAWAN_REGION.0=REGION_EU868
+wireless_mini_shell.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+wireless_mini_shell.menu.LORAWAN_REGION.1=REGION_EU433
+wireless_mini_shell.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+wireless_mini_shell.menu.LORAWAN_REGION.2=REGION_CN470
+wireless_mini_shell.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+wireless_mini_shell.menu.LORAWAN_REGION.3=REGION_US915
+wireless_mini_shell.menu.LORAWAN_REGION.3.build.band=REGION_US915
+wireless_mini_shell.menu.LORAWAN_REGION.4=REGION_AU915
+wireless_mini_shell.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+wireless_mini_shell.menu.LORAWAN_REGION.5=REGION_CN779
+wireless_mini_shell.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+wireless_mini_shell.menu.LORAWAN_REGION.6=REGION_AS923
+wireless_mini_shell.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+wireless_mini_shell.menu.LORAWAN_REGION.7=REGION_KR920
+wireless_mini_shell.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+wireless_mini_shell.menu.LORAWAN_REGION.8=REGION_IN865
+wireless_mini_shell.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+wireless_mini_shell.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+wireless_mini_shell.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wireless_mini_shell.menu.CPUFreq.160=160MHz (WiFi)
+wireless_mini_shell.menu.CPUFreq.160.build.f_cpu=160000000L
+wireless_mini_shell.menu.CPUFreq.80=80MHz (WiFi)
+wireless_mini_shell.menu.CPUFreq.80.build.f_cpu=80000000L
+wireless_mini_shell.menu.CPUFreq.40=40MHz
+wireless_mini_shell.menu.CPUFreq.40.build.f_cpu=40000000L
+wireless_mini_shell.menu.CPUFreq.20=20MHz
+wireless_mini_shell.menu.CPUFreq.20.build.f_cpu=20000000L
+wireless_mini_shell.menu.CPUFreq.10=10MHz
+wireless_mini_shell.menu.CPUFreq.10.build.f_cpu=10000000L
+
+wireless_mini_shell.menu.UploadSpeed.921600=921600
+wireless_mini_shell.menu.UploadSpeed.921600.upload.speed=921600
+wireless_mini_shell.menu.UploadSpeed.115200=115200
+wireless_mini_shell.menu.UploadSpeed.115200.upload.speed=115200
+wireless_mini_shell.menu.UploadSpeed.256000.windows=256000
+wireless_mini_shell.menu.UploadSpeed.256000.upload.speed=256000
+wireless_mini_shell.menu.UploadSpeed.230400.windows.upload.speed=256000
+wireless_mini_shell.menu.UploadSpeed.230400=230400
+wireless_mini_shell.menu.UploadSpeed.230400.upload.speed=230400
+wireless_mini_shell.menu.UploadSpeed.460800.linux=460800
+wireless_mini_shell.menu.UploadSpeed.460800.macosx=460800
+wireless_mini_shell.menu.UploadSpeed.460800.upload.speed=460800
+wireless_mini_shell.menu.UploadSpeed.512000.windows=512000
+wireless_mini_shell.menu.UploadSpeed.512000.upload.speed=512000
+
+wireless_mini_shell.menu.DebugLevel.none=None
+wireless_mini_shell.menu.DebugLevel.none.build.code_debug=0
+wireless_mini_shell.menu.DebugLevel.error=Error
+wireless_mini_shell.menu.DebugLevel.error.build.code_debug=1
+wireless_mini_shell.menu.DebugLevel.warn=Warn
+wireless_mini_shell.menu.DebugLevel.warn.build.code_debug=2
+wireless_mini_shell.menu.DebugLevel.info=Info
+wireless_mini_shell.menu.DebugLevel.info.build.code_debug=3
+wireless_mini_shell.menu.DebugLevel.debug=Debug
+wireless_mini_shell.menu.DebugLevel.debug.build.code_debug=4
+wireless_mini_shell.menu.DebugLevel.verbose=Verbose
+wireless_mini_shell.menu.DebugLevel.verbose.build.code_debug=5
+
+wireless_mini_shell.menu.LoRaWanDebugLevel.0=None
+wireless_mini_shell.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+wireless_mini_shell.menu.LoRaWanDebugLevel.1=Freq
+wireless_mini_shell.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+wireless_mini_shell.menu.LoRaWanDebugLevel.2=Freq && DIO
+wireless_mini_shell.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+wireless_mini_shell.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+wireless_mini_shell.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+
+wireless_mini_shell.menu.LORAWAN_DEVEUI.0=CUSTOM
+wireless_mini_shell.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wireless_mini_shell.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wireless_mini_shell.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+wireless_mini_shell.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wireless_mini_shell.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wireless_mini_shell.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wireless_mini_shell.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
+wireless_mini_shell.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+wireless_mini_shell.build.extra_libs=-lheltec
 ##############################################################
 
 wifi_kit_32.name=WiFi Kit 32
 
+wifi_kit_32.bootloader.tool=esptool_py
+wifi_kit_32.bootloader.tool.default=esptool_py
+
 wifi_kit_32.upload.tool=esptool_py
+wifi_kit_32.upload.tool.default=esptool_py
+wifi_kit_32.upload.tool.network=esp_ota
+
 wifi_kit_32.upload.maximum_size=1310720
 wifi_kit_32.upload.maximum_data_size=327680
-wifi_kit_32.upload.wait_for_upload_port=true
+wifi_kit_32.upload.flags=
+wifi_kit_32.upload.extra_flags=
 
 wifi_kit_32.serial.disableDTR=true
 wifi_kit_32.serial.disableRTS=true
 
+wifi_kit_32.build.tarch=xtensa
+wifi_kit_32.build.bootloader_addr=0x1000
+wifi_kit_32.build.target=esp32
 wifi_kit_32.build.mcu=esp32
 wifi_kit_32.build.core=esp32
 wifi_kit_32.build.variant=wifi_kit_32
-wifi_kit_32.build.board=WIFI_KIT_32
+wifi_kit_32.build.board=wifi_kit_32
 
 wifi_kit_32.build.f_cpu=240000000L
 wifi_kit_32.build.flash_size=4MB
@@ -37,10 +320,12 @@ wifi_kit_32.build.defines=
 wifi_kit_32.build.band=LoRaWAN_NONE
 wifi_kit_32.build.LoRaWanDebugLevel=0
 
-# wifi_kit_32.menu.PSRAM.disabled=Disabled
-# wifi_kit_32.menu.PSRAM.disabled.build.defines=
-# wifi_kit_32.menu.PSRAM.enabled=Enabled
-# wifi_kit_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+wifi_kit_32.menu.PSRAM.disabled=Disabled
+wifi_kit_32.menu.PSRAM.disabled.build.defines=
+wifi_kit_32.menu.PSRAM.disabled.build.extra_libs=
+wifi_kit_32.menu.PSRAM.enabled=Enabled
+wifi_kit_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue -mfix-esp32-psram-cache-strategy=memw
+wifi_kit_32.menu.PSRAM.enabled.build.extra_libs=
 
 wifi_kit_32.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_kit_32.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -76,35 +361,42 @@ wifi_kit_32.menu.DebugLevel.debug=Debug
 wifi_kit_32.menu.DebugLevel.debug.build.code_debug=4
 wifi_kit_32.menu.DebugLevel.verbose=Verbose
 wifi_kit_32.menu.DebugLevel.verbose.build.code_debug=5
+
 ##############################################################
 
 wifi_lora_32.name=WiFi LoRa 32
 
+wifi_lora_32.bootloader.tool=esptool_py
+wifi_lora_32.bootloader.tool.default=esptool_py
+
 wifi_lora_32.upload.tool=esptool_py
+wifi_lora_32.upload.tool.default=esptool_py
+wifi_lora_32.upload.tool.network=esp_ota
+
 wifi_lora_32.upload.maximum_size=1310720
 wifi_lora_32.upload.maximum_data_size=327680
-wifi_lora_32.upload.wait_for_upload_port=true
+wifi_lora_32.upload.flags=
+wifi_lora_32.upload.extra_flags=
 
 wifi_lora_32.serial.disableDTR=true
 wifi_lora_32.serial.disableRTS=true
 
+wifi_lora_32.build.tarch=xtensa
+wifi_lora_32.build.bootloader_addr=0x1000
+wifi_lora_32.build.target=esp32
 wifi_lora_32.build.mcu=esp32
 wifi_lora_32.build.core=esp32
 wifi_lora_32.build.variant=wifi_lora_32
-wifi_lora_32.build.board=WIFI_LORA_32
+wifi_lora_32.build.board=WIFI_LoRa_32
 
 wifi_lora_32.build.f_cpu=240000000L
-wifi_lora_32.build.flash_size=4MB
+wifi_lora_32.build.flash_size=8MB
 wifi_lora_32.build.flash_freq=80m
 wifi_lora_32.build.flash_mode=dio
 wifi_lora_32.build.boot=dio
-wifi_lora_32.build.partitions=default
-wifi_lora_32.build.defines=
-
-# wifi_lora_32.menu.PSRAM.disabled=Disabled
-# wifi_lora_32.menu.PSRAM.disabled.build.defines=
-# wifi_lora_32.menu.PSRAM.enabled=Enabled
-# wifi_lora_32.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+wifi_lora_32.build.partitions=default_8MB
+wifi_lora_32.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+wifi_lora_32.build.extra_libs=-lheltec
 
 wifi_lora_32.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_lora_32.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -162,16 +454,6 @@ wifi_lora_32.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wifi_lora_32.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wifi_lora_32.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
-wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
-wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
-wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
-wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
-
-wifi_lora_32.menu.LORAWAN_DEVEUI.0=CUSTOM
-wifi_lora_32.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
-wifi_lora_32.menu.LORAWAN_DEVEUI.1=Generate By ChipID
-wifi_lora_32.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
-
 wifi_lora_32.menu.LoRaWanDebugLevel.0=None
 wifi_lora_32.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
 wifi_lora_32.menu.LoRaWanDebugLevel.1=Freq
@@ -180,22 +462,43 @@ wifi_lora_32.menu.LoRaWanDebugLevel.2=Freq && DIO
 wifi_lora_32.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
 wifi_lora_32.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
 wifi_lora_32.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+wifi_lora_32.menu.LORAWAN_DEVEUI.0=CUSTOM
+wifi_lora_32.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wifi_lora_32.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wifi_lora_32.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wifi_lora_32.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 ##############################################################
 
 wifi_lora_32_V2.name=WiFi LoRa 32(V2)
 
+wifi_lora_32_V2.bootloader.tool=esptool_py
+wifi_lora_32_V2.bootloader.tool.default=esptool_py
+
 wifi_lora_32_V2.upload.tool=esptool_py
+wifi_lora_32_V2.upload.tool.default=esptool_py
+wifi_lora_32_V2.upload.tool.network=esp_ota
+
 wifi_lora_32_V2.upload.maximum_size=3342336
 wifi_lora_32_V2.upload.maximum_data_size=327680
-wifi_lora_32_V2.upload.wait_for_upload_port=true
+wifi_lora_32_V2.upload.flags=
+wifi_lora_32_V2.upload.extra_flags=
 
 wifi_lora_32_V2.serial.disableDTR=true
 wifi_lora_32_V2.serial.disableRTS=true
 
+wifi_lora_32_V2.build.tarch=xtensa
+wifi_lora_32_V2.build.bootloader_addr=0x1000
+wifi_lora_32_V2.build.target=esp32
 wifi_lora_32_V2.build.mcu=esp32
 wifi_lora_32_V2.build.core=esp32
 wifi_lora_32_V2.build.variant=wifi_lora_32_V2
-wifi_lora_32_V2.build.board=WIFI_LORA_32_V2
+wifi_lora_32_V2.build.board=WIFI_LoRa_32_V2
 
 wifi_lora_32_V2.build.f_cpu=240000000L
 wifi_lora_32_V2.build.flash_size=8MB
@@ -203,12 +506,8 @@ wifi_lora_32_V2.build.flash_freq=80m
 wifi_lora_32_V2.build.flash_mode=dio
 wifi_lora_32_V2.build.boot=qio
 wifi_lora_32_V2.build.partitions=default_8MB
-wifi_lora_32_V2.build.defines=
-
-# wifi_lora_32_V2.menu.PSRAM.enabled=Enabled
-# wifi_lora_32_V2.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
-# wifi_lora_32_V2.menu.PSRAM.disabled=Disabled
-# wifi_lora_32_V2.menu.PSRAM.disabled.build.defines=
+wifi_lora_32_V2.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+wifi_lora_32_V2.build.extra_libs=-lheltec
 
 wifi_lora_32_V2.menu.CPUFreq.240=240MHz (WiFi/BT)
 wifi_lora_32_V2.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -265,18 +564,6 @@ wifi_lora_32_V2.menu.LORAWAN_REGION.8=REGION_IN865
 wifi_lora_32_V2.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wifi_lora_32_V2.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wifi_lora_32_V2.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
-wifi_lora_32_V2.menu.LORAWAN_REGION.10=REGION_LA915
-wifi_lora_32_V2.menu.LORAWAN_REGION.10.build.band=REGION_LA915
-
-wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
-wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
-wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
-wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
-
-wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0=CUSTOM
-wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
-wifi_lora_32_V2.menu.LORAWAN_DEVEUI.1=Generate By ChipID
-wifi_lora_32_V2.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
 
 wifi_lora_32_V2.menu.LoRaWanDebugLevel.0=None
 wifi_lora_32_V2.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
@@ -286,22 +573,43 @@ wifi_lora_32_V2.menu.LoRaWanDebugLevel.2=Freq && DIO
 wifi_lora_32_V2.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
 wifi_lora_32_V2.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
 wifi_lora_32_V2.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0=CUSTOM
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wifi_lora_32_V2.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wifi_lora_32_V2.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 ##############################################################
 
 wireless_stick.name=Wireless Stick
 
+wireless_stick.bootloader.tool=esptool_py
+wireless_stick.bootloader.tool.default=esptool_py
+
 wireless_stick.upload.tool=esptool_py
+wireless_stick.upload.tool.default=esptool_py
+wireless_stick.upload.tool.network=esp_ota
+
 wireless_stick.upload.maximum_size=3342336
 wireless_stick.upload.maximum_data_size=327680
-wireless_stick.upload.wait_for_upload_port=true
+wireless_stick.upload.flags=
+wireless_stick.upload.extra_flags=
 
 wireless_stick.serial.disableDTR=true
 wireless_stick.serial.disableRTS=true
 
+wireless_stick.build.tarch=xtensa
+wireless_stick.build.bootloader_addr=0x1000
+wireless_stick.build.target=esp32
 wireless_stick.build.mcu=esp32
 wireless_stick.build.core=esp32
 wireless_stick.build.variant=wireless_stick
-wireless_stick.build.board=WIRELESS_STICK
+wireless_stick.build.board=wireless_stick
 
 wireless_stick.build.f_cpu=240000000L
 wireless_stick.build.flash_size=8MB
@@ -309,12 +617,8 @@ wireless_stick.build.flash_freq=80m
 wireless_stick.build.flash_mode=dio
 wireless_stick.build.boot=dio
 wireless_stick.build.partitions=default_8MB
-wireless_stick.build.defines=
-
-# wireless_stick.menu.PSRAM.disabled=Disabled
-# wireless_stick.menu.PSRAM.disabled.build.defines=
-# wireless_stick.menu.PSRAM.enabled=Enabled
-# wireless_stick.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+wireless_stick.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+wireless_stick.build.extra_libs=-lheltec
 
 wireless_stick.menu.CPUFreq.240=240MHz (WiFi/BT)
 wireless_stick.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -372,17 +676,6 @@ wireless_stick.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_stick.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_stick.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
-wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
-wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
-wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
-wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
-
-wireless_stick.menu.LORAWAN_DEVEUI.0=CUSTOM
-wireless_stick.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
-wireless_stick.menu.LORAWAN_DEVEUI.1=Generate By ChipID
-wireless_stick.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
-
-
 wireless_stick.menu.LoRaWanDebugLevel.0=None
 wireless_stick.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
 wireless_stick.menu.LoRaWanDebugLevel.1=Freq
@@ -391,22 +684,44 @@ wireless_stick.menu.LoRaWanDebugLevel.2=Freq && DIO
 wireless_stick.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
 wireless_stick.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
 wireless_stick.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+wireless_stick.menu.LORAWAN_DEVEUI.0=CUSTOM
+wireless_stick.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wireless_stick.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wireless_stick.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 ##############################################################
 
 wireless_stick_lite.name=Wireless Stick Lite
 
+wireless_stick_lite.bootloader.tool=esptool_py
+wireless_stick_lite.bootloader.tool.default=esptool_py
+
 wireless_stick_lite.upload.tool=esptool_py
+wireless_stick_lite.upload.tool.default=esptool_py
+wireless_stick_lite.upload.tool.network=esp_ota
+
 wireless_stick_lite.upload.maximum_size=1310720
 wireless_stick_lite.upload.maximum_data_size=327680
 wireless_stick_lite.upload.wait_for_upload_port=true
+wireless_stick_lite.upload.flags=
+wireless_stick_lite.upload.extra_flags=
 
 wireless_stick_lite.serial.disableDTR=true
 wireless_stick_lite.serial.disableRTS=true
 
+wireless_stick_lite.build.tarch=xtensa
+wireless_stick_lite.build.bootloader_addr=0x1000
+wireless_stick_lite.build.target=esp32
 wireless_stick_lite.build.mcu=esp32
 wireless_stick_lite.build.core=esp32
 wireless_stick_lite.build.variant=wireless_stick_lite
-wireless_stick_lite.build.board=WIRELESS_STICK_LITE
+wireless_stick_lite.build.board=wireless_stick_lite
 
 wireless_stick_lite.build.f_cpu=240000000L
 wireless_stick_lite.build.flash_size=4MB
@@ -414,12 +729,8 @@ wireless_stick_lite.build.flash_freq=80m
 wireless_stick_lite.build.flash_mode=dio
 wireless_stick_lite.build.boot=dio
 wireless_stick_lite.build.partitions=default
-wireless_stick_lite.build.defines=
-
-# wireless_stick_lite.menu.PSRAM.disabled=Disabled
-# wireless_stick_lite.menu.PSRAM.disabled.build.defines=
-# wireless_stick_lite.menu.PSRAM.enabled=Enabled
-# wireless_stick_lite.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
+wireless_stick_lite.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+wireless_stick_lite.build.extra_libs=-lheltec
 
 wireless_stick_lite.menu.CPUFreq.240=240MHz (WiFi/BT)
 wireless_stick_lite.menu.CPUFreq.240.build.f_cpu=240000000L
@@ -477,16 +788,6 @@ wireless_stick_lite.menu.LORAWAN_REGION.8.build.band=REGION_IN865
 wireless_stick_lite.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
 wireless_stick_lite.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
 
-wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
-wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
-wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
-wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
-
-wireless_stick_lite.menu.LORAWAN_DEVEUI.0=CUSTOM
-wireless_stick_lite.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
-wireless_stick_lite.menu.LORAWAN_DEVEUI.1=Generate By ChipID
-wireless_stick_lite.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
-
 wireless_stick_lite.menu.LoRaWanDebugLevel.0=None
 wireless_stick_lite.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
 wireless_stick_lite.menu.LoRaWanDebugLevel.1=Freq
@@ -495,204 +796,15 @@ wireless_stick_lite.menu.LoRaWanDebugLevel.2=Freq && DIO
 wireless_stick_lite.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
 wireless_stick_lite.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
 wireless_stick_lite.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+wireless_stick_lite.menu.LORAWAN_DEVEUI.0=CUSTOM
+wireless_stick_lite.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wireless_stick_lite.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wireless_stick_lite.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wireless_stick_lite.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 ##############################################################
 
-wireless_bridge.name=Wireless Bridge
-
-wireless_bridge.upload.tool=esptool_py
-wireless_bridge.upload.maximum_size=3342336
-wireless_bridge.upload.maximum_data_size=327680
-wireless_bridge.upload.wait_for_upload_port=true
-
-wireless_bridge.serial.disableDTR=true
-wireless_bridge.serial.disableRTS=true
-
-wireless_bridge.build.mcu=esp32
-wireless_bridge.build.core=esp32
-wireless_bridge.build.variant=wireless_bridge
-wireless_bridge.build.board=wireless_bridge
-
-wireless_bridge.build.f_cpu=240000000L
-wireless_bridge.build.flash_size=8MB
-wireless_bridge.build.flash_freq=80m
-wireless_bridge.build.flash_mode=dio
-wireless_bridge.build.boot=dio
-wireless_bridge.build.partitions=default_8MB
-wireless_bridge.build.defines=
-
-wireless_bridge.menu.PSRAM.enabled=Enabled
-wireless_bridge.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
-wireless_bridge.menu.PSRAM.disabled=Disabled
-wireless_bridge.menu.PSRAM.disabled.build.defines=
-
-wireless_bridge.menu.CPUFreq.240=240MHz (WiFi/BT)
-wireless_bridge.menu.CPUFreq.240.build.f_cpu=240000000L
-wireless_bridge.menu.CPUFreq.160=160MHz (WiFi/BT)
-wireless_bridge.menu.CPUFreq.160.build.f_cpu=160000000L
-wireless_bridge.menu.CPUFreq.80=80MHz (WiFi/BT)
-wireless_bridge.menu.CPUFreq.80.build.f_cpu=80000000L
-
-wireless_bridge.menu.UploadSpeed.921600=921600
-wireless_bridge.menu.UploadSpeed.921600.upload.speed=921600
-wireless_bridge.menu.UploadSpeed.115200=115200
-wireless_bridge.menu.UploadSpeed.115200.upload.speed=115200
-wireless_bridge.menu.UploadSpeed.256000.windows=256000
-wireless_bridge.menu.UploadSpeed.256000.upload.speed=256000
-wireless_bridge.menu.UploadSpeed.230400.windows.upload.speed=256000
-wireless_bridge.menu.UploadSpeed.230400=230400
-wireless_bridge.menu.UploadSpeed.230400.upload.speed=230400
-wireless_bridge.menu.UploadSpeed.460800.linux=460800
-wireless_bridge.menu.UploadSpeed.460800.macosx=460800
-wireless_bridge.menu.UploadSpeed.460800.upload.speed=460800
-wireless_bridge.menu.UploadSpeed.512000.windows=512000
-wireless_bridge.menu.UploadSpeed.512000.upload.speed=512000
-
-wireless_bridge.menu.DebugLevel.none=None
-wireless_bridge.menu.DebugLevel.none.build.code_debug=0
-wireless_bridge.menu.DebugLevel.error=Error
-wireless_bridge.menu.DebugLevel.error.build.code_debug=1
-wireless_bridge.menu.DebugLevel.warn=Warn
-wireless_bridge.menu.DebugLevel.warn.build.code_debug=2
-wireless_bridge.menu.DebugLevel.info=Info
-wireless_bridge.menu.DebugLevel.info.build.code_debug=3
-wireless_bridge.menu.DebugLevel.debug=Debug
-wireless_bridge.menu.DebugLevel.debug.build.code_debug=4
-wireless_bridge.menu.DebugLevel.verbose=Verbose
-wireless_bridge.menu.DebugLevel.verbose.build.code_debug=5
-
-wireless_bridge.menu.LORAWAN_REGION.0=REGION_EU868
-wireless_bridge.menu.LORAWAN_REGION.0.build.band=REGION_EU868
-wireless_bridge.menu.LORAWAN_REGION.1=REGION_EU433
-wireless_bridge.menu.LORAWAN_REGION.1.build.band=REGION_EU433
-wireless_bridge.menu.LORAWAN_REGION.2=REGION_CN470
-wireless_bridge.menu.LORAWAN_REGION.2.build.band=REGION_CN470
-wireless_bridge.menu.LORAWAN_REGION.3=REGION_US915
-wireless_bridge.menu.LORAWAN_REGION.3.build.band=REGION_US915
-wireless_bridge.menu.LORAWAN_REGION.4=REGION_AU915
-wireless_bridge.menu.LORAWAN_REGION.4.build.band=REGION_AU915
-wireless_bridge.menu.LORAWAN_REGION.5=REGION_CN779
-wireless_bridge.menu.LORAWAN_REGION.5.build.band=REGION_CN779
-wireless_bridge.menu.LORAWAN_REGION.6=REGION_AS923
-wireless_bridge.menu.LORAWAN_REGION.6.build.band=REGION_AS923
-wireless_bridge.menu.LORAWAN_REGION.7=REGION_KR920
-wireless_bridge.menu.LORAWAN_REGION.7.build.band=REGION_KR920
-wireless_bridge.menu.LORAWAN_REGION.8=REGION_IN865
-wireless_bridge.menu.LORAWAN_REGION.8.build.band=REGION_IN865
-wireless_bridge.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
-wireless_bridge.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
-
-wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
-wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
-wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
-wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
-
-wireless_bridge.menu.LORAWAN_DEVEUI.0=CUSTOM
-wireless_bridge.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
-wireless_bridge.menu.LORAWAN_DEVEUI.1=Generate By ChipID
-wireless_bridge.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
-
-wireless_bridge.menu.LoRaWanDebugLevel.0=None
-wireless_bridge.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
-wireless_bridge.menu.LoRaWanDebugLevel.1=Freq
-wireless_bridge.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
-wireless_bridge.menu.LoRaWanDebugLevel.2=Freq && DIO
-wireless_bridge.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
-wireless_bridge.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
-wireless_bridge.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
-
-
-##############################################################
-lora_eink_board.name=Lora Eink Board
-lora_eink_board.upload.tool=esptool_py
-lora_eink_board.upload.maximum_size=1638400
-lora_eink_board.upload.maximum_data_size=327680
-wireless_stick_lite.upload.wait_for_upload_port=true
-lora_eink_board.serial.disableDTR=true
-lora_eink_board.serial.disableRTS=true
-lora_eink_board.build.mcu=esp32
-lora_eink_board.build.core=esp32
-lora_eink_board.build.variant=lora_eink_board
-lora_eink_board.build.board=LORA_EINK_BOARD
-lora_eink_board.build.f_cpu=240000000L
-lora_eink_board.build.flash_size=8MB
-lora_eink_board.build.flash_freq=80m
-lora_eink_board.build.flash_mode=dio
-lora_eink_board.build.boot=dio
-lora_eink_board.build.partitions=default_8MB
-lora_eink_board.build.defines=
-
-# lora_eink_board.menu.PSRAM.disabled=Disabled
-# lora_eink_board.menu.PSRAM.disabled.build.defines=
-# lora_eink_board.menu.PSRAM.enabled=Enabled
-# lora_eink_board.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue
-lora_eink_board.menu.CPUFreq.240=240MHz (WiFi/BT)
-lora_eink_board.menu.CPUFreq.240.build.f_cpu=240000000L
-lora_eink_board.menu.CPUFreq.160=160MHz (WiFi/BT)
-lora_eink_board.menu.CPUFreq.160.build.f_cpu=160000000L
-lora_eink_board.menu.CPUFreq.80=80MHz (WiFi/BT)
-lora_eink_board.menu.CPUFreq.80.build.f_cpu=80000000L
-lora_eink_board.menu.UploadSpeed.921600=921600
-lora_eink_board.menu.UploadSpeed.921600.upload.speed=921600
-lora_eink_board.menu.UploadSpeed.115200=115200
-lora_eink_board.menu.UploadSpeed.115200.upload.speed=115200
-lora_eink_board.menu.UploadSpeed.256000.windows=256000
-lora_eink_board.menu.UploadSpeed.256000.upload.speed=256000
-lora_eink_board.menu.UploadSpeed.230400.windows.upload.speed=256000
-lora_eink_board.menu.UploadSpeed.230400=230400
-lora_eink_board.menu.UploadSpeed.230400.upload.speed=230400
-lora_eink_board.menu.UploadSpeed.460800.linux=460800
-lora_eink_board.menu.UploadSpeed.460800.macosx=460800
-lora_eink_board.menu.UploadSpeed.460800.upload.speed=460800
-lora_eink_board.menu.UploadSpeed.512000.windows=512000
-lora_eink_board.menu.UploadSpeed.512000.upload.speed=512000
-lora_eink_board.menu.DebugLevel.none=None
-lora_eink_board.menu.DebugLevel.none.build.code_debug=0
-lora_eink_board.menu.DebugLevel.error=Error
-lora_eink_board.menu.DebugLevel.error.build.code_debug=1
-lora_eink_board.menu.DebugLevel.warn=Warn
-lora_eink_board.menu.DebugLevel.warn.build.code_debug=2
-lora_eink_board.menu.DebugLevel.info=Info
-lora_eink_board.menu.DebugLevel.info.build.code_debug=3
-lora_eink_board.menu.DebugLevel.debug=Debug
-lora_eink_board.menu.DebugLevel.debug.build.code_debug=4
-lora_eink_board.menu.DebugLevel.verbose=Verbose
-lora_eink_board.menu.DebugLevel.verbose.build.code_debug=5
-lora_eink_board.menu.LORAWAN_REGION.0=REGION_EU868
-lora_eink_board.menu.LORAWAN_REGION.0.build.band=REGION_EU868
-lora_eink_board.menu.LORAWAN_REGION.1=REGION_EU433
-lora_eink_board.menu.LORAWAN_REGION.1.build.band=REGION_EU433
-lora_eink_board.menu.LORAWAN_REGION.2=REGION_CN470
-lora_eink_board.menu.LORAWAN_REGION.2.build.band=REGION_CN470
-lora_eink_board.menu.LORAWAN_REGION.3=REGION_US915
-lora_eink_board.menu.LORAWAN_REGION.3.build.band=REGION_US915
-lora_eink_board.menu.LORAWAN_REGION.4=REGION_AU915
-lora_eink_board.menu.LORAWAN_REGION.4.build.band=REGION_AU915
-lora_eink_board.menu.LORAWAN_REGION.5=REGION_CN779
-lora_eink_board.menu.LORAWAN_REGION.5.build.band=REGION_CN779
-lora_eink_board.menu.LORAWAN_REGION.6=REGION_AS923
-lora_eink_board.menu.LORAWAN_REGION.6.build.band=REGION_AS923
-lora_eink_board.menu.LORAWAN_REGION.7=REGION_KR920
-lora_eink_board.menu.LORAWAN_REGION.7.build.band=REGION_KR920
-lora_eink_board.menu.LORAWAN_REGION.8=REGION_IN865
-lora_eink_board.menu.LORAWAN_REGION.8.build.band=REGION_IN865
-lora_eink_board.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
-lora_eink_board.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
-
-lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
-lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
-lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
-lora_eink_board.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
-
-lora_eink_board.menu.LORAWAN_DEVEUI.0=CUSTOM
-lora_eink_board.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
-lora_eink_board.menu.LORAWAN_DEVEUI.1=Generate By ChipID
-lora_eink_board.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
-
-lora_eink_board.menu.LoRaWanDebugLevel.0=None
-lora_eink_board.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
-lora_eink_board.menu.LoRaWanDebugLevel.1=Freq
-lora_eink_board.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
-lora_eink_board.menu.LoRaWanDebugLevel.2=Freq && DIO
-lora_eink_board.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
-lora_eink_board.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
-lora_eink_board.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3

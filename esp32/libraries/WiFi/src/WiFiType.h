@@ -23,6 +23,8 @@
 #ifndef ESP32WIFITYPE_H_
 #define ESP32WIFITYPE_H_
 
+#include "esp_wifi_types.h"
+
 #define WIFI_SCAN_RUNNING   (-1)
 #define WIFI_SCAN_FAILED    (-2)
 
@@ -32,8 +34,8 @@
 #define WIFI_AP      WIFI_MODE_AP
 #define WIFI_AP_STA  WIFI_MODE_APSTA
 
-#define WiFiEvent_t  system_event_id_t
-#define WiFiEventInfo_t system_event_info_t
+#define WiFiEvent_t  arduino_event_id_t
+#define WiFiEventInfo_t arduino_event_info_t
 #define WiFiEventId_t wifi_event_id_t
 
 
