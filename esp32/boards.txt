@@ -24,7 +24,7 @@ menu.LORAWAN_DEVEUI=LORAWAN_DEVEUI
 ### DO NOT PUT BOARDS ABOVE THE OFFICIAL ESPRESSIF BOARDS! ###
 ##############################################################
 
-WIFI_LoRa_32_V3.name=WiFi LoRa 32(V3)
+WIFI_LoRa_32_V3.name=WiFi LoRa 32(V3) && Wireless shell(V3) && Wireless stick lite (V3)
 WIFI_LoRa_32_V3.vid.0=0x303a
 WIFI_LoRa_32_V3.pid.0=0x1001
 
