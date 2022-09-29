@@ -3,6 +3,10 @@ esp32/.gitignore
 esp32/.gitmodules
 esp32/.github
 esp32/tools/xtensa-esp32-elf
+esp32/tools/mklittlefs/
+esp32/tools/riscv32-esp-elf/
+esp32/tools/xtensa-esp32s2-elf/
+esp32/tools/xtensa-esp32s3-elf/
 esp32/tools/dist
 esp32/tools/esptool
 esp32/tools/esptool.exe

@@ -22,7 +22,7 @@
  *
  * \author    Wael Guibene ( Semtech )
  */
- #if defined(WIFI_LoRa_32)||defined(WIFI_LoRa_32_V2)||defined(wireless_stick)||defined(wireless_stick_lite)
+ #if defined(WIFI_LoRa_32)||defined(WIFI_LoRa_32_V2)||defined(wireless_stick)||defined(wireless_stick_lite)||defined(wireless_bridge)
 #include <math.h>
 #include <string.h>
 #include "../loramac/utilities.h"
