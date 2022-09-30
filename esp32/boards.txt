@@ -364,6 +364,106 @@ wifi_kit_32.menu.DebugLevel.verbose.build.code_debug=5
 
 ##############################################################
 
+wifi_kit_32_V3.name=WiFi Kit 32(V3)
+
+wifi_kit_32_V3.vid.0=0x303a
+wifi_kit_32_V3.pid.0=0x1001
+
+wifi_kit_32_V3.bootloader.tool=esptool_py
+wifi_kit_32_V3.bootloader.tool.default=esptool_py
+
+wifi_kit_32_V3.upload.tool=esptool_py
+wifi_kit_32_V3.upload.tool.default=esptool_py
+wifi_kit_32_V3.upload.tool.network=esp_ota
+
+wifi_kit_32_V3.upload.maximum_size=1310720
+wifi_kit_32_V3.upload.maximum_data_size=327680
+wifi_kit_32_V3.upload.flags=
+wifi_kit_32_V3.upload.extra_flags=
+wifi_kit_32_V3.upload.use_1200bps_touch=false
+wifi_kit_32_V3.upload.wait_for_upload_port=false
+
+wifi_kit_32_V3.serial.disableDTR=false
+wifi_kit_32_V3.serial.disableRTS=false
+
+wifi_kit_32_V3.build.tarch=xtensa
+wifi_kit_32_V3.build.bootloader_addr=0x0
+wifi_kit_32_V3.build.target=esp32s3
+wifi_kit_32_V3.build.mcu=esp32s3
+wifi_kit_32_V3.build.core=esp32
+wifi_kit_32_V3.build.variant=wifi_kit_32_V3
+wifi_kit_32_V3.build.board=wifi_kit_32_V3
+
+wifi_kit_32_V3.build.usb_mode=1
+wifi_kit_32_V3.build.cdc_on_boot=0
+wifi_kit_32_V3.build.msc_on_boot=0
+wifi_kit_32_V3.build.dfu_on_boot=0
+wifi_kit_32_V3.build.f_cpu=240000000L
+wifi_kit_32_V3.build.flash_size=8MB
+wifi_kit_32_V3.build.flash_freq=80m
+wifi_kit_32_V3.build.flash_mode=dio
+wifi_kit_32_V3.build.boot=qio
+wifi_kit_32_V3.build.boot_freq=80m
+wifi_kit_32_V3.build.partitions=default_8MB
+wifi_kit_32_V3.build.loop_core=
+wifi_kit_32_V3.build.event_core=
+wifi_kit_32_V3.build.psram_type=qspi
+wifi_kit_32_V3.build.memory_type={build.boot}_{build.psram_type}
+
+wifi_kit_32_V3.menu.LoopCore.1=Core 1
+wifi_kit_32_V3.menu.LoopCore.1.build.loop_core=-DARDUINO_RUNNING_CORE=1
+wifi_kit_32_V3.menu.LoopCore.0=Core 0
+wifi_kit_32_V3.menu.LoopCore.0.build.loop_core=-DARDUINO_RUNNING_CORE=0
+
+wifi_kit_32_V3.menu.EventsCore.1=Core 1
+wifi_kit_32_V3.menu.EventsCore.1.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=1
+wifi_kit_32_V3.menu.EventsCore.0=Core 0
+wifi_kit_32_V3.menu.EventsCore.0.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=0
+
+wifi_kit_32_V3.menu.CPUFreq.240=240MHz (WiFi)
+wifi_kit_32_V3.menu.CPUFreq.240.build.f_cpu=240000000L
+wifi_kit_32_V3.menu.CPUFreq.160=160MHz (WiFi)
+wifi_kit_32_V3.menu.CPUFreq.160.build.f_cpu=160000000L
+wifi_kit_32_V3.menu.CPUFreq.80=80MHz (WiFi)
+wifi_kit_32_V3.menu.CPUFreq.80.build.f_cpu=80000000L
+wifi_kit_32_V3.menu.CPUFreq.40=40MHz
+wifi_kit_32_V3.menu.CPUFreq.40.build.f_cpu=40000000L
+wifi_kit_32_V3.menu.CPUFreq.20=20MHz
+wifi_kit_32_V3.menu.CPUFreq.20.build.f_cpu=20000000L
+wifi_kit_32_V3.menu.CPUFreq.10=10MHz
+wifi_kit_32_V3.menu.CPUFreq.10.build.f_cpu=10000000L
+
+wifi_kit_32_V3.menu.UploadSpeed.921600=921600
+wifi_kit_32_V3.menu.UploadSpeed.921600.upload.speed=921600
+wifi_kit_32_V3.menu.UploadSpeed.115200=115200
+wifi_kit_32_V3.menu.UploadSpeed.115200.upload.speed=115200
+wifi_kit_32_V3.menu.UploadSpeed.256000.windows=256000
+wifi_kit_32_V3.menu.UploadSpeed.256000.upload.speed=256000
+wifi_kit_32_V3.menu.UploadSpeed.230400.windows.upload.speed=256000
+wifi_kit_32_V3.menu.UploadSpeed.230400=230400
+wifi_kit_32_V3.menu.UploadSpeed.230400.upload.speed=230400
+wifi_kit_32_V3.menu.UploadSpeed.460800.linux=460800
+wifi_kit_32_V3.menu.UploadSpeed.460800.macosx=460800
+wifi_kit_32_V3.menu.UploadSpeed.460800.upload.speed=460800
+wifi_kit_32_V3.menu.UploadSpeed.512000.windows=512000
+wifi_kit_32_V3.menu.UploadSpeed.512000.upload.speed=512000
+
+wifi_kit_32_V3.menu.DebugLevel.none=None
+wifi_kit_32_V3.menu.DebugLevel.none.build.code_debug=0
+wifi_kit_32_V3.menu.DebugLevel.error=Error
+wifi_kit_32_V3.menu.DebugLevel.error.build.code_debug=1
+wifi_kit_32_V3.menu.DebugLevel.warn=Warn
+wifi_kit_32_V3.menu.DebugLevel.warn.build.code_debug=2
+wifi_kit_32_V3.menu.DebugLevel.info=Info
+wifi_kit_32_V3.menu.DebugLevel.info.build.code_debug=3
+wifi_kit_32_V3.menu.DebugLevel.debug=Debug
+wifi_kit_32_V3.menu.DebugLevel.debug.build.code_debug=4
+wifi_kit_32_V3.menu.DebugLevel.verbose=Verbose
+wifi_kit_32_V3.menu.DebugLevel.verbose.build.code_debug=5
+
+
+##############################################################
+
 wifi_lora_32.name=WiFi LoRa 32
 
 wifi_lora_32.bootloader.tool=esptool_py
@@ -697,7 +797,7 @@ wireless_stick.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 
 ##############################################################
 
-wireless_stick_lite.name=Wireless Stick Lite
+wireless_stick_lite.name=Wireless Stick Lite / Wireless Shell
 
 wireless_stick_lite.bootloader.tool=esptool_py
 wireless_stick_lite.bootloader.tool.default=esptool_py
