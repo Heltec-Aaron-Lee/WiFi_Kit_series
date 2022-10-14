@@ -128,7 +128,7 @@ void loop()
 #ifdef Wireless_Mini_Shell
         esp_deep_sleep_enable_gpio_wakeup(1<<INT_PIN,ESP_GPIO_WAKEUP_GPIO_LOW);
 #else
-        esp_sleep_enable_ext0_wakeup(INT_PIN,0);
+        esp_sleep_enable_ext0_wakeup((gpio_num_t)INT_PIN,0);
 #endif
       }
       LoRaWAN.sleep(loraWanClass);
