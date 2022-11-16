@@ -206,7 +206,6 @@ wl_status_t WiFiSTAClass::begin(const char* wpa2_ssid, wpa2_auth_method_t method
     }
     esp_wifi_sta_wpa2_ent_enable(); //set config settings to enable function
     WiFi.begin(wpa2_ssid); //connect to wifi
-
     return status();
 }
 
@@ -242,7 +241,9 @@ wl_status_t WiFiSTAClass::begin(const char* ssid, const char *passphrase, int32_
     memset(&conf, 0, sizeof(wifi_config_t));
 
     wifi_sta_config(&conf, ssid, passphrase, bssid, channel, _minSecurity, _scanMethod, _sortMethod);
-
+#if defined(Wireless_Mini_Shell)
+    WiFi.setTxPower(WIFI_POWER_8_5dBm);
+#endif
     wifi_config_t current_conf;
     if(esp_wifi_get_config((wifi_interface_t)ESP_IF_WIFI_STA, &current_conf) != ESP_OK){
         log_e("get current config failed!");
@@ -318,7 +319,6 @@ wl_status_t WiFiSTAClass::begin()
             return WL_CONNECT_FAILED;
     	}
     }
-
     return status();
 }
 
