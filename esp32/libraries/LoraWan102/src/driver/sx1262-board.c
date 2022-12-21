@@ -21,7 +21,7 @@
  * \author    Gregory Cristian ( Semtech )
  */
 
-#if defined(WIFI_LoRa_32_V3) || defined(Wireless_Mini_Shell)
+#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Mini_Shell)||defined(WIFI_LoRa_32_SX1262)||defined(Wireless_Stick_V3)
 #include <stdlib.h>
 #include "../driver/sx126x-board.h"
 #include "../driver/sx126x.h"

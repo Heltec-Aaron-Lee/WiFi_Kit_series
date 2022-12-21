@@ -1,4 +1,4 @@
-#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Mini_Shell)
+#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Mini_Shell)||defined(WIFI_LoRa_32_SX1262)||defined(Wireless_Stick_V3)
 #include <math.h>
 #include <string.h>
 #include "../driver/timer.h"
@@ -1132,7 +1132,6 @@ void RadioIrqProcess( void )
 {
     if( IrqFired == true )
     {
-
 #ifdef __asr6601__
 		bool tempIrq = BoardDisableIrq( );
         IrqFired = false;

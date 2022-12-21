@@ -65,7 +65,7 @@ bool ScreenDisplay::init() {
   }
   #endif
 
-
+  
   sendInitCommands();
   if(displayType==OLED)
       resetDisplay();
@@ -660,6 +660,10 @@ void ScreenDisplay::screenRotate(DISPLAY_ANGLE angle)
 			this->displayWidth = 64;
 			this->displayHeight = 128;
 			break;
+		case GEOMETRY_64_32:
+			this->displayWidth = 32;
+			this->displayHeight = 64;
+			break;
 		case GEOMETRY_128_32:
 			this->displayWidth = 32;
 			this->displayHeight = 128;
@@ -688,6 +692,10 @@ void ScreenDisplay::screenRotate(DISPLAY_ANGLE angle)
 		case GEOMETRY_128_64:
 			this->displayWidth = 128;
 			this->displayHeight = 64;
+			break;
+		case GEOMETRY_64_32:
+			this->displayWidth = 64;
+			this->displayHeight = 32;
 			break;
 		case GEOMETRY_128_32:
 			this->displayWidth = 128;
@@ -854,6 +862,10 @@ void ScreenDisplay::setGeometry(DISPLAY_GEOMETRY g, uint16_t width, uint16_t hei
 		case GEOMETRY_128_64:
 			this->displayWidth = 128;
 			this->displayHeight = 64;
+			break;
+		case GEOMETRY_64_32:
+			this->displayWidth = 64;
+			this->displayHeight = 32;
 			break;
 		case GEOMETRY_128_32:
 			this->displayWidth = 128;

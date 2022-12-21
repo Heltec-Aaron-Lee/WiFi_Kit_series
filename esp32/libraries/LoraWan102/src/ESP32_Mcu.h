@@ -17,6 +17,7 @@ extern uint8_t mcuStarted;
 class McuClass{
 public:
   McuClass();
+  void setlicense(uint32_t * license);
   int begin();
   void setSPIFrequency(uint32_t frequency);
   void sleep(uint8_t classMode,uint8_t debugLevel);

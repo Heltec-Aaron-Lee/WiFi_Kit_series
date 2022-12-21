@@ -67,9 +67,13 @@ class SSD1306Wire : public ScreenDisplay {
 			if (minBoundY == UINT8_MAX) return;
 
 			sendCommand(COLUMNADDR);
-			sendCommand( minBoundX);
-			sendCommand( maxBoundX);
-
+#ifdef Wireless_Stick_V3
+      sendCommand( minBoundX+32);
+      sendCommand( maxBoundX+32);
+#else
+      sendCommand( minBoundX);
+      sendCommand( maxBoundX);
+#endif
 			sendCommand(PAGEADDR);
 			sendCommand(minBoundY);
 			sendCommand(maxBoundY);
@@ -173,9 +177,13 @@ class SSD1306Wire : public ScreenDisplay {
 			if (minBoundY == UINT8_MAX) return;
 
 			sendCommand(COLUMNADDR);
-			sendCommand(minBoundX);
-			sendCommand(maxBoundX);
-
+#ifdef Wireless_Stick_V3
+      sendCommand( minBoundX+32);
+      sendCommand( maxBoundX+32);
+#else
+      sendCommand( minBoundX);
+      sendCommand( maxBoundX);
+#endif
 			sendCommand(PAGEADDR);
 			sendCommand(minBoundY);
 			sendCommand(maxBoundY);
@@ -283,21 +291,23 @@ void sendInitCommands(void)
 		sendCommand(SEGREMAP|0x01);
 		sendCommand(COMSCANDEC);
 		sendCommand(SETCOMPINS);
+sendCommand(0x12);
 
-		if (geometry == GEOMETRY_128_64) {
-		sendCommand(0x12);
-		} else if (geometry == GEOMETRY_128_32) {
-		sendCommand(0x02);
-		}
+//		if (geometry == GEOMETRY_128_64) {
+//		sendCommand(0x12);
+//		} else if (geometry == GEOMETRY_128_32) {
+//		sendCommand(0x02);
+//		}
 
 		sendCommand(SETCONTRAST);
-
+sendCommand(0xCF);
+/*
 		if (geometry == GEOMETRY_128_64) {
 		sendCommand(0xCF);
 		} else if (geometry == GEOMETRY_128_32) {
 		sendCommand(0x8F);
 		}
-
+*/
 		sendCommand(SETPRECHARGE);
 		sendCommand(0xF1);
 		sendCommand(SETVCOMDETECT); //0xDB, (additionally needed to lower the contrast)

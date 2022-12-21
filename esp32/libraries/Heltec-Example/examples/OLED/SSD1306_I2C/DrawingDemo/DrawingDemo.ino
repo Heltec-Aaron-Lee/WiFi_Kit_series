@@ -1,7 +1,11 @@
 #include <Wire.h>  
 #include "HT_SSD1306Wire.h"
 
+#ifdef Wireless_Stick_V3
+SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_64_32, RST_OLED); // addr , freq , i2c group , resolution , rst
+#else
 SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
+#endif
 
 void drawLines() {
   for (int16_t i=0; i<display.getWidth(); i+=4) {
@@ -110,7 +114,7 @@ void drawCircle(void) {
 void printBuffer(void) {
   // Initialize the log buffer
   // allocate memory to store 8 lines of text and 30 chars per line.
-  display.setLogBuffer(5, 30);
+  display.setLogBuffer(2, 30);
 
   // Some test data
   const char* test[] = {
@@ -185,7 +189,7 @@ void setup() {
   display.display();
   display.screenRotate(ANGLE_0_DEGREE);
   display.setFont(ArialMT_Plain_16);
-  display.drawString(64, 32-16/2, "ROTATE_0");
+  display.drawString(display.getWidth()/2, display.getHeight()/2-16/2, "ROTATE_0");
   display.display();
   delay(2000);
 
@@ -193,7 +197,7 @@ void setup() {
   display.display();
   display.screenRotate(ANGLE_90_DEGREE);
   display.setFont(ArialMT_Plain_10);
-  display.drawString(32, 64-10/2, "ROTATE_90");
+  display.drawString(display.getWidth()/2, display.getHeight()/2-10/2, "ROTATE_90");
   display.display();
   delay(2000);
 
@@ -201,7 +205,7 @@ void setup() {
   display.display();
   display.screenRotate(ANGLE_180_DEGREE);
   display.setFont(ArialMT_Plain_16);
-  display.drawString(64, 32-16/2, "ROTATE_180");
+  display.drawString(display.getWidth()/2, display.getHeight()/2-16/2, "ROTATE_180");
   display.display();
   delay(2000);
 
@@ -209,7 +213,7 @@ void setup() {
   display.display();
   display.screenRotate(ANGLE_270_DEGREE);
   display.setFont(ArialMT_Plain_10);
-  display.drawString(32, 64-10/2, "ROTATE_270");
+  display.drawString(display.getWidth()/2, display.getHeight()/2-10/2, "ROTATE_270");
   display.display();
   delay(2000);
 
