@@ -631,11 +631,11 @@ wifi_lora_32.build.variant=wifi_lora_32
 wifi_lora_32.build.board=WIFI_LoRa_32
 
 wifi_lora_32.build.f_cpu=240000000L
-wifi_lora_32.build.flash_size=8MB
+wifi_lora_32.build.flash_size=4MB
 wifi_lora_32.build.flash_freq=80m
 wifi_lora_32.build.flash_mode=dio
 wifi_lora_32.build.boot=dio
-wifi_lora_32.build.partitions=default_8MB
+wifi_lora_32.build.partitions=default
 wifi_lora_32.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
 wifi_lora_32.build.extra_libs=-lheltec
 
