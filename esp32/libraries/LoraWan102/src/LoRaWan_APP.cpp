@@ -18,14 +18,16 @@ CubeCell_NeoPixel pixels(1, RGB, NEO_GRB + NEO_KHZ800);
 
 
 
-#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)||defined(WIFI_LoRa_32)
+#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)||defined(WIFI_LoRa_32)||defined(Wireless_Stick_V3)
 #include <Wire.h>  
 #include "HT_SSD1306Wire.h"
-
-  SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED);; // addr , freq , i2c group , resolution , rst
-
   uint8_t ifDisplayAck=0;
   uint8_t isDispayOn=0;
+  #ifdef Wireless_Stick_V3
+    SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_64_32, RST_OLED);; // addr , freq , i2c group , resolution , rst
+  #else
+    SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED);; // addr , freq , i2c group , resolution , rst
+  #endif
 #endif
 
 /*loraWan default Dr when adr disabled*/
@@ -250,7 +252,7 @@ static void McpsIndication( McpsIndication_t *mcpsIndication )
 	{
 		return;
 	}
-#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)
+#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)||defined(Wireless_Stick_V3)
 	ifDisplayAck=1;
 	revrssi=mcpsIndication->Rssi;
 	revsnr=mcpsIndication->Snr;
@@ -337,7 +339,7 @@ static void MlmeConfirm( MlmeConfirm_t *mlmeConfirm )
 			if( mlmeConfirm->Status == LORAMAC_EVENT_INFO_STATUS_OK )
 			{
 
-#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)
+#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)||defined(Wireless_Stick_V3)
 				if(isDispayOn)
 				{
 					LoRaWAN.displayJoined();
@@ -725,13 +727,13 @@ void LoRaWanClass::ifskipjoin()
 }
 #endif
 
-#if defined( WIFI_LoRa_32_V3 )||defined( WIFI_LoRa_32_V2 )
+#if defined( WIFI_LoRa_32_V3 )||defined( WIFI_LoRa_32_V2 )||defined(Wireless_Stick_V3)
 void LoRaWanClass::displayJoining()
 {
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
 	display.clear();
-	display.drawString(58, 22, "JOINING...");
+	isplay.drawString(display.getWidth()/2, display.getHeight()/2,"JOINING...");
 	display.display();
 }
 void LoRaWanClass::displayJoined()
@@ -749,7 +751,7 @@ void LoRaWanClass::displaySending()
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
 	display.clear();
-	display.drawString(58, 22, "SENDING...");
+	isplay.drawString(display.getWidth()/2, display.getHeight()/2, "SENDING...");
 	display.display();
 	delay(1000);
 }
@@ -790,8 +792,8 @@ void LoRaWanClass::displayMcuInit()
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
 	display.clear();
-	display.drawString(64, 11, "LORAWAN");
-	display.drawString(64, 33, "STARTING");
+	isplay.drawString(display.getWidth()/2, display.getHeight()/2-10, "LORAWAN");
+	isplay.drawString(display.getWidth()/2, display.getHeight()/2+5, "STARTING");
 	display.display();
 	delay(2000);
 }
