@@ -7,6 +7,10 @@
 #define USB_VID 0x303a
 #define USB_PID 0x1001
 
+#define Wireless_Stick_V3 true
+#define DISPLAY_HEIGHT 32
+#define DISPLAY_WIDTH  64
+
 #define EXTERNAL_NUM_INTERRUPTS 46
 #define NUM_DIGITAL_PINS        48
 #define NUM_ANALOG_INPUTS       20
@@ -19,6 +23,7 @@ static const uint8_t LED_BUILTIN = SOC_GPIO_PIN_COUNT+48;
 #define LED_BUILTIN LED_BUILTIN
 #define RGB_BUILTIN LED_BUILTIN
 #define RGB_BRIGHTNESS 64
+#define USER_BUTTON 0
 
 #define analogInputToDigitalPin(p)  (((p)<20)?(analogChannelToDigitalPin(p)):-1)
 #define digitalPinToInterrupt(p)    (((p)<48)?(p):-1)
@@ -72,8 +77,11 @@ static const uint8_t T13 = 13;
 static const uint8_t T14 = 14;
 
 static const uint8_t Vext = 36;
-static const uint8_t LED  = 35;
+static const uint8_t LED  = 25;
 static const uint8_t RST_OLED = 21;
 static const uint8_t SCL_OLED = 18;
 static const uint8_t SDA_OLED = 17;
+static const uint8_t RST_LoRa = 12;
+static const uint8_t DIO0 = 14;
+static const uint8_t BUSY_LoRa = 13;
 #endif /* Pins_Arduino_h */
