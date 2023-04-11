@@ -1158,6 +1158,7 @@ void RadioIrqProcess( void )
 
         if( ( irqRegs & IRQ_RX_DONE ) == IRQ_RX_DONE )
         {
+            TimerStop( &RxTimeoutTimer );
             if( ( irqRegs & IRQ_CRC_ERROR ) == IRQ_CRC_ERROR )
             {
                 if( ( RadioEvents != NULL ) && ( RadioEvents->RxError ) )
@@ -1169,7 +1170,7 @@ void RadioIrqProcess( void )
             {
                 //printf("rx done\r\n");
                 uint8_t size;
-                TimerStop( &RxTimeoutTimer );
+                
                 SX126xGetPayload( RadioRxPayload, &size , 255 );
                 SX126xGetPacketStatus( &RadioPktStatus );
                 if( ( RadioEvents != NULL ) && ( RadioEvents->RxDone != NULL ) && ( irqRegs & IRQ_CRC_ERROR ) != IRQ_CRC_ERROR)
