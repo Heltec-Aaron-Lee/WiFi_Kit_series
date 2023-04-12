@@ -733,7 +733,7 @@ void LoRaWanClass::displayJoining()
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
 	display.clear();
-	isplay.drawString(display.getWidth()/2, display.getHeight()/2,"JOINING...");
+	display.drawString(display.getWidth()/2, display.getHeight()/2,"JOINING...");
 	display.display();
 }
 void LoRaWanClass::displayJoined()
@@ -751,7 +751,7 @@ void LoRaWanClass::displaySending()
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
 	display.clear();
-	isplay.drawString(display.getWidth()/2, display.getHeight()/2, "SENDING...");
+	display.drawString(display.getWidth()/2, display.getHeight()/2, "SENDING...");
 	display.display();
 	delay(1000);
 }
@@ -792,8 +792,8 @@ void LoRaWanClass::displayMcuInit()
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
 	display.clear();
-	isplay.drawString(display.getWidth()/2, display.getHeight()/2-10, "LORAWAN");
-	isplay.drawString(display.getWidth()/2, display.getHeight()/2+5, "STARTING");
+	display.drawString(display.getWidth()/2, display.getHeight()/2-10, "LORAWAN");
+	display.drawString(display.getWidth()/2, display.getHeight()/2+5, "STARTING");
 	display.display();
 	delay(2000);
 }
