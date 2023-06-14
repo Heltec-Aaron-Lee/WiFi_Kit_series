@@ -17,8 +17,7 @@ CubeCell_NeoPixel pixels(1, RGB, NEO_GRB + NEO_KHZ800);
 #endif
 
 
-
-#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)||defined(WIFI_LoRa_32)||defined(Wireless_Stick_V3)
+#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Track)||defined(WIFI_LoRa_32_V2)||defined(WIFI_LoRa_32)||defined(Wireless_Stick_V3)
 #include <Wire.h>  
 #include "HT_SSD1306Wire.h"
   uint8_t ifDisplayAck=0;
@@ -252,7 +251,7 @@ static void McpsIndication( McpsIndication_t *mcpsIndication )
 	{
 		return;
 	}
-#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)||defined(Wireless_Stick_V3)
+#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Track)||defined(WIFI_LoRa_32_V2)||defined(Wireless_Stick_V3)
 	ifDisplayAck=1;
 	revrssi=mcpsIndication->Rssi;
 	revsnr=mcpsIndication->Snr;
@@ -339,7 +338,7 @@ static void MlmeConfirm( MlmeConfirm_t *mlmeConfirm )
 			if( mlmeConfirm->Status == LORAMAC_EVENT_INFO_STATUS_OK )
 			{
 
-#if defined(WIFI_LoRa_32_V3)||defined(WIFI_LoRa_32_V2)||defined(Wireless_Stick_V3)
+#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Track)||defined(WIFI_LoRa_32_V2)||defined(Wireless_Stick_V3)
 				if(isDispayOn)
 				{
 					LoRaWAN.displayJoined();
@@ -727,7 +726,7 @@ void LoRaWanClass::ifskipjoin()
 }
 #endif
 
-#if defined( WIFI_LoRa_32_V3 )||defined( WIFI_LoRa_32_V2 )||defined(Wireless_Stick_V3)
+#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Track)||defined( WIFI_LoRa_32_V2 )||defined(Wireless_Stick_V3)
 void LoRaWanClass::displayJoining()
 {
 	display.setFont(ArialMT_Plain_16);
