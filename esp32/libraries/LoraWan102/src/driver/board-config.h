@@ -39,7 +39,7 @@
 
 #define BOARD_TCXO_WAKEUP_TIME                      5
 
-#if defined(WIFI_LoRa_32_V3)||(Wireless_Stick_V3)
+#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Track)||(Wireless_Stick_V3)
 
 #define RADIO_DIO_1    14
 #define RADIO_NSS      8
