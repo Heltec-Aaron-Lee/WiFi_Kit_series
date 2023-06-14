@@ -44,7 +44,7 @@ HT_st7735 st7735;
 TinyGPSPlus gps;
 #define VGNSS_CTRL 37
 test_status_t  test_status;
-uint16_t wifi_connect_try_num = 10;
+uint16_t wifi_connect_try_num = 15;
 bool resendflag=false;
 bool deepsleepflag=false;
 bool interrupt_flag = false;
@@ -153,6 +153,7 @@ void lora_init(void)
 									LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
 									0, true, 0, 0, LORA_IQ_INVERSION_ON, true );
 	state=STATE_TX;
+	st7735.st7735_fill_screen(ST7735_BLACK);
 	packet ="waiting lora data!";
 	st7735.st7735_write_str(0, 10, packet);
 }
@@ -160,14 +161,36 @@ void lora_init(void)
 
 /********************************* lora  *********************************************/
 
+void custom_delay(uint32_t time_ms)
+{
+#if 1
+	uint32_t conut = time_ms/10;
+	while (conut > 0)
+	{
+		conut --;
+		delay(10);
+		if(	interrupt_flag == true)
+		{
+			delay(200);
+			if(digitalRead(0)==0)
+			{
+				break;
+			}
+		}
+	}
+#else
+		delay(time_ms);
+#endif
+}
+
 void wifi_connect_init(void)
 {
 	// Set WiFi to station mode and disconnect from an AP if it was previously connected
 	WiFi.disconnect(true);
-	delay(100);
+	custom_delay(100);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("Your WiFi SSID","Your Password");//fill in "Your WiFi SSID","Your Password"
+	WiFi.begin("WiFi_test","heltec_test");//fill in "Your WiFi SSID","Your Password"
 	st7735.st7735_write_str(0, 20, "WIFI Setup done");
 }
 
@@ -177,20 +200,22 @@ bool wifi_connect_try(uint8_t try_num)
 	while(WiFi.status() != WL_CONNECTED && count < try_num)
 	{
 		count ++;
-		delay(500);
 		st7735.st7735_fill_screen(ST7735_BLACK);
-		st7735.st7735_write_str(0, 0, "Connecting...");
+		st7735.st7735_write_str(0, 0, "wifi connecting...");
+		custom_delay(500);
 	}
 	if(WiFi.status() == WL_CONNECTED)
 	{
-		st7735.st7735_write_str(0, 36, "connect.OK");
-		delay(2000);
+		st7735.st7735_fill_screen(ST7735_BLACK);
+		st7735.st7735_write_str(0, 0, "wifi connect OK");
+		custom_delay(2500);
 		return true;
 	}
 	else
 	{
-		st7735.st7735_write_str(0, 36, "connect.Failed");
-		delay(1000);
+		st7735.st7735_fill_screen(ST7735_BLACK);
+		st7735.st7735_write_str(0, 0, "wifi connect failed");
+		custom_delay(1000);
 		return false;
 	}
 	
@@ -205,37 +230,31 @@ void wifi_scan(unsigned int value)
 	for(i=0;i<value;i++)
 	{
 		st7735.st7735_write_str(0, 0, "Scan start...");
-		
 		int n = WiFi.scanNetworks();
 		st7735.st7735_write_str(0, 30, "Scan done");
 		
-		delay(500);
-		st7735.st7735_fill_screen(ST7735_BLACK);
-
 		if (n == 0)
 		{
 			st7735.st7735_fill_screen(ST7735_BLACK);
 			st7735.st7735_write_str(0, 0, "no network found");
-			delay(1000);
-			st7735.st7735_fill_screen(ST7735_BLACK);
+			custom_delay(2000);
 		}
 		else
 		{
+			st7735.st7735_fill_screen(ST7735_BLACK);
 			st7735.st7735_write_str(0, 0, (String)n);
 			st7735.st7735_write_str(30, 0, "networks found:");
 			
-			delay(500);
-			st7735.st7735_fill_screen(ST7735_BLACK);
+			custom_delay(2000);
 
-			for (int i = 0; (i < n) && (i < 5); ++i) {
+			for (int i = 0; (i < n) && (i < 0); ++i) 
+			{
 				String str = (String)(i + 1) +":"+(String)(WiFi.SSID(i))+" ("+(String)(WiFi.RSSI(i))+")";
 				st7735.st7735_write_str(0, 0,str);
-				delay(100);
+				custom_delay(100);
 				st7735.st7735_fill_screen(ST7735_BLACK);
 			}
 		}
-
-
 	}
 }
 
@@ -250,14 +269,12 @@ void interrupt_handle(void)
 		interrupt_flag = false;
 		if(digitalRead(0)==0)
 		{
-			Serial.printf("test_status %d",test_status);
-			if(rxNumber <=2)
+			if(rxNumber < 2)
 			{
-				delay(2000);
+				delay(500);
 				if(digitalRead(0)==0)
 				{
 					test_status = GPS_TEST;
-					Serial.printf("test_status %d",test_status);
 				}
 				else
 				{
@@ -300,7 +317,7 @@ void enter_deepsleep(void)
 	pinMode(LORA_MOSI,ANALOG);
 	esp_sleep_enable_timer_wakeup(600*1000*(uint64_t)1000);
 	esp_deep_sleep_start();
-}
+} 
 
 void lora_status_handle(void)
 {
@@ -363,24 +380,21 @@ void gps_test(void)
 {
 	pinMode(VGNSS_CTRL,OUTPUT);
 	digitalWrite(VGNSS_CTRL,LOW);
-	Serial1.begin(115200,SERIAL_8N1,33,34);    // 初始化serial1，该串口用于与设备B连接通信
+	Serial1.begin(115200,SERIAL_8N1,33,34);    
 	Serial.println("gps_test");
 	st7735.st7735_fill_screen(ST7735_BLACK);
 	delay(100);
 	st7735.st7735_write_str(0, 0, (String)"gps_test");
 
-	// // 两个字符串分别用于存储A、B两端传来的数据
-	// String GPS_String = "";
+
 
 	while(1)
 	{
-	// 读取从设备B传入的数据，并在串口监视器中显示
 		if(Serial1.available()>0)
 		{
 			if(Serial1.peek()!='\n')
 			{
 				gps.encode(Serial1.read());
-				// GPS_String += char(Serial1.read());
 			}
 			else
 			{
@@ -399,10 +413,7 @@ void gps_test(void)
 				Serial.print(", LON: ");
 				Serial.print(gps.location.lng(),6);
 				delay(2000);
-				// Serial1.read();
-				// Serial.print("GPS_String");
-				// Serial.println(GPS_String);
-				// GPS_String = "";
+
 			}
 		}
 	}
@@ -416,6 +427,9 @@ void setup()
 	st7735.st7735_fill_screen(ST7735_BLACK);
 
 	attachInterrupt(0,interrupt_GPIO0,FALLING);
+	resendflag=false;
+	deepsleepflag=false;
+	interrupt_flag = false;
 
 	chipid=ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
 	Serial.printf("ESP32ChipID=%04X",(uint16_t)(chipid>>32));//print High 2 bytes
