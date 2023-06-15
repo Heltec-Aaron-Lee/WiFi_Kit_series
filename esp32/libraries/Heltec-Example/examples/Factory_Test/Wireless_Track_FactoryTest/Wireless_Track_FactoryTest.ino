@@ -386,8 +386,6 @@ void gps_test(void)
 	delay(100);
 	st7735.st7735_write_str(0, 0, (String)"gps_test");
 
-
-
 	while(1)
 	{
 		if(Serial1.available()>0)
@@ -398,6 +396,11 @@ void gps_test(void)
 			}
 			else
 			{
+				Serial1.read();
+				if(gps.time.second()==0)
+				{
+					continue;
+				}
 				st7735.st7735_fill_screen(ST7735_BLACK);
 				st7735.st7735_write_str(0, 0, (String)"gps_test");
 				String time_str = (String)gps.time.hour() + ":" + (String)gps.time.minute() + ":" + (String)gps.time.second()+ ":"+(String)gps.time.centisecond();
@@ -412,8 +415,9 @@ void gps_test(void)
 				Serial.print(gps.location.lat(),6);
 				Serial.print(", LON: ");
 				Serial.print(gps.location.lng(),6);
-				delay(2000);
-
+				Serial.println();
+				delay(5000);
+				while(Serial1.read()>0);
 			}
 		}
 	}
@@ -491,4 +495,3 @@ void loop()
 			break;
 	}
 }
-
