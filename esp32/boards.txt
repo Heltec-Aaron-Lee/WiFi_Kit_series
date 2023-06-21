@@ -1160,7 +1160,7 @@ wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
 wireless_bridge.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 ##############################################################
 
-wireless_track.name=Wireless Track
+wireless_track.name=Wireless Tracker
 wireless_track.vid.0=0x303a
 wireless_track.pid.0=0x1001
 
