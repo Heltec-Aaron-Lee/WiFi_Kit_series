@@ -1404,3 +1404,143 @@ wireless_track.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 wireless_track.build.defines=-D{build.band} {build.psram_val} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
 wireless_track.build.extra_libs=-lheltec_{build.cdc_on_boot}
 ##############################################################
+#############################################################
+wireless_paper.name=wireless_paper
+wireless_paper.vid.0=0x303a
+wireless_paper.pid.0=0x1001
+
+wireless_paper.bootloader.tool=esptool_py
+wireless_paper.bootloader.tool.default=esptool_py
+
+wireless_paper.upload.tool=esptool_py
+wireless_paper.upload.tool.default=esptool_py
+wireless_paper.upload.tool.network=esp_ota
+
+wireless_paper.upload.maximum_size=4026368
+wireless_paper.upload.maximum_data_size=327680
+wireless_paper.upload.flags=
+wireless_paper.upload.extra_flags=
+wireless_paper.upload.use_1200bps_touch=false
+wireless_paper.upload.wait_for_upload_port=false
+
+wireless_paper.serial.disableDTR=false
+wireless_paper.serial.disableRTS=false
+
+wireless_paper.build.tarch=xtensa
+wireless_paper.build.bootloader_addr=0x0
+wireless_paper.build.target=esp32s3
+wireless_paper.build.mcu=esp32s3
+wireless_paper.build.core=esp32
+wireless_paper.build.variant=wireless_paper
+wireless_paper.build.board=WIFI_LoRa_32_V3
+
+wireless_paper.build.usb_mode=1
+wireless_paper.build.cdc_on_boot=0
+wireless_paper.build.msc_on_boot=0
+wireless_paper.build.dfu_on_boot=0
+wireless_paper.build.f_cpu=240000000L
+wireless_paper.build.flash_size=8MB
+wireless_paper.build.flash_freq=80m
+wireless_paper.build.flash_mode=dio
+wireless_paper.build.boot=qio
+wireless_paper.build.boot_freq=80m
+wireless_paper.build.partitions=default_8MB
+wireless_paper.build.loop_core=
+wireless_paper.build.event_core=
+wireless_paper.build.psram_type=qspi
+wireless_paper.build.memory_type={build.boot}_{build.psram_type}
+
+wireless_paper.menu.LoopCore.1=Core 1
+wireless_paper.menu.LoopCore.1.build.loop_core=-DARDUINO_RUNNING_CORE=1
+wireless_paper.menu.LoopCore.0=Core 0
+wireless_paper.menu.LoopCore.0.build.loop_core=-DARDUINO_RUNNING_CORE=0
+
+wireless_paper.menu.EventsCore.1=Core 1
+wireless_paper.menu.EventsCore.1.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=1
+wireless_paper.menu.EventsCore.0=Core 0
+wireless_paper.menu.EventsCore.0.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=0
+
+wireless_paper.menu.CPUFreq.240=240MHz (WiFi)
+wireless_paper.menu.CPUFreq.240.build.f_cpu=240000000L
+wireless_paper.menu.CPUFreq.160=160MHz (WiFi)
+wireless_paper.menu.CPUFreq.160.build.f_cpu=160000000L
+wireless_paper.menu.CPUFreq.80=80MHz (WiFi)
+wireless_paper.menu.CPUFreq.80.build.f_cpu=80000000L
+wireless_paper.menu.CPUFreq.40=40MHz
+wireless_paper.menu.CPUFreq.40.build.f_cpu=40000000L
+wireless_paper.menu.CPUFreq.20=20MHz
+wireless_paper.menu.CPUFreq.20.build.f_cpu=20000000L
+wireless_paper.menu.CPUFreq.10=10MHz
+wireless_paper.menu.CPUFreq.10.build.f_cpu=10000000L
+
+wireless_paper.menu.UploadSpeed.921600=921600
+wireless_paper.menu.UploadSpeed.921600.upload.speed=921600
+wireless_paper.menu.UploadSpeed.115200=115200
+wireless_paper.menu.UploadSpeed.115200.upload.speed=115200
+wireless_paper.menu.UploadSpeed.256000.windows=256000
+wireless_paper.menu.UploadSpeed.256000.upload.speed=256000
+wireless_paper.menu.UploadSpeed.230400.windows.upload.speed=256000
+wireless_paper.menu.UploadSpeed.230400=230400
+wireless_paper.menu.UploadSpeed.230400.upload.speed=230400
+wireless_paper.menu.UploadSpeed.460800.linux=460800
+wireless_paper.menu.UploadSpeed.460800.macosx=460800
+wireless_paper.menu.UploadSpeed.460800.upload.speed=460800
+wireless_paper.menu.UploadSpeed.512000.windows=512000
+wireless_paper.menu.UploadSpeed.512000.upload.speed=512000
+
+wireless_paper.menu.DebugLevel.none=None
+wireless_paper.menu.DebugLevel.none.build.code_debug=0
+wireless_paper.menu.DebugLevel.error=Error
+wireless_paper.menu.DebugLevel.error.build.code_debug=1
+wireless_paper.menu.DebugLevel.warn=Warn
+wireless_paper.menu.DebugLevel.warn.build.code_debug=2
+wireless_paper.menu.DebugLevel.info=Info
+wireless_paper.menu.DebugLevel.info.build.code_debug=3
+wireless_paper.menu.DebugLevel.debug=Debug
+wireless_paper.menu.DebugLevel.debug.build.code_debug=4
+wireless_paper.menu.DebugLevel.verbose=Verbose
+wireless_paper.menu.DebugLevel.verbose.build.code_debug=5
+
+wireless_paper.menu.LORAWAN_REGION.0=REGION_EU868
+wireless_paper.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+wireless_paper.menu.LORAWAN_REGION.1=REGION_EU433
+wireless_paper.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+wireless_paper.menu.LORAWAN_REGION.2=REGION_CN470
+wireless_paper.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+wireless_paper.menu.LORAWAN_REGION.3=REGION_US915
+wireless_paper.menu.LORAWAN_REGION.3.build.band=REGION_US915
+wireless_paper.menu.LORAWAN_REGION.4=REGION_AU915
+wireless_paper.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+wireless_paper.menu.LORAWAN_REGION.5=REGION_CN779
+wireless_paper.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+wireless_paper.menu.LORAWAN_REGION.6=REGION_AS923
+wireless_paper.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+wireless_paper.menu.LORAWAN_REGION.7=REGION_KR920
+wireless_paper.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+wireless_paper.menu.LORAWAN_REGION.8=REGION_IN865
+wireless_paper.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+wireless_paper.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+wireless_paper.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+wireless_paper.menu.LoRaWanDebugLevel.0=None
+wireless_paper.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+wireless_paper.menu.LoRaWanDebugLevel.1=Freq
+wireless_paper.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+wireless_paper.menu.LoRaWanDebugLevel.2=Freq && DIO
+wireless_paper.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+wireless_paper.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+wireless_paper.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+wireless_paper.menu.LORAWAN_DEVEUI.0=CUSTOM
+wireless_paper.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+wireless_paper.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+wireless_paper.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+wireless_paper.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+wireless_paper.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+wireless_paper.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+wireless_paper.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
+wireless_paper.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+wireless_paper.build.extra_libs=-lheltec
+##############################################################
