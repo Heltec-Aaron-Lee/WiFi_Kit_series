@@ -80,8 +80,6 @@ ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 |ESP32-PICO |[wireless shell(v3)](https://heltec.org/project/wireless-shell/ ),[wireless stick lite](https://heltec.org/project/wireless-stick-lite/)|
 | ESP8266 |[WiFi Kit 8](https://heltec.org/project/wifi-kit-8/)|
 
-
-
 ## 安装指南
 
 首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请参考这篇文档：[https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino](https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino)
