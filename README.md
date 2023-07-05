@@ -75,10 +75,10 @@ ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 
 |   MCU   |                       Relative boards                        |
 | :-----: | :----------------------------------------------------------: |
-|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/),[Wireless Tracker](https://heltec.org/project/wireless-tracker/),[Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/)|
+|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/),[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/),[Wireless Tracker](https://heltec.org/project/wireless-tracker/),[Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/)|
 |ESP32c3| [RS485 Converter](https://heltec.org/project/hri-485x/),[Esp32 c3](https://heltec.org/project/esp32-c3/),[Ht Tt62](https://heltec.org/project/ht-Ct62/)|
 |ESP32-PICO |[wireless shell(v3)](https://heltec.org/project/wireless-shell/ ),[wireless stick lite](https://heltec.org/project/wireless-stick-lite/)|
-| ESP8266 |[WiFi Kit 8](https://heltec.org/project/wifi-kit-8/)     |
+| ESP8266 |[WiFi Kit 8](https://heltec.org/project/wifi-kit-8/)|
 
 
 
