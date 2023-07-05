@@ -21,7 +21,7 @@ The following table lists products based on ESP32 and ESP8266:
 |ESP32-PICO |[wireless shell(v3)](https://heltec.org/project/wireless-shell/ ),[wireless stick lite](https://heltec.org/project/wireless-stick-lite/)|
 |ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32),[Wireless Stick/](https://heltec.org/project/wireless-stick/)|
 | ESP8266 |[WiFi Kit 8](https://heltec.org/project/wifi-kit-8/)|
-&nbsp;
+
 
 ## Installation Instructions
 
