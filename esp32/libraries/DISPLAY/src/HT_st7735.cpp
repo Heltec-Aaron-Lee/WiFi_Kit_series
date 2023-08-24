@@ -192,7 +192,7 @@ void HT_st7735::st7735_init(void)
     if(_vtft_ctrl_pin >= 0)
     {
       pinMode(_vtft_ctrl_pin, OUTPUT);
-      digitalWrite(_vtft_ctrl_pin, LOW); 
+      digitalWrite(_vtft_ctrl_pin, HIGH); 
     }
 
 	  pinMode(_dc_pin, OUTPUT);  

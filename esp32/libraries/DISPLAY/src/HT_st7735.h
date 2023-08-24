@@ -20,8 +20,8 @@
 #define ST7735_DC_Pin        40
 #define ST7735_SCLK_Pin      41
 #define ST7735_MOSI_Pin      42
-#define ST7735_LED_K_Pin     45
-#define ST7735_VTFT_CTRL_Pin  46
+#define ST7735_LED_K_Pin     21
+#define ST7735_VTFT_CTRL_Pin  3
 
 
 // AliExpress/eBay 1.8" display, default orientation
