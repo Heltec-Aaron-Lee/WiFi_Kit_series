@@ -42,7 +42,7 @@ typedef enum
 
 HT_st7735 st7735;
 TinyGPSPlus gps;
-#define VGNSS_CTRL 37
+#define VGNSS_CTRL Vext
 test_status_t  test_status;
 uint16_t wifi_connect_try_num = 15;
 bool resendflag=false;
@@ -379,7 +379,7 @@ void lora_status_handle(void)
 void gps_test(void)
 {
 	pinMode(VGNSS_CTRL,OUTPUT);
-	digitalWrite(VGNSS_CTRL,LOW);
+	digitalWrite(VGNSS_CTRL,HIGH);
 	Serial1.begin(115200,SERIAL_8N1,33,34);    
 	Serial.println("gps_test");
 	st7735.st7735_fill_screen(ST7735_BLACK);
@@ -440,7 +440,7 @@ void setup()
 	Serial.printf("%08X\n",(uint32_t)chipid);//print Low 4bytes.
  
 	pinMode(LED ,OUTPUT);
-	digitalWrite(LED, LOW);  
+	digitalWrite(LED, LOW);
 	test_status = WIFI_CONNECT_TEST_INIT;
 }
 
