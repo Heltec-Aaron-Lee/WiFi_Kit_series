@@ -28,8 +28,8 @@ The following table lists products based on ESP32 and ESP8266:
 
 - **Using Arduino IDE Boards Manager (preferred)**
   
-  - [Install ESP32 form Boards Manager](https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html#via-arduino-board-manager)
-  - [Install ESP8266 form Boards Manager](https://heltec-automation-docs.readthedocs.io/en/latest/esp8266+arduino/quick_start.html#via-arduino-board-manager)
+  - [Install ESP32 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
+  - [Install ESP8266 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
   
 - **Using Git with the development repository**
   
