@@ -532,7 +532,7 @@ wifi_kit_32_V3.build.bootloader_addr=0x0
 wifi_kit_32_V3.build.target=esp32s3
 wifi_kit_32_V3.build.mcu=esp32s3
 wifi_kit_32_V3.build.core=esp32
-wifi_kit_32_V3.build.variant=wifi_kit_32_V3
+wifi_kit_32_V3.build.variant=wifi_kit_32_v3    // upper case change to lower, to prevent Linux complie error: pins_arduino.h 'no such file'
 wifi_kit_32_V3.build.board=wifi_kit_32_V3
 
 wifi_kit_32_V3.build.usb_mode=1
