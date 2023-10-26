@@ -138,7 +138,7 @@ void SX126xSetNodeAddress(uint8_t nodeAddress)
 
 void SX126xSetBroadcastAddress(uint8_t broadcastAddress)
 {
-    SX126xWriteRegister(REG_LR_BROADCASTRADDRESS, SX126xSetNodeAddress);
+    SX126xWriteRegister(REG_LR_BROADCASTRADDRESS, broadcastAddress);
 }
 
 uint8_t SX126xSetSyncWord( uint8_t *syncWord )

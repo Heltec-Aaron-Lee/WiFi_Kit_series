@@ -124,7 +124,7 @@ void LoRaMacConfirmQueueInit( LoRaMacPrimitives_t* primitives )
 
 bool LoRaMacConfirmQueueAdd( MlmeConfirmQueue_t* mlmeConfirm )
 {
-    if( MlmeConfirmQueueCnt >= LORA_MAC_MLME_CONFIRM_QUEUE_LEN )
+    if( MlmeConfirmQueueCnt >= LORA_MAC_MLME_CONFIRM_QUEUE_LEN || !BufferEnd )
     {
         // Protect the buffer against overwrites
         return false;

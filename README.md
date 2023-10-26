@@ -28,8 +28,11 @@ The following table lists products based on ESP32 and ESP8266:
 
 - **Using Arduino IDE Boards Manager (preferred)**
   
+ 
   - [Install ESP32 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
   - [Install ESP8266 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
+
+  
   
 - **Using Git with the development repository**
   
@@ -89,7 +92,7 @@ ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请参考这篇文档：[https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino](https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino)
 
 - **通过Arduino IDE的库管理器安装 （强烈推荐）**
-  - [安装基于ESP32芯片的开发环境](https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html#via-arduino-board-manager)
+  - [安装基于ESP32芯片的开发环境](https://heltec-automation-docs.readthedocs.io/en/node/esp32/quick_start.html#via-arduino-board-manager)
   - [安装基于ESP8266芯片的开发环境](https://heltec-automation-docs.readthedocs.io/en/latest/esp8266+arduino/quick_start.html#via-arduino-board-manager)
 - **通过Git从源码进行安装**
   - [Windows操作系统 -- 安装方法](InstallGuide/windows.md)
