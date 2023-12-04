@@ -1,4 +1,4 @@
-#include "HT_ICMEN2R13EFC1.h"
+#include "HT_lCMEN2R13EFC1.h"
 #include "images.h"
 
 // Initialize the display
@@ -49,13 +49,12 @@ void drawFontFaceDemo() {
 
     display.setFont(ArialMT_Plain_24);
     display.drawString(0, 26, "Hello world");
-    display.update(BLACK_BUFFER);
+//    display.update(BLACK_BUFFER);
 
-    display.clear();
     display.setFont(ArialMT_Plain_16);
     display.drawString(0, 10, "Hello world");
 
-    display.update(COLOR_BUFFER);
+    display.update(BLACK_BUFFER);
     display.display();
 }
 
@@ -69,7 +68,6 @@ void drawTextFlowDemo() {
       
     display.update(BLACK_BUFFER);
     
-    display.clear();
     display.update(COLOR_BUFFER);
 
     display.display();
@@ -96,7 +94,6 @@ void drawTextAlignmentDemo() {
 
   display.update(BLACK_BUFFER);
   
-  display.clear();
   // The coordinates define the center of the text
   display.setTextAlignment(TEXT_ALIGN_CENTER);
   x = width/2;
@@ -128,7 +125,7 @@ void drawRectDemo() {
     // Draw a line horizontally
     display.drawVerticalLine(40, 0, 20);
     display.update(BLACK_BUFFER);
-    display.clear();
+
     
     display.update(COLOR_BUFFER);
     display.display();
@@ -147,7 +144,7 @@ void drawCircleDemo() {
   }
   display.update(BLACK_BUFFER);
   
-  display.clear();
+//  display.clear();
   x = width/4*3;
   for (int i=1; i < 8; i++) {
     display.setColor(WHITE);
