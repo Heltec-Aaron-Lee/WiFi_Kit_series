@@ -1,7 +1,0 @@
-Flask
-junit-xml
-MarkupSafe
-pexpect
-pyserial
-junit2html
-poster3
