@@ -1,4 +1,4 @@
-#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Track)||defined(Wireless_Mini_Shell)||defined(WIFI_LoRa_32_SX1262)||defined(Wireless_Stick_V3)
+#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||defined(WIRELESS_MINI_SHELL)||defined(WIFI_LORA_32_SX1262)||defined(WIRELESS_STICK_V3)||(WIRELESS_PAPER)
 #include <math.h>
 #include <string.h>
 #include "../driver/timer.h"

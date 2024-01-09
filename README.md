@@ -6,7 +6,9 @@ This environment is fully cloned from espressif [ESP32](https://github.com/espre
 
 This development environment only includes the relevant drivers for the existing hardware on the development board, while other external device drivers are stored in the following libraries:
 
-For ESP32 series: [https://github.com/HelTecAutomation/Heltec_ESP32](https://github.com/HelTecAutomation/Heltec_ESP32)
+For sensor driven: [https://github.com/HelTecAutomation/Heltec_ESP32](https://github.com/HelTecAutomation/Heltec_ESP32)
+
+For e-ink driven: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
 
 ## Instructions
 
@@ -66,9 +68,9 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
 
 这个开发环境只包含开发板上已有硬件的相关驱动，其它外接设备驱动在以下库里：
 
-ESP32系列: https://github.com/HelTecAutomation/Heltec_ESP32
+传感器驱动: https://github.com/HelTecAutomation/Heltec_ESP32
 
-
+墨水屏驱动: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
 
 ## 说明
 

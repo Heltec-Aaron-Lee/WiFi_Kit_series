@@ -39,7 +39,7 @@
 
 #define BOARD_TCXO_WAKEUP_TIME                      5
 
-#if defined(WIFI_LoRa_32_V3)||defined(Wireless_Track)||(Wireless_Stick_V3)
+#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||(WIRELESS_STICK_V3)||(WIRELESS_PAPER)
 
 #define RADIO_DIO_1    14
 #define RADIO_NSS      8
@@ -50,7 +50,7 @@
 #define LORA_MISO      11
 #define LORA_MOSI      10
 
-#elif defined(WIFI_LoRa_32_V2)||defined(wireless_stick)||defined(wireless_stick_lite)||defined(wireless_bridge)
+#elif defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK)||defined(WIRELESS_STICK_LITE)||defined(WIRELESS_BRIDGE)
 #define RADIO_RESET                                14
 
 #define LORA_MOSI                                  27

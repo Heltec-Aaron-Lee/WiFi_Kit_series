@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define WIFI_Kit_32	true
+#define WIRELESS_PAPER	true
 #define DISPLAY_HEIGHT 64
 #define DISPLAY_WIDTH  128
 

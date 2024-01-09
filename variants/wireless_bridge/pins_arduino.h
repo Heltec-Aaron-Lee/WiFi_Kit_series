@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define Wireless_Bridge true
+#define WIRELESS_BRIDGE true
 
 #define EXTERNAL_NUM_INTERRUPTS 16
 #define NUM_DIGITAL_PINS        40

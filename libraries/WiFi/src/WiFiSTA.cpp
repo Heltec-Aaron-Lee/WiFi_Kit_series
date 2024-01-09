@@ -241,7 +241,7 @@ wl_status_t WiFiSTAClass::begin(const char* ssid, const char *passphrase, int32_
     memset(&conf, 0, sizeof(wifi_config_t));
 
     wifi_sta_config(&conf, ssid, passphrase, bssid, channel, _minSecurity, _scanMethod, _sortMethod);
-#if defined(Wireless_Mini_Shell)
+#if defined(WIRELESS_MINI_SHELL)
     WiFi.setTxPower(WIFI_POWER_8_5dBm);
 #endif
     wifi_config_t current_conf;

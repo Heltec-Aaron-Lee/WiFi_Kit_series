@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define Wireless_Stick_Lite true
+#define WIRELESS_STICK_LITE true
 #define DISPLAY_HEIGHT 0
 #define DISPLAY_WIDTH  0
 

@@ -54,7 +54,7 @@
 #include <stdbool.h>
 #include "../driver/timer.h"
 #include "../loramac/LoRaMacCrypto.h"
-#if defined(wireless_stick_lite)||defined(wireless_stick)||defined(WIFI_LoRa_32_V2)||defined(WIFI_LoRa_32)||defined(wireless_bridge)
+#if defined(WIRELESS_STICK_LITE)||defined(WIRELESS_STICK)||defined(WIFI_LORA_32_V2)||defined(WIFI_LORA_32)||defined(WIRELESS_BRIDGE)
 #include "../radio/radio_sx127x.h"
 #else
 #include "../radio/radio.h"

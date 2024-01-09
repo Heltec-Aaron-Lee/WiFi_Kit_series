@@ -1,6 +1,0 @@
-{
-    "configuration": "LoopCore=1,EventsCore=1,CPUFreq=240,UploadSpeed=921600,DebugLevel=none,LORAWAN_REGION=0,LoRaWanDebugLevel=0,LORAWAN_DEVEUI=0,LORAWAN_PREAMBLE_LENGTH=0",
-    "board": "WiFi_Kit_series-master:esp32:WIFI_LoRa_32_V3",
-    "port": "COM5",
-    "sketch": "QYEG0213RWS800_BWR.ino"
-}

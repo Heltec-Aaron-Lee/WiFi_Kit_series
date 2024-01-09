@@ -4,14 +4,10 @@
 #include <stdint.h>
 #include "soc/soc_caps.h"
 
-#define Wireless_Stick_V3 true
-#define DISPLAY_HEIGHT 32
-#define DISPLAY_WIDTH  64
-
 #define USB_VID 0x303a
 #define USB_PID 0x1001
 
-#define Wireless_Stick_V3 true
+#define WIRELESS_STICK_V3 true
 #define DISPLAY_HEIGHT 32
 #define DISPLAY_WIDTH  64
 

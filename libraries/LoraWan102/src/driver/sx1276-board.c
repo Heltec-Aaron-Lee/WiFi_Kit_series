@@ -21,7 +21,7 @@
  * \author    Gregory Cristian ( Semtech )
  */
  
-#if defined(WIFI_LoRa_32)||defined(WIFI_LoRa_32_V2)||defined(wireless_stick)||defined(wireless_stick_lite)||defined(wireless_bridge)
+#if defined(WIFI_LORA_32)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK)||defined(WIRELESS_STICK_LITE)||defined(WIRELESS_BRIDGE)
 #include <stdlib.h>
 #include "../loramac/utilities.h"
 #include "../driver/board-config.h"

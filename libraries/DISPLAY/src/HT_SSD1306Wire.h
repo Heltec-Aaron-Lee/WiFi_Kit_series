@@ -67,7 +67,7 @@ class SSD1306Wire : public ScreenDisplay {
 			if (minBoundY == UINT8_MAX) return;
 
 			sendCommand(COLUMNADDR);
-#ifdef Wireless_Stick_V3
+#ifdef WIRELESS_STICK_V3
       sendCommand( minBoundX+32);
       sendCommand( maxBoundX+32);
 #else
@@ -177,7 +177,7 @@ class SSD1306Wire : public ScreenDisplay {
 			if (minBoundY == UINT8_MAX) return;
 
 			sendCommand(COLUMNADDR);
-#ifdef Wireless_Stick_V3
+#ifdef WIRELESS_STICK_V3
       sendCommand( minBoundX+32);
       sendCommand( maxBoundX+32);
 #else
