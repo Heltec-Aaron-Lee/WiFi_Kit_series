@@ -3,9 +3,7 @@
 
 #include <stdint.h>
 
-#define Epaper	true
-#define DISPLAY_HEIGHT 64
-#define DISPLAY_WIDTH  128
+#define HT_DE01	true
 
 #define EXTERNAL_NUM_INTERRUPTS 16
 #define NUM_DIGITAL_PINS        40
@@ -70,8 +68,11 @@ static const uint8_t T14 = 14;
 
 static const uint8_t Vext = 45;
 static const uint8_t LED  = 18;
-static const uint8_t RST_OLED = 21;
-static const uint8_t SCL_OLED = 18;
-static const uint8_t SDA_OLED = 17;
+static const uint8_t RST_EINK = 6;
+static const uint8_t BUSY_EINK = 7;
+static const uint8_t CLK_EINK = 3;
+static const uint8_t CS_EINK = 5;
+static const uint8_t DC_EINK = 4;
+static const uint8_t SDI_EINK = 2;
 
 #endif /* Pins_Arduino_h */

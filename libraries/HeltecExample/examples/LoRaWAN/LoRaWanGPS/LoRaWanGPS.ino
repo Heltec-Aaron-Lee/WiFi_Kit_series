@@ -1,3 +1,20 @@
+/* Heltec Automation LoRaWAN communication example
+ *
+ * Function:
+ * 1. Read the longitude and latitude of GPS and upload it to the LoRaWAN server.
+ * 2. Display the longitude and latitude of GPS on the screen.
+ *
+ * Description:
+ * 1. Communicate using LoRaWAN protocol.
+ * 
+ * HelTec AutoMation, Chengdu, China
+ * 成都惠利特自动化科技有限公司
+ * www.heltec.org
+ *
+ * this project also realess in GitHub:
+ * https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
+ * */
+
 #include "LoRaWan_APP.h"
 #include "Arduino.h"
 #include "HT_st7735.h"
@@ -8,7 +25,7 @@ HT_st7735 st7735;
 
 #define VGNSS_CTRL 3
 /* OTAA para*/
-uint8_t devEui[] = {0x22, 0x32, 0x33, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t devEui[] = {0x22, 0x32, 0x33, 0x00, 0x00, 0x00, 0x00, 0x23};
 uint8_t appEui[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 uint8_t appKey[] = { 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88};
 /* ABP para*/
@@ -22,18 +39,18 @@ uint32_t license[4] = {0x21701168, 0xAAAEEC0A, 0xFDA9F9D2, 0x0110E29E};
 /*LoraWan region, select in arduino IDE tools*/
 LoRaMacRegion_t loraWanRegion = ACTIVE_REGION;
 
-/*LoraWan ClaSerial1, ClaSerial1 A and ClaSerial1 C are supported*/
+/*LoraWan Class, Class A and Class C are supported*/
 DeviceClass_t  loraWanClass = CLASS_A;
 
-/*the application data transmiSerial1ion duty cycle.  value in [ms].*/
+/*the application data transmission duty cycle.  value in [ms].*/
 uint32_t appTxDutyCycle = 15000;
 
 /*OTAA or ABP*/
 bool overTheAirActivation = true;
 
 /*ADR enable*/
-bool loraWanAdr = 0;
-/* Indicates if the node is sending confirmed or unconfirmed meSerial1ages */
+bool loraWanAdr = true;
+/* Indicates if the node is sending confirmed or unconfirmed messages */
 bool isTxConfirmed = true;
 
 /* Application port */
@@ -44,7 +61,7 @@ uint8_t appPort = 2;
   according to the LoRaWAN Specification V1.0.2, chapter 18.4, according
   to the following table:
 
-  TransmiSerial1ion nb | Data Rate
+  Transmission nb | Data Rate
   ----------------|-----------
   1 (first)       | DR
   2               | DR
@@ -61,14 +78,11 @@ uint8_t appPort = 2;
 uint8_t confirmedNbTrials = 4;
 void GPS_test(void)
 {
-
-
   Serial.println("GPS_test");
   st7735.st7735_fill_screen(ST7735_BLACK);
   delay(100);
   st7735.st7735_write_str(0, 0, (String)"GPS_test");
 
- 
     if (Serial1.available() > 0)
     {
       if (Serial1.peek() != '\n')
@@ -78,8 +92,7 @@ void GPS_test(void)
       else
       {
         Serial1.read();
-     
-      }
+     }
     }
   }
 
@@ -124,12 +137,6 @@ static void prepareTxFrame( uint8_t port )
 
   lat = GPS.location.lat();
   lon = GPS.location.lng();
-  alt = GPS.altitude.meters();
-  course = GPS.course.deg();
-  speed = GPS.speed.kmph();
-  sats = GPS.satellites.value();
-  hdop = GPS.hdop.hdop();
-
   digitalWrite(Vext, LOW);
   // digitalWrite(GPIO0, LOW);
 
@@ -149,47 +156,13 @@ static void prepareTxFrame( uint8_t port )
   appData[appDataSize++] = puc[1];
   appData[appDataSize++] = puc[2];
   appData[appDataSize++] = puc[3];
-  puc = (unsigned char *)(&alt);
-  appData[appDataSize++] = puc[0];
-  appData[appDataSize++] = puc[1];
-  appData[appDataSize++] = puc[2];
-  appData[appDataSize++] = puc[3];
-  puc = (unsigned char *)(&course);
-  appData[appDataSize++] = puc[0];
-  appData[appDataSize++] = puc[1];
-  appData[appDataSize++] = puc[2];
-  appData[appDataSize++] = puc[3];
-  puc = (unsigned char *)(&speed);
-  appData[appDataSize++] = puc[0];
-  appData[appDataSize++] = puc[1];
-  appData[appDataSize++] = puc[2];
-  appData[appDataSize++] = puc[3];
-  puc = (unsigned char *)(&hdop);
-  appData[appDataSize++] = puc[0];
-  appData[appDataSize++] = puc[1];
-  appData[appDataSize++] = puc[2];
-  appData[appDataSize++] = puc[3];
-  appData[appDataSize++] = 0x00;
-  appData[appDataSize++] = 0x03;
+  puc
 
-  Serial.print("SATS: ");
-  Serial.print(GPS.satellites.value());
-  Serial.print(", HDOP: ");
-  Serial.print(GPS.hdop.hdop());
+
   Serial.print(", LAT: ");
   Serial.print(GPS.location.lat());
   Serial.print(", LON: ");
   Serial.print(GPS.location.lng());
-  Serial.print(", AGE: ");
-  Serial.print(GPS.location.age());
-  Serial.print(", ALT: ");
-  Serial.print(GPS.altitude.meters());
-  Serial.print(", COURSE: ");
-  Serial.print(GPS.course.deg());
-  Serial.print(", SPEED: ");
-  Serial.println(GPS.speed.kmph());
-  // Serial.print(" BatteryVoltage:");
-  // Serial.println(batteryVoltage);
 }
 
 
@@ -197,8 +170,7 @@ static void prepareTxFrame( uint8_t port )
 
 void setup()
 {
-  pinMode(VGNSS_CTRL, OUTPUT);
-  digitalWrite(VGNSS_CTRL, HIGH);
+ 
   Serial1.begin(115200, SERIAL_8N1, 33, 34);
    Serial.begin(115200);
   pinMode(Vext, OUTPUT);
@@ -221,7 +193,7 @@ void loop()
 #if(LORAWAN_DEVEUI_AUTO)
         LoRaWAN.generateDeveuiByChipID();
 #endif
-LoRaWAN.setDataRateForNoADR(3);
+
 
         LoRaWAN.init(loraWanClass, loraWanRegion);
         break;

@@ -1,3 +1,21 @@
+
+
+/* Heltec Automation LoRaWAN communication example
+ *
+ * Function:
+ * 1. Read the time of GPS and upload it to the LoRaWAN server.
+ * 2. Display the time of GPS on the screen.
+ *
+ * Description:
+ * 1. Communicate using LoRaWAN protocol.
+ * 
+ * HelTec AutoMation, Chengdu, China
+ * 成都惠利特自动化科技有限公司
+ * www.heltec.org
+ *
+ * this project also realess in GitHub:
+ * https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
+ * */
 #include "LoRaWan_APP.h"
 #include "Arduino.h"
 #include "HT_st7735.h"
@@ -117,7 +135,8 @@ static void prepareTxFrame(uint8_t port) {
   Serial.printf(" %02d:%02d:%02d.%02d", GPS.time.hour(), GPS.time.minute(), GPS.time.second(), GPS.time.centisecond());
 
   String time_str = (String)GPS.time.hour() + ":" + (String)GPS.time.minute() + ":" + (String)GPS.time.second() + ":" + (String)GPS.time.centisecond();
-
+ st7735.st7735_write_str(0, 0, time_str);
+ delay(1000);
   hour = GPS.time.hour();
   minute = GPS.time.minute();
   second = GPS.time.second();
