@@ -128,7 +128,7 @@ static void prepareTxFrame( uint8_t port )
       }
      } while(GPS.charsProcessed() < 10); //((millis() + start) <5000); 
 
-    if ((millis() + start) > 5000)// && GPS.charsProcessed() < 10) 
+    if ((millis() - start) > 10000)// && GPS.charsProcessed() < 10) 
     {
      Serial.println("No GPS data received: check wiring");
      break;
