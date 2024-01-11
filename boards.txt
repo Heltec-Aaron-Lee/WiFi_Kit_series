@@ -20,6 +20,7 @@ menu.MemoryType=Memory Type
 menu.LORAWAN_PREAMBLE_LENGTH=LORAWAN_PREAMBLE_LENGTH
 menu.LORAWAN_DebugLevel=LoRaWan Debug Level
 menu.LORAWAN_DEVEUI=LORAWAN_DEVEUI
+menu.einksize=eink size
 ##############################################################
 ### DO NOT PUT BOARDS ABOVE THE OFFICIAL ESPRESSIF BOARDS! ###
 ##############################################################
@@ -1544,3 +1545,115 @@ wireless_paper.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 wireless_paper.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
 wireless_paper.build.extra_libs=-lheltec
 ##############################################################
+#############################################################
+ht_de01.name=ht_de01
+ht_de01.vid.0=0x303a
+ht_de01.pid.0=0x1001
+
+ht_de01.bootloader.tool=esptool_py
+ht_de01.bootloader.tool.default=esptool_py
+
+ht_de01.upload.tool=esptool_py
+ht_de01.upload.tool.default=esptool_py
+ht_de01.upload.tool.network=esp_ota
+
+ht_de01.upload.maximum_size=4026368
+ht_de01.upload.maximum_data_size=327680
+ht_de01.upload.flags=
+ht_de01.upload.extra_flags=
+ht_de01.upload.use_1200bps_touch=false
+ht_de01.upload.wait_for_upload_port=false
+
+ht_de01.serial.disableDTR=false
+ht_de01.serial.disableRTS=false
+
+ht_de01.build.tarch=xtensa
+ht_de01.build.bootloader_addr=0x0
+ht_de01.build.target=esp32s3
+ht_de01.build.mcu=esp32s3
+ht_de01.build.core=esp32
+ht_de01.build.variant=ht_de01
+ht_de01.build.board=HT_DE01
+
+ht_de01.build.usb_mode=1
+ht_de01.build.cdc_on_boot=0
+ht_de01.build.msc_on_boot=0
+ht_de01.build.dfu_on_boot=0
+ht_de01.build.f_cpu=240000000L
+ht_de01.build.flash_size=8MB
+ht_de01.build.flash_freq=80m
+ht_de01.build.flash_mode=dio
+ht_de01.build.boot=qio
+ht_de01.build.boot_freq=80m
+ht_de01.build.partitions=default_8MB
+ht_de01.build.loop_core=
+ht_de01.build.event_core=
+ht_de01.build.psram_type=qspi
+ht_de01.build.memory_type={build.boot}_{build.psram_type}
+
+ht_de01.menu.LoopCore.1=Core 1
+ht_de01.menu.LoopCore.1.build.loop_core=-DARDUINO_RUNNING_CORE=1
+ht_de01.menu.LoopCore.0=Core 0
+ht_de01.menu.LoopCore.0.build.loop_core=-DARDUINO_RUNNING_CORE=0
+
+ht_de01.menu.EventsCore.1=Core 1
+ht_de01.menu.EventsCore.1.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=1
+ht_de01.menu.EventsCore.0=Core 0
+ht_de01.menu.EventsCore.0.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=0
+
+ht_de01.menu.CPUFreq.240=240MHz (WiFi)
+ht_de01.menu.CPUFreq.240.build.f_cpu=240000000L
+ht_de01.menu.CPUFreq.160=160MHz (WiFi)
+ht_de01.menu.CPUFreq.160.build.f_cpu=160000000L
+ht_de01.menu.CPUFreq.80=80MHz (WiFi)
+ht_de01.menu.CPUFreq.80.build.f_cpu=80000000L
+ht_de01.menu.CPUFreq.40=40MHz
+ht_de01.menu.CPUFreq.40.build.f_cpu=40000000L
+ht_de01.menu.CPUFreq.20=20MHz
+ht_de01.menu.CPUFreq.20.build.f_cpu=20000000L
+ht_de01.menu.CPUFreq.10=10MHz
+ht_de01.menu.CPUFreq.10.build.f_cpu=10000000L
+
+ht_de01.menu.UploadSpeed.921600=921600
+ht_de01.menu.UploadSpeed.921600.upload.speed=921600
+ht_de01.menu.UploadSpeed.115200=115200
+ht_de01.menu.UploadSpeed.115200.upload.speed=115200
+ht_de01.menu.UploadSpeed.256000.windows=256000
+ht_de01.menu.UploadSpeed.256000.upload.speed=256000
+ht_de01.menu.UploadSpeed.230400.windows.upload.speed=256000
+ht_de01.menu.UploadSpeed.230400=230400
+ht_de01.menu.UploadSpeed.230400.upload.speed=230400
+ht_de01.menu.UploadSpeed.460800.linux=460800
+ht_de01.menu.UploadSpeed.460800.macosx=460800
+ht_de01.menu.UploadSpeed.460800.upload.speed=460800
+ht_de01.menu.UploadSpeed.512000.windows=512000
+ht_de01.menu.UploadSpeed.512000.upload.speed=512000
+
+ht_de01.menu.DebugLevel.none=None
+ht_de01.menu.DebugLevel.none.build.code_debug=0
+ht_de01.menu.DebugLevel.error=Error
+ht_de01.menu.DebugLevel.error.build.code_debug=1
+ht_de01.menu.DebugLevel.warn=Warn
+ht_de01.menu.DebugLevel.warn.build.code_debug=2
+ht_de01.menu.DebugLevel.info=Info
+ht_de01.menu.DebugLevel.info.build.code_debug=3
+ht_de01.menu.DebugLevel.debug=Debug
+ht_de01.menu.DebugLevel.debug.build.code_debug=4
+ht_de01.menu.DebugLevel.verbose=Verbose
+ht_de01.menu.DebugLevel.verbose.build.code_debug=5
+
+
+
+ht_de01.menu.einksize.0=eink_150
+ht_de01.menu.einksize.0.build.einksize=150;
+ht_de01.menu.einksize.1=eink_154
+ht_de01.menu.einksize.1.build.einksize=154;
+ht_de01.menu.einksize.2=eink_213
+ht_de01.menu.einksize.2.build.einksize=213;
+ht_de01.menu.einksize.3=eink_290
+ht_de01.menu.einksize.3.build.einksize=290;
+
+ht_de01.build.defines=   -DEINK={build.einksize}   -D{build.board}
+ht_de01.build.extra_libs=-lheltec
+##############################################################
+

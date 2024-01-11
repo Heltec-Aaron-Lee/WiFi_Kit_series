@@ -23,11 +23,11 @@
 TinyGPSPlus GPS;
 HT_st7735 st7735;
 
-#define VGNSS_CTRL 37
+#define VGNSS_CTRL 3
 /* OTAA para*/
 uint8_t devEui[] = {0x22, 0x32, 0x33, 0x00, 0x00, 0x00, 0x00, 0x23};
 uint8_t appEui[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-uint8_t appKey[] = { 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x01 };
+uint8_t appKey[] = { 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88};
 /* ABP para*/
 uint8_t nwkSKey[] = { 0x15, 0xb1, 0xd0, 0xef, 0xa4, 0x63, 0xdf, 0xbe, 0x3d, 0x11, 0x18, 0x1e, 0x1e, 0xc7, 0xda, 0x85 };
 uint8_t appSKey[] = { 0xd7, 0x2c, 0x78, 0x75, 0x8c, 0xdc, 0xca, 0xbf, 0x55, 0xee, 0x4a, 0x77, 0x8d, 0x16, 0xef, 0x67 };
@@ -50,7 +50,6 @@ bool overTheAirActivation = true;
 
 /*ADR enable*/
 bool loraWanAdr = true;
-
 /* Indicates if the node is sending confirmed or unconfirmed messages */
 bool isTxConfirmed = true;
 
@@ -84,8 +83,6 @@ void GPS_test(void)
   delay(100);
   st7735.st7735_write_str(0, 0, (String)"GPS_test");
 
-  while (1)
-  {
     if (Serial1.available() > 0)
     {
       if (Serial1.peek() != '\n')
@@ -95,79 +92,95 @@ void GPS_test(void)
       else
       {
         Serial1.read();
-        if (GPS.time.second() == 0)
-        {
-          continue;
-        }
-        st7735.st7735_fill_screen(ST7735_BLACK);
-        st7735.st7735_write_str(0, 0, (String)"GPS_test");
-        String time_str = (String)GPS.time.hour() + ":" + (String)GPS.time.minute() + ":" + (String)GPS.time.second() + ":" + (String)GPS.time.centisecond();
-        st7735.st7735_write_str(0, 20, time_str);
-        String latitude = "LAT: " + (String)GPS.location.lat();
-        st7735.st7735_write_str(0, 40, latitude);
-        String longitude  = "LON: " +  (String)GPS.location.lng();
-        st7735.st7735_write_str(0, 60, longitude);
-
-        Serial.printf(" %02d:%02d:%02d.%02d", GPS.time.hour(), GPS.time.minute(), GPS.time.second(), GPS.time.centisecond());
-        Serial.print("LAT: ");
-        Serial.print(GPS.location.lat(), 6);
-        Serial.print(", LON: ");
-        Serial.print(GPS.location.lng(), 6);
-        Serial.println();
-        delay(5000);
-        while (Serial1.read() > 0);
-      }
+     }
     }
   }
-}
+
 /* Prepares the payload of the frame */
 static void prepareTxFrame( uint8_t port )
 {
-  /*appData size is LORAWAN_APP_DATA_MAX_SIZE which is defined in "commissioning.h".
+  /*appData size is LORAWAN_APP_DATA_MAX_SIZE which is defined in "commiSerial1ioning.h".
     appDataSize max value is LORAWAN_APP_DATA_MAX_SIZE.
     if enabled AT, don't modify LORAWAN_APP_DATA_MAX_SIZE, it may cause system hanging or failure.
     if disabled AT, LORAWAN_APP_DATA_MAX_SIZE can be modified, the max value is reference to lorawan region and SF.
     for example, if use REGION_CN470,
     the max value for different DR can be found in MaxPayloadOfDatarateCN470 refer to DataratesCN470 and BandwidthsCN470 in "RegionCN470.h".
   */
-  pinMode(VGNSS_CTRL, OUTPUT);
-  digitalWrite(VGNSS_CTRL, LOW);
-  appDataSize = 1;
+
+  // pinMode(GPIO0, OUTPUT);
+  pinMode(Vext, OUTPUT);
+  // digitalWrite(GPIO0, HIGH);
+  digitalWrite(Vext, HIGH);
+
+  float lat, lon, alt, course, speed, hdop, sats;
+
+  Serial.println("Waiting for GPS FIX ...");
+ 
+  while (!GPS.location.isValid()) 
+  {
+    //smartDelay(1000);
+    uint32_t start = millis();
+    do 
+    {
+      if (Serial1.available()) 
+      {
+        GPS.encode(Serial1.read());
+      }
+     } while(GPS.charsProcessed() < 10); //((millis() + start) <5000); 
+
+    if ((millis() - start) > 10000)// && GPS.charsProcessed() < 10) 
+    {
+     Serial.println("No GPS data received: check wiring");
+     break;
+    }
+  }
+
+  lat = GPS.location.lat();
+  lon = GPS.location.lng();
+  digitalWrite(Vext, LOW);
+  // digitalWrite(GPIO0, LOW);
+
+  // pinMode(GPIO0, ANALOG);
+  // uint16_t batteryVoltage = getBatteryVoltage();
+
   unsigned char *puc;
-   double lat=GPS.location.lat();
+
+  appDataSize = 0;
   puc = (unsigned char *)(&lat);
-  appData[0] = puc[0];
-  appData[1] = puc[1];
-  appData[2] = puc[2];
-  appData[3] = puc[3];
-  appData[4] = puc[4];
-  appData[5] = puc[5];
-  appData[6] = puc[6];
-  appData[7] = puc[7];
-  double lng=GPS.location.lng();
-  puc = (unsigned char *)(&lng);
-  appData[8] = puc[0];
-  appData[9] = puc[1];
-  appData[10] = puc[2];
-  appData[11] = puc[3];
-  appData[12] = puc[4];
-  appData[13] = puc[5];
-  appData[14] = puc[6];
-  appData[15] = puc[7];
-  //  printf("0\n");
+  appData[appDataSize++] = puc[0];
+  appData[appDataSize++] = puc[1];
+  appData[appDataSize++] = puc[2];
+  appData[appDataSize++] = puc[3];
+  puc = (unsigned char *)(&lon);
+  appData[appDataSize++] = puc[0];
+  appData[appDataSize++] = puc[1];
+  appData[appDataSize++] = puc[2];
+  appData[appDataSize++] = puc[3];
+  puc
+
+
+  Serial.print(", LAT: ");
+  Serial.print(GPS.location.lat());
+  Serial.print(", LON: ");
+  Serial.print(GPS.location.lng());
 }
+
+
 
 
 void setup()
 {
-  pinMode(VGNSS_CTRL, OUTPUT);
-  digitalWrite(VGNSS_CTRL, LOW);
+ 
   Serial1.begin(115200, SERIAL_8N1, 33, 34);
+   Serial.begin(115200);
   pinMode(Vext, OUTPUT);
-  digitalWrite(Vext, LOW);
+  digitalWrite(Vext, HIGH);
   Mcu.setlicense(license);
+ st7735.st7735_init();
+ st7735.st7735_fill_screen(ST7735_BLACK);
 
   Mcu.begin();
+  // LoRaWanClass::setDataRateForNoADR(0)
 
   deviceState = DEVICE_STATE_INIT;
 }
@@ -181,19 +194,26 @@ void loop()
         LoRaWAN.generateDeveuiByChipID();
 #endif
 
+
         LoRaWAN.init(loraWanClass, loraWanRegion);
         break;
       }
     case DEVICE_STATE_JOIN:
       {
         LoRaWAN.join();
+		st7735.st7735_write_str(0, 0, "join>>>");
 
         break;
       }
     case DEVICE_STATE_SEND:
       {
         prepareTxFrame( appPort );
-        LoRaWAN.send();
+        		st7735.st7735_write_str(0, 0, "send>>>");
+
+        LoRaWAN.send();       
+         		st7735.st7735_write_str(0, 0, "send>>>    ok");
+
+
         deviceState = DEVICE_STATE_CYCLE;
         break;
       }
