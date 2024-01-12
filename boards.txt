@@ -1542,7 +1542,7 @@ wireless_paper.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
 wireless_paper.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 
 wireless_paper.build.defines=-D{build.band} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
-wireless_paper.build.extra_libs=-lheltec
+wireless_paper.build.extra_libs=-lheltec_2
 ##############################################################
 #############################################################
 ht_de01.name=Ht De01
