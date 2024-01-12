@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "soc/soc_caps.h"
 
+#define WIRELESS_TRACKER true
 #define USB_VID 0x303a
 #define USB_PID 0x1001
 

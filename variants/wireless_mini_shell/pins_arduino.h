@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "soc/soc_caps.h"
 
+#define WIRELESS_MINI_SHELL true
 #define EXTERNAL_NUM_INTERRUPTS 22
 #define NUM_DIGITAL_PINS        22
 #define NUM_ANALOG_INPUTS       6
