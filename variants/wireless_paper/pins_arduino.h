@@ -71,7 +71,6 @@ static const uint8_t T14 = 14;
 static const uint8_t Vext = 45;
 static const uint8_t LED  = 18;
 static const uint8_t RST_OLED = 21;
-static const uint8_t RST_OLED = 21;
 static const uint8_t SCL_OLED = 18;
 static const uint8_t SDA_OLED = 17;
 
