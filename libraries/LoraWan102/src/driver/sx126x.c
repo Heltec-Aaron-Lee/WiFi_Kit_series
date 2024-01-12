@@ -1,4 +1,4 @@
-#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||defined(WIRELESS_MINI_SHELL)||defined(WIFI_LORA_32_SX1262)||defined(WIRELESS_STICK_V3)||(WIRELESS_PAPER)
+#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||defined(WIRELESS_MINI_SHELL)||defined(WIFI_LORA_32_SX1262)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_PAPER)
 #include <string.h>
 #include "../loramac/utilities.h"
 #include "../driver/timer.h"
