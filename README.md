@@ -1,37 +1,34 @@
-# Heltec ESP32 & ESP8266 Series Arduino Develop Environment
+# Heltec ESP32 Series Arduino Develop Environment
 
 English | [简体中文](#简体中文)
 
-This environment is fully cloned from espressif [ESP32](https://github.com/espressif/arduino-esp32) and [ESP8266](https://github.com/esp8266/Arduino) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP series Dev boards users.
+This environment is fully cloned from espressif [ESP32](https://github.com/espressif/arduino-esp32) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP32 series Dev boards users.
 
-*This environment does not include onboard OLED LoRa etc. drivers and examples anymore, they had been moved to another library:*
+This development environment only includes the relevant drivers for the existing hardware on the development board, while other external device drivers are stored in the following libraries:
 
-For ESP32 series: [https://github.com/HelTecAutomation/Heltec_ESP32](https://github.com/HelTecAutomation/Heltec_ESP32)
+For sensor driven: [https://github.com/HelTecAutomation/Heltec_ESP32](https://github.com/HelTecAutomation/Heltec_ESP32)
 
-For ESP8266 series: [https://github.com/HelTecAutomation/Heltec_ESP8266](https://github.com/HelTecAutomation/Heltec_ESP8266)
+For e-ink driven: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
 
 ## Instructions
 
-The following table lists products based on ESP32 and ESP8266:
+The following table lists products based on ESP32 :
 
 
 |   MCU   |                       Relative boards                        |
 | :-----: | :----------------------------------------------------------: |
-|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/), [Wireless Tracker](https://heltec.org/project/wireless-tracker/), [Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/)|
+|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/), [Wireless Tracker](https://heltec.org/project/wireless-tracker/), [Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/),[HT-DE01](https://heltec.org/project/e-ink-driveboard/) |
 |ESP32c3|[Esp32 c3 Dev-Board](https://heltec.org/project/esp32-c3/), [Ct62](https://heltec.org/project/ht-Ct62/)|
 |ESP32-PICO |[Wireless Shell(v3)](https://heltec.org/project/wireless-shell/ ), [Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/)|
 |ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32), [Wireless Stick](https://heltec.org/project/wireless-stick/)|
-| ESP8266 |[WiFi Kit 8](https://heltec.org/project/wifi-kit-8/)|
-
 
 ## Installation Instructions
 
 - **Using Arduino IDE Boards Manager (preferred)**
   
- 
-  - [Install ESP32 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
-  - [Install ESP8266 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
 
+  - [Install ESP32 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
+  
   
   
 - **Using Git with the development repository**
@@ -65,27 +62,26 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
 
 &nbsp;
 
-
 ## 简体中文
 
-本项目完全是从乐鑫提供的[ESP32](https://github.com/espressif/arduino-esp32)和[ESP8266](https://github.com/esp8266/Arduino)项目上克隆下来的，在此基础上，我们修改了“variants”文件夹和“boards.txt”里面的内容（增加开发板的定义和信息），这样可以方便用户（尤其是初学者）使用我司生产的ESP32和ESP8266系列开发板。
+本项目完全是从乐鑫提供的 [ESP32](https://github.com/espressif/arduino-esp32) 项目上克隆下来的，在此基础上，我们修改了“variants”文件夹和“boards.txt”里面的内容（增加开发板的定义和信息），这样可以方便用户（尤其是初学者）使用我司生产的 ESP32 系列开发板。
 
-*本项目只是开发环境，我们将板子上OLED、LoRa等资源的例程、驱动程序移到了一个独立的库里面（这样的好处是：如果您已经安装了乐鑫提供的标准的[ESP32](https://github.com/espressif/arduino-esp32)或[ESP8266](https://github.com/esp8266/Arduino)开发环境，只需要安装下面的库即可，就不再需要安装我们提供的这个开发环境了）*
+这个开发环境只包含开发板上已有硬件的相关驱动，其它外接设备驱动在以下库里：
 
-ESP32系列: https://github.com/HelTecAutomation/Heltec_ESP32
+传感器驱动: https://github.com/HelTecAutomation/Heltec_ESP32
 
-ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
+墨水屏驱动: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
 
 ## 说明
+
 下表列出了基于ESP32和ESP8266芯片的产品型号：
 
 |   MCU   |                       Relative boards                        |
 | :-----: | :----------------------------------------------------------: |
-|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/), [Wireless Tracker](https://heltec.org/project/wireless-tracker/), [Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/)|
+|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/), [Wireless Tracker](https://heltec.org/project/wireless-tracker/), [Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/),[HT-DE01](https://heltec.org/project/e-ink-driveboard/) |
 |ESP32c3|[Esp32 c3 Dev-Board](https://heltec.org/project/esp32-c3/), [Ct62](https://heltec.org/project/ht-Ct62/)|
 |ESP32-PICO |[Wireless Shell(v3)](https://heltec.org/project/wireless-shell/ ), [Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/)|
 |ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32), [Wireless Stick](https://heltec.org/project/wireless-stick/)|
-| ESP8266 |[WiFi Kit 8](https://heltec.org/project/wifi-kit-8/)|
 
 ## 安装指南
 
@@ -94,15 +90,12 @@ ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 - **通过Arduino IDE的库管理器安装 （强烈推荐）**
 - 
   - [安装基于ESP32芯片的开发环境](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
-  - [安装基于ESP8266芯片的开发环境](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
-
 - **通过Git从源码进行安装**
   - [Windows操作系统 -- 安装方法](InstallGuide/windows.md)
   - [MacOS操作系统 -- 安装方法](InstallGuide/mac.md)
   - [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
   - [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
   - [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
-
 - 更多安装方法，还可以参考这里：[https://heltec.org/zh/wifi_kit_install/](https://heltec.org/zh/wifi_kit_install/)
 
 ## 编码规则
@@ -115,6 +108,7 @@ ESP8266系列: https://github.com/HelTecAutomation/Heltec_ESP8266
 - [Heltec论坛 (仅英语交流)](http://community.heltec.cn/)
 
 ## 联系我们
+
 - **官网：[https://heltec.org](https://heltec.org/)**
 - **Heltec文档页: [https://docs.heltec.cn](https://docs.heltec.cn)**
 - **Heltec论坛 (仅英语): [http://community.heltec.cn/](http://community.heltec.cn/)**
