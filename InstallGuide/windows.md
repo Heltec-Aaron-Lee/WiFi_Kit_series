@@ -37,22 +37,6 @@ Connect your ESP32 board to computer via a high quality USB cable and wait for t
 
 &nbsp;
 
-
-## Finish Arduino ESP8266 support on Windows
-In the `/Documents/Arduino/hardware/heltec/esp8266/tools`, run the following command to finish ESP8266 tools chain install:
-
-`python get.py`
-
-After `get.py` running finish, the folder should like this:
-
-![](win-screenshots/esp8266.png)
-
-Now the ESP8266 based board are available in the Arduino IDE:
-
-![](win-screenshots/kit8.png)
-
-
-
 ## Update to the latest code
 
 Open ```/Documents/Arduino/hardware/heltec``` created start ```Git Bash``` and input ```git pull```!
