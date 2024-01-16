@@ -15,10 +15,10 @@ For e-ink driven: [https://github.com/HelTecAutomation/e-ink](https://github.com
 ## Contents
 
   - [Instructions](#Instructions)
-  - [Installation Instructions](#Installation Instructions)
-  - [Decoding exceptions](#Decoding exceptions)
-  - [Issue/Bug report template](#Issue/Bug report template)
-  - [Contact us](#Contact us)
+  - [Installation Instructions](#Installation-Instructions)
+  - [Decoding exceptions](#Decoding-exceptions)
+  - [Issue/Bug report template](#Issue/Bug-report-template)
+  - [Contact us](#Contact-us)
 
 ## Instructions
 
@@ -87,7 +87,7 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
   - [说明](#说明)
   - [安装指南](#安装指南)
   - [编码规则](#编码规则)
-  - [问题讨论 & BUG报告](#问题讨论 & BUG报告)
+  - [问题讨论 & BUG报告](#问题讨论-&-BUG报告)
   - [联系我们](#联系我们)
 
 ## 说明
