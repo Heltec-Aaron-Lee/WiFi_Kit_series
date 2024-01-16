@@ -1,5 +1,7 @@
 # Heltec ESP32 Series Arduino Develop Environment
 
+![GitHub License](https://img.shields.io/github/license/Heltec-Aaron-Lee/WiFi_Kit_series) ![GitHub Release](https://img.shields.io/github/v/release/Heltec-Aaron-Lee/WiFi_Kit_series) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/Heltec-Aaron-Lee/WiFi_Kit_series) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Heltec-Aaron-Lee/WiFi_Kit_series/total)
+
 English | [简体中文](#简体中文)
 
 This environment is fully cloned from espressif [ESP32](https://github.com/espressif/arduino-esp32) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP32 series Dev boards users.
@@ -9,6 +11,14 @@ This development environment only includes the relevant drivers for the existing
 For sensor driven: [https://github.com/HelTecAutomation/Heltec_ESP32](https://github.com/HelTecAutomation/Heltec_ESP32)
 
 For e-ink driven: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
+
+## Contents
+
+  - [Instructions](#Instructions)
+  - [Installation Instructions](#Installation Instructions)
+  - [Decoding exceptions](#Decoding exceptions)
+  - [Issue/Bug report template](#Issue/Bug report template)
+  - [Contact us](#Contact us)
 
 ## Instructions
 
@@ -47,13 +57,13 @@ The following table lists products based on ESP32 :
 You can use [EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder) to get meaningful call trace.
 
 ## Issue/Bug report template
+
 Before reporting an issue, make sure you've searched for similar one that was already created. Also make sure to go through all the issues labelled as [for reference](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues).
 
-Also you can talk in our forum: [http://community.heltec.cn/](http://community.heltec.cn/)
-
-&nbsp;
+Also you can talk in our forum: [http://community.heltec.cn/](http://community.heltec.cn/)&nbsp;
 
 ## Contact us
+
 - **Website：[https://heltec.org](https://heltec.org/)**
 - **Document Page: [https://docs.heltec.cn](https://docs.heltec.cn)**
 - **Forum: [http://community.heltec.cn/](http://community.heltec.cn/)**
@@ -72,9 +82,17 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
 
 墨水屏驱动: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
 
+## 内容
+
+  - [说明](#说明)
+  - [安装指南](#安装指南)
+  - [编码规则](#编码规则)
+  - [问题讨论 & BUG报告](#问题讨论 & BUG报告)
+  - [联系我们](#联系我们)
+
 ## 说明
 
-下表列出了基于ESP32和ESP8266芯片的产品型号：
+下表列出了基于ESP32芯片的产品型号：
 
 |   MCU   |                       Relative boards                        |
 | :-----: | :----------------------------------------------------------: |
@@ -99,9 +117,11 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
 - 更多安装方法，还可以参考这里：[https://heltec.org/zh/wifi_kit_install/](https://heltec.org/zh/wifi_kit_install/)
 
 ## 编码规则
+
 可以参考这篇文章来了解Arduino的插件和编码规则：[EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder).
 
 ## 问题讨论 & BUG报告
+
 在报告BUG之前，请先做详细的测试，如果问题真的存在，您可以通过以下方式报告或者讨论：
 
 - [GitHub问题报告页](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues)
