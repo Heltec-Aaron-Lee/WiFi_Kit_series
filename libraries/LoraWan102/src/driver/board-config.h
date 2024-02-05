@@ -39,7 +39,7 @@
 
 #define BOARD_TCXO_WAKEUP_TIME                      5
 
-#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_PAPER)
+#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_PAPER)||defined(HELTEC_CAPSULE_SENSOR_V3)
 
 #define RADIO_DIO_1    14
 #define RADIO_NSS      8
