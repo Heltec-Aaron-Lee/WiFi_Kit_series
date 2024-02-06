@@ -21,6 +21,7 @@ menu.LORAWAN_PREAMBLE_LENGTH=LORAWAN_PREAMBLE_LENGTH
 menu.LORAWAN_DebugLevel=LoRaWan Debug Level
 menu.LORAWAN_DEVEUI=LORAWAN_DEVEUI
 menu.einksize=eink size
+menu.NetworkLogLevel=NetworkLogLevel
 ##############################################################
 ### DO NOT PUT BOARDS ABOVE THE OFFICIAL ESPRESSIF BOARDS! ###
 ##############################################################
@@ -1654,3 +1655,176 @@ ht_de01.menu.einksize.3.build.einksize=290;
 ht_de01.build.defines=   -DEINK={build.einksize}   -D{build.board}
 ##############################################################
 
+HELTEC_CAPSULE_SENSOR_V3.name=Heltec Capsule Sensor V3
+HELTEC_CAPSULE_SENSOR_V3.vid.0=0x303a
+HELTEC_CAPSULE_SENSOR_V3.pid.0=0x1001
+
+HELTEC_CAPSULE_SENSOR_V3.bootloader.tool=esptool_py
+HELTEC_CAPSULE_SENSOR_V3.bootloader.tool.default=esptool_py
+
+HELTEC_CAPSULE_SENSOR_V3.upload.tool=esptool_py
+HELTEC_CAPSULE_SENSOR_V3.upload.tool.default=esptool_py
+HELTEC_CAPSULE_SENSOR_V3.upload.tool.network=esp_ota
+
+HELTEC_CAPSULE_SENSOR_V3.upload.maximum_size=1310720
+HELTEC_CAPSULE_SENSOR_V3.upload.maximum_data_size=327680
+HELTEC_CAPSULE_SENSOR_V3.upload.flags=
+HELTEC_CAPSULE_SENSOR_V3.upload.extra_flags=
+HELTEC_CAPSULE_SENSOR_V3.upload.use_1200bps_touch=false
+HELTEC_CAPSULE_SENSOR_V3.upload.wait_for_upload_port=false
+
+HELTEC_CAPSULE_SENSOR_V3.serial.disableDTR=false
+HELTEC_CAPSULE_SENSOR_V3.serial.disableRTS=false
+
+HELTEC_CAPSULE_SENSOR_V3.build.tarch=xtensa
+HELTEC_CAPSULE_SENSOR_V3.build.bootloader_addr=0x0
+HELTEC_CAPSULE_SENSOR_V3.build.target=esp32s3
+HELTEC_CAPSULE_SENSOR_V3.build.mcu=esp32s3
+HELTEC_CAPSULE_SENSOR_V3.build.core=esp32
+HELTEC_CAPSULE_SENSOR_V3.build.variant=heltec_capsule_sensor_v3
+HELTEC_CAPSULE_SENSOR_V3.build.board=HELTEC_CAPSULE_SENSOR_V3
+
+HELTEC_CAPSULE_SENSOR_V3.build.usb_mode=1
+HELTEC_CAPSULE_SENSOR_V3.build.cdc_on_boot=0
+HELTEC_CAPSULE_SENSOR_V3.build.msc_on_boot=0
+HELTEC_CAPSULE_SENSOR_V3.build.dfu_on_boot=0
+HELTEC_CAPSULE_SENSOR_V3.build.f_cpu=240000000L
+HELTEC_CAPSULE_SENSOR_V3.build.flash_size=8MB
+HELTEC_CAPSULE_SENSOR_V3.build.flash_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.build.flash_mode=dio
+HELTEC_CAPSULE_SENSOR_V3.build.boot=qio
+HELTEC_CAPSULE_SENSOR_V3.build.boot_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.build.partitions=heltec_capsule_sensor_v3
+HELTEC_CAPSULE_SENSOR_V3.build.loop_core=
+HELTEC_CAPSULE_SENSOR_V3.build.event_core=
+HELTEC_CAPSULE_SENSOR_V3.build.psram_type=qspi
+HELTEC_CAPSULE_SENSOR_V3.build.memory_type={build.boot}_{build.psram_type}
+
+HELTEC_CAPSULE_SENSOR_V3.menu.LoopCore.1=Core 1
+HELTEC_CAPSULE_SENSOR_V3.menu.LoopCore.1.build.loop_core=-DARDUINO_RUNNING_CORE=1
+HELTEC_CAPSULE_SENSOR_V3.menu.LoopCore.0=Core 0
+HELTEC_CAPSULE_SENSOR_V3.menu.LoopCore.0.build.loop_core=-DARDUINO_RUNNING_CORE=0
+
+HELTEC_CAPSULE_SENSOR_V3.menu.EventsCore.1=Core 1
+HELTEC_CAPSULE_SENSOR_V3.menu.EventsCore.1.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=1
+HELTEC_CAPSULE_SENSOR_V3.menu.EventsCore.0=Core 0
+HELTEC_CAPSULE_SENSOR_V3.menu.EventsCore.0.build.event_core=-DARDUINO_EVENT_RUNNING_CORE=0
+
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio=QIO 80MHz
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio.build.flash_mode=dio
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio.build.boot=qio
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio.build.boot_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio.build.flash_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio120=QIO 120MHz
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio120.build.flash_mode=dio
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio120.build.boot=qio
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio120.build.boot_freq=120m
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.qio120.build.flash_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.dio=DIO 80MHz
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.dio.build.flash_mode=dio
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.dio.build.boot=dio
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.dio.build.boot_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.dio.build.flash_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.opi=OPI 80MHz
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.opi.build.flash_mode=dout
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.opi.build.boot=opi
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.opi.build.boot_freq=80m
+HELTEC_CAPSULE_SENSOR_V3.menu.FlashMode.opi.build.flash_freq=80m
+
+HELTEC_CAPSULE_SENSOR_V3.menu.PartitionScheme.capsule_sensor=capsule_sensor
+HELTEC_CAPSULE_SENSOR_V3.menu.PartitionScheme.capsule_sensor.build.partitions=heltec_capsule_sensor_v3
+HELTEC_CAPSULE_SENSOR_V3.menu.PartitionScheme.capsule_sensor.upload.maximum_size=2621440
+
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.240=240MHz (WiFi)
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.240.build.f_cpu=240000000L
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.160=160MHz (WiFi)
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.160.build.f_cpu=160000000L
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.80=80MHz (WiFi)
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.80.build.f_cpu=80000000L
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.40=40MHz
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.40.build.f_cpu=40000000L
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.20=20MHz
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.20.build.f_cpu=20000000L
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.10=10MHz
+HELTEC_CAPSULE_SENSOR_V3.menu.CPUFreq.10.build.f_cpu=10000000L
+
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.921600=921600
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.921600.upload.speed=921600
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.115200=115200
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.115200.upload.speed=115200
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.256000.windows=256000
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.256000.upload.speed=256000
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.230400.windows.upload.speed=256000
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.230400=230400
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.230400.upload.speed=230400
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.460800.linux=460800
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.460800.macosx=460800
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.460800.upload.speed=460800
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.512000.windows=512000
+HELTEC_CAPSULE_SENSOR_V3.menu.UploadSpeed.512000.upload.speed=512000
+
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.none=None
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.none.build.code_debug=0
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.error=Error
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.error.build.code_debug=1
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.warn=Warn
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.warn.build.code_debug=2
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.info=Info
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.info.build.code_debug=3
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.debug=Debug
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.debug.build.code_debug=4
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.verbose=Verbose
+HELTEC_CAPSULE_SENSOR_V3.menu.DebugLevel.verbose.build.code_debug=5
+
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.0=REGION_EU868
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.1=REGION_EU433
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.2=REGION_CN470
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.3=REGION_US915
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.3.build.band=REGION_US915
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.4=REGION_AU915
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.5=REGION_CN779
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.6=REGION_AS923
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.7=REGION_KR920
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.8=REGION_IN865
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.0=None
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.1=Freq
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.2=Freq && DIO
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+HELTEC_CAPSULE_SENSOR_V3.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_DEVEUI.0=CUSTOM
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+HELTEC_CAPSULE_SENSOR_V3.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.0=NONE
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.0.build.NetworkLogLevel=0
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.1=ERROR
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.1.build.NetworkLogLevel=1
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.2=WARN
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.2.build.NetworkLogLevel=2
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.3=INFO
+HELTEC_CAPSULE_SENSOR_V3.menu.NetworkLogLevel.3.build.NetworkLogLevel=3
+
+HELTEC_CAPSULE_SENSOR_V3.build.defines=-D{build.band} -DNLOG_LOCAL_LEVEL={build.NetworkLogLevel} -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+HELTEC_CAPSULE_SENSOR_V3.build.extra_libs=-lheltec_3
+##############################################################
