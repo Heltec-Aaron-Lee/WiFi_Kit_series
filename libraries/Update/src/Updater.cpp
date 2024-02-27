@@ -3,7 +3,9 @@
 #include "esp_spi_flash.h"
 #include "esp_ota_ops.h"
 #include "esp_image_format.h"
+#ifdef HELTEC_CAPSULE_SENSOR_V3
 #include "key_data.h"
+#endif
 static const char * _err2str(uint8_t _error){
     if(_error == UPDATE_ERROR_OK){
         return ("No Error");
