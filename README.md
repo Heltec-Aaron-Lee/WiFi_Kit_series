@@ -37,7 +37,7 @@ The following table lists products based on ESP32 :
 - **Using Arduino IDE Boards Manager (preferred)**
   
 
-  - [Install ESP32 form Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
+  - [Install ESP32 from Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
   
   
   
