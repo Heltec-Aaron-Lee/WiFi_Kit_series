@@ -4,13 +4,20 @@
 
 English | [简体中文](#简体中文)
 
-This environment is fully cloned from espressif [ESP32](https://github.com/espressif/arduino-esp32) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP32 series Dev boards users.
+This environment is fully cloned from espressif<sup>®</sup> [ESP32](https://github.com/espressif/arduino-esp32) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP32 series Dev boards users.
 
-This development environment only includes the relevant drivers for the existing hardware on the development board, while other external device drivers are stored in the following libraries:
+This development environment only includes the basic framework of `ESP32`, `ESP32-S2`, `ESP32-S3`, `ESP32-C3` MCU chips. NOT include the drivers or example code for on-board devices such as LoRa, OLED, Sensor, etc.
 
-For sensor driven: [https://github.com/HelTecAutomation/Heltec_ESP32](https://github.com/HelTecAutomation/Heltec_ESP32)
+Here are the libraries for on-board or external devices:
 
-For e-ink driven: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
+[Heltec ESP32 Library](https://github.com/HelTecAutomation/Heltec_ESP32) Includes the following features:
+
+- Device drivers on the Heltec ESP32 series development board, such as OLED displays, GPS and LoRa chips;
+- LoRaWAN library compatible with ESP32 Arduino environment;
+- Some external sensor examples;
+- Some examples of practical functions.
+
+[E-Ink Library](https://github.com/HelTecAutomation/e-ink) includes the drivers and examples for multi size E-Ink displays.
 
 ## Contents
 
@@ -26,11 +33,11 @@ The following table lists products based on ESP32 :
 
 
 |   MCU   |                       Relative boards                        |
-| :-----: | :----------------------------------------------------------: |
-|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/), [Wireless Tracker](https://heltec.org/project/wireless-tracker/), [Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/),[HT-DE01](https://heltec.org/project/e-ink-driveboard/) |
-|ESP32c3|[Esp32 c3 Dev-Board](https://heltec.org/project/esp32-c3/), [Ct62](https://heltec.org/project/ht-Ct62/)|
-|ESP32-PICO |[Wireless Shell(v3)](https://heltec.org/project/wireless-shell/ ), [Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/)|
-|ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32), [Wireless Stick](https://heltec.org/project/wireless-stick/)|
+| :-----: | :----------------------------------------------------------- |
+|  ESP32-S3  | [WIFI Kit 32 (V3)](https://heltec.org/project/wifi-kit-32-v3/)<br>[WIFI LoRa 32 (V3)](https://heltec.org/project/wifi-lora-32-v3/)<br/>[Wireless Stick (V3)](https://heltec.org/project/wireless-stick-v3/)<br/>[Wireless Stick Lite (V3)](https://heltec.org/project/wireless-stick-lite-v2/)<br/>[Wireless Paper](https://heltec.org/project/wireless-paper/)<br/>[Wireless Tracker](https://heltec.org/project/wireless-tracker/)<br/>[Wireless Shell (V3)](https://heltec.org/project/wireless-shell-v3/)<br/>[Multi-Size E-Ink driver (HT-DE01)](https://heltec.org/project/e-ink-driveboard/) |
+|ESP32-C3|[ESP32 C3 Dev-Board](https://heltec.org/project/esp32-c3/)<br/>[CT62 LoRa Module](https://heltec.org/project/ht-Ct62/)|
+|ESP32-PICO |[Wireless Shell (V3)](https://heltec.org/project/wireless-shell/ )<br/>[Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/) -- *Not recommended for new designs*|
+|ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32) -- *Not recommended for new designs*<br/>[Wireless Stick](https://heltec.org/project/wireless-stick/) -- *Not recommended for new designs*|
 
 ## Installation Instructions
 
@@ -38,8 +45,6 @@ The following table lists products based on ESP32 :
   
 
   - [Install ESP32 from Boards Manager](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
-  
-  
   
 - **Using Git with the development repository**
   
