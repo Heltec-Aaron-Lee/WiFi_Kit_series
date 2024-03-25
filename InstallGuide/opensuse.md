@@ -11,16 +11,12 @@ Installation instructions for openSUSE
   else \
   sudo zypper install git python3-pip python3-pyserial; \
   fi && \
-  mkdir -p ~/Arduino/hardware && \
-  cd ~/Arduino/hardware && \
-  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec && \
+  mkdir -p ~/Arduino/hardware/heltec && \
+  cd ~/Arduino/hardware/heltec && \
+  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git esp32 && \
   cd esp32 && \
   git submodule update --init --recursive && \
   cd tools && \
   python get.py && \
-  cd ~/Arduino/hardware/heltec/esp8266 && \
-  git submodule update --init --recursive && \
-  cd tools && \
-  python get.py
   ```
 - Restart Arduino IDE

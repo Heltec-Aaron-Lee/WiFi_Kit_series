@@ -17,7 +17,7 @@ Here are the libraries for on-board or external devices:
 - Some external sensor examples;
 - Some examples of practical functions.
 
-[E-Ink Library](https://github.com/HelTecAutomation/e-ink) includes the drivers and examples for multi size E-Ink displays.
+[E-Ink Library](https://github.com/HelTecAutomation/Heltec-E-Ink) includes the drivers and examples for multi size E-Ink displays.
 
 ## Contents
 

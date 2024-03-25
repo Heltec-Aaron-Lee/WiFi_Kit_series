@@ -10,17 +10,13 @@ Installation instructions for Debian / Ubuntu OS
   wget https://bootstrap.pypa.io/get-pip.py && \
   sudo python get-pip.py && \
   sudo pip install pyserial && \
-  mkdir -p ~/Arduino/hardware && \
-  cd ~/Arduino/hardware && \
-  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec && \
+  mkdir -p ~/Arduino/hardware/heltec && \
+  cd ~/Arduino/hardware/heltec && \
+  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git esp32 && \
   cd heltec/esp32 && \
   git submodule update --init --recursive && \
   cd tools && \
   python get.py && \
-  cd ~/Arduino/hardware/heltec/esp8266 && \
-  git submodule update --init --recursive && \
-  cd tools && \
-  python get.py
   ```
 - Restart Arduino IDE
 
@@ -28,17 +24,13 @@ Installation instructions for Debian / Ubuntu OS
 
 - If you have Arduino.app installed to /Applications/, modify the installation as follows, beginning at `mkdir -p ~/Arduino...`:
 
-```bash
+  ```bash
   cd /Applications/Arduino_*/Contents/java/
-  mkdir -p hardware && \
-  cd hardware && \
-  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec && \
-  cd heltec/esp32 && \
+  mkdir -p hardware/heltec && \
+  cd hardware/heltec && \
+  git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git esp32 && \
+  cd esp32 && \
   git submodule update --init --recursive && \
   cd tools && \
   python get.py && \
-  cd /Applications/Arduino_*/Contents/java/hardware/heltec/esp8266 && \
-  git submodule update --init --recursive && \
-  cd tools && \
-  python get.py
   ```

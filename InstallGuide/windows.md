@@ -5,14 +5,14 @@ Before operation, please make sure Git and Arduino are correctly installed on yo
 
 &nbsp;
 
-**Executed commands MUST under the ```[YOUR_USER_NAME]/Documents/Arduino/hardware``` path!**
+**Executed commands MUST under the ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec``` path!**
 
-- Open a ```Git Bash``` session pointing to ```[YOUR_USER_NAME]/Documents/Arduino/hardware``` and execute `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git heltec `
+- Open a ```Git Bash``` session pointing to ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec``` and execute `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git esp32`
 
 ![](win-screenshots/location.png)
 
- - The final development framework location should be ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec```
- - Switch to the heltec directory via ```cd heltec``` and execute ```git submodule update --init --recursive``` 
+ - The final development framework location should be ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec/esp32```
+ - Switch to the heltec directory via ```cd esp32``` and execute ```git submodule update --init --recursive``` 
 
 &nbsp;
 
@@ -39,7 +39,7 @@ Connect your ESP32 board to computer via a high quality USB cable and wait for t
 
 ## Update to the latest code
 
-Open ```/Documents/Arduino/hardware/heltec``` created start ```Git Bash``` and input ```git pull```!
+Open ```/Documents/Arduino/hardware/heltec/esp32``` created start ```Git Bash``` and input ```git pull```!
 
 ![](win-screenshots/git-pull.png)
 
