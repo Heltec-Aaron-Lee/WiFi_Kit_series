@@ -1,4 +1,4 @@
-name=Heltec ESP32 Arduino
+name=Heltec ESP32 Arduino (Branch WirelessBoot Framework)
 version=3.0.0
 
 tools.esp32-arduino-libs.path={runtime.platform.path}/tools/esp32-arduino-libs

@@ -5,6 +5,10 @@
 #include "esp_image_format.h"
 #include "mbedtls/aes.h"
 
+#ifdef HELTEC_CAPSULE_SENSOR_V3
+#include "key_data.h"
+#endif
+
 static const char * _err2str(uint8_t _error){
     if(_error == UPDATE_ERROR_OK){
         return ("No Error");
@@ -141,7 +145,19 @@ bool UpdateClass::begin(size_t size, int command, int ledPin, uint8_t ledOn, con
     }
 
     if (command == U_FLASH) {
+#ifdef HELTEC_CAPSULE_SENSOR_V3
+        const esp_partition_t *running = esp_ota_get_running_partition();
+        if(running->subtype == ESP_PARTITION_SUBTYPE_APP_OTA_0)
+        {
+            _partition = esp_partition_find_first(ESP_PARTITION_TYPE_APP,ESP_PARTITION_SUBTYPE_APP_OTA_2,nullptr);
+        }
+        else
+        {
+            _partition = esp_partition_find_first(ESP_PARTITION_TYPE_APP,ESP_PARTITION_SUBTYPE_APP_OTA_0,nullptr);
+        }
+#else
         _partition = esp_ota_get_next_update_partition(NULL);
+#endif
         if(!_partition){
             _error = UPDATE_ERROR_NO_PARTITION;
             return false;
@@ -460,7 +476,9 @@ bool UpdateClass::end(bool evenIfRemaining){
     if(hasError() || _size == 0){
         return false;
     }
-
+#ifdef HELTEC_CAPSULE_SENSOR_V3
+    uint32_t firmware_size = _size;
+#endif
     if(!isFinished() && !evenIfRemaining){
         log_e("premature end: res:%u, pos:%u/%u\n", getError(), progress(), _size);
         _abort(UPDATE_ERROR_ABORT);
@@ -481,8 +499,43 @@ bool UpdateClass::end(bool evenIfRemaining){
             return false;
         }
     }
+#ifdef HELTEC_CAPSULE_SENSOR_V3
+    if(_verifyEnd()==true)
+    {
+        firmware_info_t firmware_info;
+        const esp_partition_t *running = esp_ota_get_running_partition();
+        if(running->subtype == ESP_PARTITION_SUBTYPE_APP_OTA_0)
+        {
+            const esp_partition_t *esp_partition = esp_partition_find_first(ESP_PARTITION_TYPE_APP,ESP_PARTITION_SUBTYPE_APP_OTA_2,nullptr);
+            // key_get_second_app_info(&firmware_info,sizeof(firmware_info_t));
+            sprintf(firmware_info.firmware_name,"ArduinoUpLoad");
+            sprintf(firmware_info.firmware_size,"%ld ",firmware_size);
+            sprintf(firmware_info.firmware_upload_time,"-");
+            firmware_info.firmware_valid_flag = FIRMWARE_VALID;
+            firmware_info.partition_size = esp_partition->size;
+            key_set_second_app_info(&firmware_info,sizeof(firmware_info_t));
+        }
+        else
+        {
+            const esp_partition_t *esp_partition = esp_partition_find_first(ESP_PARTITION_TYPE_APP,ESP_PARTITION_SUBTYPE_APP_OTA_0,nullptr);
+            // key_get_app_info(&firmware_info,sizeof(firmware_info_t));
+            sprintf(firmware_info.firmware_name,"ArduinoUpLoad");
+            sprintf(firmware_info.firmware_size,"%ld ",firmware_size);
+            sprintf(firmware_info.firmware_upload_time,"-");
+            firmware_info.firmware_valid_flag = FIRMWARE_VALID;
+            firmware_info.partition_size = esp_partition->size;
+            key_set_app_info(&firmware_info,sizeof(firmware_info_t));
+        }
 
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+#else
     return _verifyEnd();
+#endif
 }
 
 size_t UpdateClass::write(uint8_t *data, size_t len) {

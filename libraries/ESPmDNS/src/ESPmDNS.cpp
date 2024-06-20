@@ -90,14 +90,15 @@ void MDNSResponder::setInstanceName(String name) {
 
 
 void MDNSResponder::enableArduino(uint16_t port, bool auth){
-    mdns_txt_item_t arduTxtData[4] = {
+    mdns_txt_item_t arduTxtData[5] = {
         {(char*)"board"         ,(char*)STR(ARDUINO_VARIANT)},
         {(char*)"tcp_check"     ,(char*)"no"},
         {(char*)"ssh_upload"    ,(char*)"no"},
-        {(char*)"auth_upload"   ,(char*)"no"}
+        {(char*)"auth_upload"   ,(char*)"no"},
+        {(char*)"udp_port"   ,(char*)"12345"}
     };
 
-    if(mdns_service_add(NULL, "_arduino", "_tcp", port, arduTxtData, 4)) {
+    if(mdns_service_add(NULL, "_arduino", "_tcp", port, arduTxtData, 5)) {
         log_e("Failed adding Arduino service");
     }
 
