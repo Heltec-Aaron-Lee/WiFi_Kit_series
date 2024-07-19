@@ -8,21 +8,21 @@ See [Arduino-esp32](https://components.espressif.com/components/espressif/arduin
 
 ## How to use example
 
-To create a ESP-IDF project from this example with the latest relase of Arduino-esp32, you can simply run command: `idf.py create-project-from-example "espressif/arduino-esp32:hello_world"`.
+To create a ESP-IDF project from this example with the latest release of Arduino-esp32, you can simply run command: `idf.py create-project-from-example "espressif/arduino-esp32:hello_world"`.
 ESP-IDF will download all dependencies needed from the component registry and setup the project for you.
 
 If you want to use cloned Arduino-esp32 repository, you can build this example directly.
-Go to the example folder `arduino-esp32/idf_component_examples/Hello_world`.
+Go to the example folder `arduino-esp32/idf_component_examples/hello_world`.
 First you need to comment line 6 `pre_release: true` in examples `/main/idf_component.yml`.
 Then just run command: `idf.py build`.
 
 ## Example folder contents
 
-The project **Hello_world** contains one source file in C++ language [main.cpp](main/main.cpp). The file is located in folder [main](main).
+The project **hello_world** contains one source file in C++ language [main.cpp](main/main.cpp). The file is located in folder [main](main).
 
 ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt`
 files that provide set of directives and instructions describing the project's source files and targets
-(executable, library, or both). 
+(executable, library, or both).
 
 Below is short explanation of remaining files in the project folder.
 

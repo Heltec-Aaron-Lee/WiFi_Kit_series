@@ -83,6 +83,7 @@ set(ARDUINO_ALL_LIBRARIES
   DNSServer
   EEPROM
   ESP_I2S
+  ESP_NOW
   ESP_SR
   ESPmDNS
   Ethernet
@@ -93,6 +94,9 @@ set(ARDUINO_ALL_LIBRARIES
   Insights
   LittleFS
   NetBIOS
+  Network
+  OpenThread
+  PPP
   Preferences
   RainMaker
   SD_MMC
@@ -104,7 +108,7 @@ set(ARDUINO_ALL_LIBRARIES
   Update
   USB
   WebServer
-  WiFiClientSecure
+  NetworkClientSecure
   WiFi
   WiFiProv
   Wire
@@ -126,13 +130,17 @@ set(ARDUINO_LIBRARY_DNSServer_SRCS libraries/DNSServer/src/DNSServer.cpp)
 set(ARDUINO_LIBRARY_EEPROM_SRCS libraries/EEPROM/src/EEPROM.cpp)
 
 set(ARDUINO_LIBRARY_ESP_I2S_SRCS libraries/ESP_I2S/src/ESP_I2S.cpp)
-  
-set(ARDUINO_LIBRARY_ESP_SR_SRCS 
+
+set(ARDUINO_LIBRARY_ESP_NOW_SRCS
+  libraries/ESP_NOW/src/ESP32_NOW.cpp
+  libraries/ESP_NOW/src/ESP32_NOW_Serial.cpp)
+
+set(ARDUINO_LIBRARY_ESP_SR_SRCS
   libraries/ESP_SR/src/ESP_SR.cpp
   libraries/ESP_SR/src/esp32-hal-sr.c)
- 
+
 set(ARDUINO_LIBRARY_ESPmDNS_SRCS libraries/ESPmDNS/src/ESPmDNS.cpp)
- 
+
 set(ARDUINO_LIBRARY_Ethernet_SRCS libraries/Ethernet/src/ETH.cpp)
 
 set(ARDUINO_LIBRARY_FFat_SRCS libraries/FFat/src/FFat.cpp)
@@ -150,6 +158,14 @@ set(ARDUINO_LIBRARY_Insights_SRCS libraries/Insights/src/Insights.cpp)
 set(ARDUINO_LIBRARY_LittleFS_SRCS libraries/LittleFS/src/LittleFS.cpp)
 
 set(ARDUINO_LIBRARY_NetBIOS_SRCS libraries/NetBIOS/src/NetBIOS.cpp)
+
+set(ARDUINO_LIBRARY_OpenThread_SRCS
+  libraries/OpenThread/src/OThreadCLI.cpp
+  libraries/OpenThread/src/OThreadCLI_Util.cpp)
+
+set(ARDUINO_LIBRARY_PPP_SRCS
+  libraries/PPP/src/PPP.cpp
+  libraries/PPP/src/ppp.c)
 
 set(ARDUINO_LIBRARY_Preferences_SRCS libraries/Preferences/src/Preferences.cpp)
 
@@ -181,7 +197,7 @@ set(ARDUINO_LIBRARY_Ticker_SRCS libraries/Ticker/src/Ticker.cpp)
 set(ARDUINO_LIBRARY_Update_SRCS
   libraries/Update/src/Updater.cpp
   libraries/Update/src/HttpsOTAUpdate.cpp)
-  
+
 set(ARDUINO_LIBRARY_USB_SRCS
   libraries/USB/src/USBHID.cpp
   libraries/USB/src/USBMIDI.cpp
@@ -198,26 +214,34 @@ set(ARDUINO_LIBRARY_WebServer_SRCS
   libraries/WebServer/src/Parsing.cpp
   libraries/WebServer/src/detail/mimetable.cpp)
 
-set(ARDUINO_LIBRARY_WiFiClientSecure_SRCS
-  libraries/WiFiClientSecure/src/ssl_client.cpp
-  libraries/WiFiClientSecure/src/WiFiClientSecure.cpp)
+set(ARDUINO_LIBRARY_NetworkClientSecure_SRCS
+  libraries/NetworkClientSecure/src/ssl_client.cpp
+  libraries/NetworkClientSecure/src/NetworkClientSecure.cpp)
+
+set(ARDUINO_LIBRARY_Network_SRCS
+  libraries/Network/src/NetworkInterface.cpp
+  libraries/Network/src/NetworkEvents.cpp
+  libraries/Network/src/NetworkManager.cpp
+  libraries/Network/src/NetworkClient.cpp
+  libraries/Network/src/NetworkServer.cpp
+  libraries/Network/src/NetworkUdp.cpp)
 
 set(ARDUINO_LIBRARY_WiFi_SRCS
   libraries/WiFi/src/WiFiAP.cpp
-  libraries/WiFi/src/WiFiClient.cpp
   libraries/WiFi/src/WiFi.cpp
   libraries/WiFi/src/WiFiGeneric.cpp
   libraries/WiFi/src/WiFiMulti.cpp
   libraries/WiFi/src/WiFiScan.cpp
-  libraries/WiFi/src/WiFiServer.cpp
   libraries/WiFi/src/WiFiSTA.cpp
-  libraries/WiFi/src/WiFiUdp.cpp)
+  libraries/WiFi/src/STA.cpp
+  libraries/WiFi/src/AP.cpp)
 
 set(ARDUINO_LIBRARY_WiFiProv_SRCS libraries/WiFiProv/src/WiFiProv.cpp)
 
 set(ARDUINO_LIBRARY_Wire_SRCS libraries/Wire/src/Wire.cpp)
 
 set(ARDUINO_LIBRARY_BLE_SRCS
+  libraries/BLE/src/BLE2901.cpp
   libraries/BLE/src/BLE2902.cpp
   libraries/BLE/src/BLE2904.cpp
   libraries/BLE/src/BLEAddress.cpp
@@ -270,7 +294,15 @@ set(includedirs variants/${CONFIG_ARDUINO_VARIANT}/ cores/esp32/ ${ARDUINO_LIBRA
 set(srcs ${CORE_SRCS} ${ARDUINO_LIBRARIES_SRCS})
 set(priv_includes cores/esp32/libb64)
 set(requires spi_flash esp_partition mbedtls wifi_provisioning wpa_supplicant esp_adc esp_eth http_parser)
-set(priv_requires fatfs nvs_flash app_update spiffs bootloader_support bt esp_hid ${ARDUINO_LIBRARIES_REQUIRES})
+set(priv_requires fatfs nvs_flash app_update spiffs bootloader_support bt esp_hid usb esp_psram ${ARDUINO_LIBRARIES_REQUIRES})
+
+if(NOT CONFIG_ARDUINO_SELECTIVE_COMPILATION OR CONFIG_ARDUINO_SELECTIVE_OpenThread)
+  #if(CONFIG_SOC_IEEE802154_SUPPORTED) # Does not work!
+  #if(CONFIG_OPENTHREAD_ENABLED) # Does not work!
+  if(IDF_TARGET STREQUAL "esp32c6" OR IDF_TARGET STREQUAL "esp32h2") # Sadly only this works
+    list(APPEND requires openthread)
+  endif()
+endif()
 
 idf_component_register(INCLUDE_DIRS ${includedirs} PRIV_INCLUDE_DIRS ${priv_includes} SRCS ${srcs} REQUIRES ${requires} PRIV_REQUIRES ${priv_requires})
 

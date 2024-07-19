@@ -8,7 +8,7 @@
 void startWiFiScan() {
   Serial.println("Scan start");
   // WiFi.scanNetworks will return immediately in Async Mode.
-  WiFi.scanNetworks(true); // 'true' turns Async Mode ON
+  WiFi.scanNetworks(true);  // 'true' turns Async Mode ON
 }
 
 void printScannedNetworks(uint16_t networksFound) {
@@ -29,37 +29,17 @@ void printScannedNetworks(uint16_t networksFound) {
       Serial.print(" | ");
       Serial.printf("%2ld", WiFi.channel(i));
       Serial.print(" | ");
-      switch (WiFi.encryptionType(i))
-      {
-        case WIFI_AUTH_OPEN:
-          Serial.print("open");
-          break;
-        case WIFI_AUTH_WEP:
-          Serial.print("WEP");
-          break;
-        case WIFI_AUTH_WPA_PSK:
-          Serial.print("WPA");
-          break;
-        case WIFI_AUTH_WPA2_PSK:
-          Serial.print("WPA2");
-          break;
-        case WIFI_AUTH_WPA_WPA2_PSK:
-          Serial.print("WPA+WPA2");
-          break;
-        case WIFI_AUTH_WPA2_ENTERPRISE:
-          Serial.print("WPA2-EAP");
-          break;
-        case WIFI_AUTH_WPA3_PSK:
-          Serial.print("WPA3");
-          break;
-        case WIFI_AUTH_WPA2_WPA3_PSK:
-          Serial.print("WPA2+WPA3");
-          break;
-        case WIFI_AUTH_WAPI_PSK:
-          Serial.print("WAPI");
-          break;
-        default:
-          Serial.print("unknown");
+      switch (WiFi.encryptionType(i)) {
+        case WIFI_AUTH_OPEN:            Serial.print("open"); break;
+        case WIFI_AUTH_WEP:             Serial.print("WEP"); break;
+        case WIFI_AUTH_WPA_PSK:         Serial.print("WPA"); break;
+        case WIFI_AUTH_WPA2_PSK:        Serial.print("WPA2"); break;
+        case WIFI_AUTH_WPA_WPA2_PSK:    Serial.print("WPA+WPA2"); break;
+        case WIFI_AUTH_WPA2_ENTERPRISE: Serial.print("WPA2-EAP"); break;
+        case WIFI_AUTH_WPA3_PSK:        Serial.print("WPA3"); break;
+        case WIFI_AUTH_WPA2_WPA3_PSK:   Serial.print("WPA2+WPA3"); break;
+        case WIFI_AUTH_WAPI_PSK:        Serial.print("WAPI"); break;
+        default:                        Serial.print("unknown");
       }
       Serial.println();
       delay(10);
@@ -85,17 +65,17 @@ void setup() {
 void loop() {
   // check WiFi Scan Async process
   int16_t WiFiScanStatus = WiFi.scanComplete();
-  if (WiFiScanStatus < 0) { // it is busy scanning or got an error
+  if (WiFiScanStatus < 0) {  // it is busy scanning or got an error
     if (WiFiScanStatus == WIFI_SCAN_FAILED) {
       Serial.println("WiFi Scan has failed. Starting again.");
       startWiFiScan();
     }
     // other option is status WIFI_SCAN_RUNNING - just wait.
-  } else { // Found Zero or more Wireless Networks
+  } else {  // Found Zero or more Wireless Networks
     printScannedNetworks(WiFiScanStatus);
-    startWiFiScan(); // start over...
+    startWiFiScan();  // start over...
   }
-  
+
   // Loop can do something else...
   delay(250);
   Serial.println("Loop running...");

@@ -32,7 +32,9 @@ void setup() {
 
   // Initialize the serial port
   Serial.begin(115200);
-  while (!Serial) { delay(10); }
+  while (!Serial) {
+    delay(10);
+  }
 
   Serial.println("Initializing I2S bus...");
 
@@ -55,7 +57,7 @@ void setup() {
   }
 
   // Mount the SD card
-  if(!SD_MMC.begin("/sdcard", true)){
+  if (!SD_MMC.begin("/sdcard", true)) {
     Serial.println("Failed to initialize SD card!");
     return;
   }
