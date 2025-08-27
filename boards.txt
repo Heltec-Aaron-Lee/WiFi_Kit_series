@@ -2715,7 +2715,7 @@ heltec_wifi_lora_32_V4.build.loop_core=
 heltec_wifi_lora_32_V4.build.event_core=
 heltec_wifi_lora_32_V4.build.psram_type=qspi
 heltec_wifi_lora_32_V4.build.memory_type={build.boot}_{build.psram_type}
-heltec_wifi_lora_32_V4.build.defines=-D{build.band} {build.psram_val} -DMCU_ESP32_S3 -DHELTEC_BOARD=30 -DSLOW_CLK_TPYE=0 -DWIFI_LORA_32_V4 -DRADIO_CHIP_SX1262  -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+heltec_wifi_lora_32_V4.build.defines=-D{build.band} -DMCU_ESP32_S3 -DHELTEC_BOARD=30 -DSLOW_CLK_TPYE=0 -DWIFI_LORA_32_V4 -DRADIO_CHIP_SX1262  -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
 
 ## IDE 2.0 Seems to not update the value
 heltec_wifi_lora_32_V4.menu.JTAGAdapter.default=Disabled
