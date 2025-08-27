@@ -2672,6 +2672,9 @@ heltec_vision_master_e_213.menu.EraseFlash.all.upload.erase_cmd=-e
 
 heltec_wifi_lora_32_V4.name=WiFi LoRa 32(V4)
 
+heltec_wifi_lora_32_V4.vid.0=0x303a
+heltec_wifi_lora_32_V4.pid.0=0x1001
+
 heltec_wifi_lora_32_V4.bootloader.tool=esptool_py
 heltec_wifi_lora_32_V4.bootloader.tool.default=esptool_py
 
@@ -2679,7 +2682,7 @@ heltec_wifi_lora_32_V4.upload.tool=esptool_py
 heltec_wifi_lora_32_V4.upload.tool.default=esptool_py
 heltec_wifi_lora_32_V4.upload.tool.network=esp_ota
 
-heltec_wifi_lora_32_V4.upload.maximum_size=1310720
+heltec_wifi_lora_32_V4.upload.maximum_size=3342336
 heltec_wifi_lora_32_V4.upload.maximum_data_size=327680
 heltec_wifi_lora_32_V4.upload.flags=
 heltec_wifi_lora_32_V4.upload.extra_flags=
@@ -2704,15 +2707,15 @@ heltec_wifi_lora_32_V4.build.dfu_on_boot=0
 heltec_wifi_lora_32_V4.build.f_cpu=240000000L
 heltec_wifi_lora_32_V4.build.flash_size=16MB
 heltec_wifi_lora_32_V4.build.flash_freq=80m
-heltec_wifi_lora_32_V4.build.flash_mode=dio
+heltec_wifi_lora_32_V4.build.flash_mode=qio
 heltec_wifi_lora_32_V4.build.boot=qio
 heltec_wifi_lora_32_V4.build.boot_freq=80m
-heltec_wifi_lora_32_V4.build.partitions=default
-heltec_wifi_lora_32_V4.build.defines=
+heltec_wifi_lora_32_V4.build.partitions=default_16MB
 heltec_wifi_lora_32_V4.build.loop_core=
 heltec_wifi_lora_32_V4.build.event_core=
 heltec_wifi_lora_32_V4.build.psram_type=qspi
 heltec_wifi_lora_32_V4.build.memory_type={build.boot}_{build.psram_type}
+heltec_wifi_lora_32_V4.build.defines=-D{build.band} {build.psram_val} -DMCU_ESP32_S3 -DHELTEC_BOARD=30 -DSLOW_CLK_TPYE=0 -DWIFI_LORA_32_V4 -DRADIO_CHIP_SX1262  -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
 
 ## IDE 2.0 Seems to not update the value
 heltec_wifi_lora_32_V4.menu.JTAGAdapter.default=Disabled
@@ -2726,16 +2729,6 @@ heltec_wifi_lora_32_V4.menu.JTAGAdapter.external.build.copy_jtag_files=1
 heltec_wifi_lora_32_V4.menu.JTAGAdapter.bridge=ESP USB Bridge
 heltec_wifi_lora_32_V4.menu.JTAGAdapter.bridge.build.openocdscript=esp32s3-bridge.cfg
 heltec_wifi_lora_32_V4.menu.JTAGAdapter.bridge.build.copy_jtag_files=1
-
-heltec_wifi_lora_32_V4.menu.PSRAM.disabled=Disabled
-heltec_wifi_lora_32_V4.menu.PSRAM.disabled.build.defines=
-heltec_wifi_lora_32_V4.menu.PSRAM.disabled.build.psram_type=qspi
-heltec_wifi_lora_32_V4.menu.PSRAM.enabled=QSPI PSRAM
-heltec_wifi_lora_32_V4.menu.PSRAM.enabled.build.defines=-DBOARD_HAS_PSRAM
-heltec_wifi_lora_32_V4.menu.PSRAM.enabled.build.psram_type=qspi
-heltec_wifi_lora_32_V4.menu.PSRAM.opi=OPI PSRAM
-heltec_wifi_lora_32_V4.menu.PSRAM.opi.build.defines=-DBOARD_HAS_PSRAM
-heltec_wifi_lora_32_V4.menu.PSRAM.opi.build.psram_type=opi
 
 heltec_wifi_lora_32_V4.menu.FlashMode.qio=QIO 80MHz
 heltec_wifi_lora_32_V4.menu.FlashMode.qio.build.flash_mode=dio
@@ -2757,8 +2750,6 @@ heltec_wifi_lora_32_V4.menu.FlashMode.opi.build.flash_mode=dout
 heltec_wifi_lora_32_V4.menu.FlashMode.opi.build.boot=opi
 heltec_wifi_lora_32_V4.menu.FlashMode.opi.build.boot_freq=80m
 heltec_wifi_lora_32_V4.menu.FlashMode.opi.build.flash_freq=80m
-
-
 heltec_wifi_lora_32_V4.menu.FlashSize.16M=16MB (128Mb)
 heltec_wifi_lora_32_V4.menu.FlashSize.16M.build.flash_size=16MB
 
@@ -2899,6 +2890,46 @@ heltec_wifi_lora_32_V4.menu.DebugLevel.debug.build.code_debug=4
 heltec_wifi_lora_32_V4.menu.DebugLevel.verbose=Verbose
 heltec_wifi_lora_32_V4.menu.DebugLevel.verbose.build.code_debug=5
 
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.0=REGION_EU868
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.0.build.band=REGION_EU868
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.1=REGION_EU433
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.1.build.band=REGION_EU433
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.2=REGION_CN470
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.2.build.band=REGION_CN470
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.3=REGION_US915
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.3.build.band=REGION_US915
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.4=REGION_AU915
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.4.build.band=REGION_AU915
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.5=REGION_CN779
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.5.build.band=REGION_CN779
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.6=REGION_AS923
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.6.build.band=REGION_AS923
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.7=REGION_KR920
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.7.build.band=REGION_KR920
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.8=REGION_IN865
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.8.build.band=REGION_IN865
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.9=REGION_US915_HYBRID
+heltec_wifi_lora_32_V4.menu.LORAWAN_REGION.9.build.band=REGION_US915_HYBRID
+
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.0=None
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.0.build.LoRaWanDebugLevel=0
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.1=Freq
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.1.build.LoRaWanDebugLevel=1
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.2=Freq && DIO
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.2.build.LoRaWanDebugLevel=2
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.3=Freq && DIO && PW
+heltec_wifi_lora_32_V4.menu.LoRaWanDebugLevel.3.build.LoRaWanDebugLevel=3
+
+heltec_wifi_lora_32_V4.menu.LORAWAN_DEVEUI.0=CUSTOM
+heltec_wifi_lora_32_V4.menu.LORAWAN_DEVEUI.0.build.LORAWAN_DEVEUI_AUTO=0
+heltec_wifi_lora_32_V4.menu.LORAWAN_DEVEUI.1=Generate By ChipID
+heltec_wifi_lora_32_V4.menu.LORAWAN_DEVEUI.1.build.LORAWAN_DEVEUI_AUTO=1
+
+heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
+heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
+heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
+heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
 heltec_wifi_lora_32_V4.menu.EraseFlash.none=Disabled
 heltec_wifi_lora_32_V4.menu.EraseFlash.none.upload.erase_cmd=
 heltec_wifi_lora_32_V4.menu.EraseFlash.all=Enabled
@@ -2911,4 +2942,4 @@ heltec_wifi_lora_32_V4.menu.ZigbeeMode.zczr=Zigbee ZCZR (coordinator/router)
 heltec_wifi_lora_32_V4.menu.ZigbeeMode.zczr.build.zigbee_mode=-DZIGBEE_MODE_ZCZR
 heltec_wifi_lora_32_V4.menu.ZigbeeMode.zczr.build.zigbee_libs=-lesp_zb_api.zczr -lzboss_stack.zczr -lzboss_port.remote
 
-##############################################################
+##############################################################################
