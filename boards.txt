@@ -29,6 +29,7 @@ menu.LORAWAN_PREAMBLE_LENGTH=LoRaWan Preamble Length
 menu.SLOW_CLK_TPYE=Slow Clk Type(only for LoRaWAN)
 menu.einksize=E-Ink Display Size
 menu.NetworkLogLevel=Network Log Level
+menu.CDCOnBoot=USB CDC On Boot
 ##############################################################
 ### DO NOT PUT BOARDS ABOVE THE OFFICIAL ESPRESSIF BOARDS! ###
 ##############################################################
@@ -1577,6 +1578,11 @@ heltec_wireless_mini_shell.build.flash_freq=80m
 heltec_wireless_mini_shell.build.flash_mode=dio
 heltec_wireless_mini_shell.build.boot=qio
 heltec_wireless_mini_shell.build.partitions=default
+
+heltec_wireless_mini_shell.menu.CDCOnBoot.default=Disabled
+heltec_wireless_mini_shell.menu.CDCOnBoot.default.build.cdc_on_boot=0
+heltec_wireless_mini_shell.menu.CDCOnBoot.cdc=Enabled
+heltec_wireless_mini_shell.menu.CDCOnBoot.cdc.build.cdc_on_boot=1
 
 heltec_wireless_mini_shell.menu.LORAWAN_REGION.0=REGION_EU868
 heltec_wireless_mini_shell.menu.LORAWAN_REGION.0.build.band=REGION_EU868
