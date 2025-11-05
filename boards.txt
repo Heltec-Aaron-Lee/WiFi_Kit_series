@@ -2774,8 +2774,8 @@ heltec_wifi_lora_32_V4.menu.USBMode.hwcdc.build.usb_mode=1
 heltec_wifi_lora_32_V4.menu.USBMode.default=USB-OTG (TinyUSB)
 heltec_wifi_lora_32_V4.menu.USBMode.default.build.usb_mode=0
 
-heltec_wifi_lora_32_V4.menu.CDCOnBoot.default=Disabled
-heltec_wifi_lora_32_V4.menu.CDCOnBoot.default.build.cdc_on_boot=0
+heltec_wifi_lora_32_V4.menu.CDCOnBoot.default=Enabled
+heltec_wifi_lora_32_V4.menu.CDCOnBoot.default.build.cdc_on_boot=1
 heltec_wifi_lora_32_V4.menu.CDCOnBoot.cdc=Enabled
 heltec_wifi_lora_32_V4.menu.CDCOnBoot.cdc.build.cdc_on_boot=1
 
