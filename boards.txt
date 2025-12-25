@@ -26,6 +26,7 @@ menu.LORAWAN_REGION=LoRaWan Region
 menu.LoRaWanDebugLevel=LoRaWan Debug Level
 menu.LORAWAN_DEVEUI=LoRaWan DevEUI
 menu.LORAWAN_PREAMBLE_LENGTH=LoRaWan Preamble Length
+menu.LORA_RX_LNA=LoRa external FEM receiver amplification configuration
 menu.SLOW_CLK_TPYE=Slow Clk Type(only for LoRaWAN)
 menu.einksize=E-Ink Display Size
 menu.NetworkLogLevel=Network Log Level
@@ -2949,7 +2950,6 @@ heltec_wifi_lora_32_V4.menu.ZigbeeMode.zczr.build.zigbee_mode=-DZIGBEE_MODE_ZCZR
 heltec_wifi_lora_32_V4.menu.ZigbeeMode.zczr.build.zigbee_libs=-lesp_zb_api.zczr -lzboss_stack.zczr -lzboss_port.remote
 
 ##############################################################################
-
 heltec_wireless_tracker_v2.name=Wireless Tracker(V2)
 heltec_wireless_tracker_v2.vid.0=0x303a
 heltec_wireless_tracker_v2.pid.0=0x1001
@@ -3113,12 +3113,17 @@ heltec_wireless_tracker_v2.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE
 heltec_wireless_tracker_v2.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
 heltec_wireless_tracker_v2.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 
+heltec_wireless_tracker_v2.menu.LORA_RX_LNA.0=Disabled (default)
+heltec_wireless_tracker_v2.menu.LORA_RX_LNA.0.build.LORA_RX_LNA=1
+heltec_wireless_tracker_v2.menu.LORA_RX_LNA.1=Enabled
+heltec_wireless_tracker_v2.menu.LORA_RX_LNA.1.build.LORA_RX_LNA=0
+
 heltec_wireless_tracker_v2.menu.SLOW_CLK_TPYE.0=Internal (default)
 heltec_wireless_tracker_v2.menu.SLOW_CLK_TPYE.0.build.SLOW_CLK_TPYE=0
 heltec_wireless_tracker_v2.menu.SLOW_CLK_TPYE.1=External 32K
 heltec_wireless_tracker_v2.menu.SLOW_CLK_TPYE.1.build.SLOW_CLK_TPYE=1
 
-heltec_wireless_tracker_v2.build.defines=-D{build.band}  -DMCU_ESP32_S3 -DHELTEC_BOARD=34 -DWIRELESS_TRACKER_V2 -DSLOW_CLK_TPYE={build.SLOW_CLK_TPYE} -DRADIO_CHIP_SX1262  -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+heltec_wireless_tracker_v2.build.defines=-D{build.band}  -DMCU_ESP32_S3 -DHELTEC_BOARD=34 -DWIRELESS_TRACKER_V2 -DSLOW_CLK_TPYE={build.SLOW_CLK_TPYE} -DRADIO_CHIP_SX1262  -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -DLORA_RX_LNA={build.LORA_RX_LNA} -D{build.board}
 
 heltec_wireless_tracker_v2.menu.EraseFlash.none=Disabled
 heltec_wireless_tracker_v2.menu.EraseFlash.none.upload.erase_cmd=
