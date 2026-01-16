@@ -27,6 +27,7 @@ menu.LoRaWanDebugLevel=LoRaWan Debug Level
 menu.LORAWAN_DEVEUI=LoRaWan DevEUI
 menu.LORAWAN_PREAMBLE_LENGTH=LoRaWan Preamble Length
 menu.LORA_RX_LNA=LoRa external FEM receiver amplification configuration
+menu.LORA_FEM_TYPE=Type of LORA external FEM
 menu.SLOW_CLK_TPYE=Slow Clk Type(only for LoRaWAN)
 menu.einksize=E-Ink Display Size
 menu.NetworkLogLevel=Network Log Level
@@ -2722,7 +2723,7 @@ heltec_wifi_lora_32_V4.build.loop_core=
 heltec_wifi_lora_32_V4.build.event_core=
 heltec_wifi_lora_32_V4.build.psram_type=qspi
 heltec_wifi_lora_32_V4.build.memory_type={build.boot}_{build.psram_type}
-heltec_wifi_lora_32_V4.build.defines=-D{build.band} -DMCU_ESP32_S3 -DHELTEC_BOARD=30 -DSLOW_CLK_TPYE=0 -DWIFI_LORA_32_V4 -DRADIO_CHIP_SX1262  -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -D{build.board}
+heltec_wifi_lora_32_V4.build.defines=-D{build.band} -DMCU_ESP32_S3 -DHELTEC_BOARD=30 -DSLOW_CLK_TPYE=0 -DWIFI_LORA_32_V4 -DRADIO_CHIP_SX1262  -DLoRaWAN_DEBUG_LEVEL={build.LoRaWanDebugLevel} -DACTIVE_REGION=LORAMAC_{build.band} -DLORAWAN_PREAMBLE_LENGTH={build.LORAWAN_PREAMBLE_LENGTH} -DLORAWAN_DEVEUI_AUTO={build.LORAWAN_DEVEUI_AUTO} -DLORA_RX_LNA={build.LORA_RX_LNA} -D{build.LORA_FEM_TYPE} -D{build.board} 
 
 ## IDE 2.0 Seems to not update the value
 heltec_wifi_lora_32_V4.menu.JTAGAdapter.default=Disabled
@@ -2936,6 +2937,18 @@ heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.0=8(default)
 heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.0.build.LORAWAN_PREAMBLE_LENGTH=8
 heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
 heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
+
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.0=USE_NONE_PA (default)
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.0.build.LORA_FEM_TYPE=USE_NONE_PA
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.1=USE_KCT8103L_PA
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.1.build.LORA_FEM_TYPE=USE_KCT8103L_PA
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.2=USE_GC1109_PA
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.2.build.LORA_FEM_TYPE=USE_GC1109_PA
+
+heltec_wifi_lora_32_V4.menu.LORA_RX_LNA.0=Disabled (default)
+heltec_wifi_lora_32_V4.menu.LORA_RX_LNA.0.build.LORA_RX_LNA=1
+heltec_wifi_lora_32_V4.menu.LORA_RX_LNA.1=Enabled
+heltec_wifi_lora_32_V4.menu.LORA_RX_LNA.1.build.LORA_RX_LNA=0
 
 heltec_wifi_lora_32_V4.menu.EraseFlash.none=Disabled
 heltec_wifi_lora_32_V4.menu.EraseFlash.none.upload.erase_cmd=
