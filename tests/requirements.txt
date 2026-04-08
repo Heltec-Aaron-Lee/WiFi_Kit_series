@@ -1,4 +1,4 @@
-cryptography==43.0.1
+cryptography==46.0.6
 --only-binary cryptography
 pytest-cov==5.0.0
 pytest-embedded-serial-esp==1.10.2
