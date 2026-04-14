@@ -10,6 +10,7 @@
   by Lucas Saavedra Vaz (lucasssvaz)
 */
 
+#include <Arduino.h>
 #include "ESP_I2S.h"
 #include "Wire.h"
 
@@ -40,9 +41,6 @@ void setup() {
 
   // Initialize the serial port
   Serial.begin(115200);
-  while (!Serial) {
-    delay(10);
-  }
 
   pinMode(PA_ENABLE, OUTPUT);
   digitalWrite(PA_ENABLE, HIGH);

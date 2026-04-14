@@ -18,14 +18,19 @@ Note: Because ESP32 works at VCC=3.3v normal schematics for Serial MIDI connecti
 
 [1] - https://www.midi.org/specifications/midi-transports-specifications/5-pin-din-electrical-specs
 */
+#include <Arduino.h>
 #if ARDUINO_USB_MODE
 #warning This sketch should be used when USB is in OTG mode
 void setup() {}
 void loop() {}
 #else
 
+// define a new USB MIDI device name using a macro
+SET_USB_MIDI_DEVICE_NAME("ESP MIDI Device")
+
 #include "USB.h"
 #include "USBMIDI.h"
+// Creates the MIDI device with specific name defined with the SET_USB_MIDI_DEVICE_NAME() macro
 USBMIDI MIDI;
 
 #define MIDI_RX 39
@@ -50,7 +55,7 @@ void loop() {
   }
 
   // USB MIDI 1.0 to MIDI Serial 1.0
-  midiEventPacket_t midi_packet_in = {0};
+  midiEventPacket_t midi_packet_in = {0, 0, 0, 0};
   // See Chapter 4: USB-MIDI Event Packets (page 16) of the spec.
   int8_t cin_to_midix_size[16] = {-1, -1, 2, 3, 3, 1, 2, 3, 3, 3, 3, 3, 2, 2, 3, 1};
 

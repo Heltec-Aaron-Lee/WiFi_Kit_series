@@ -1,7 +1,0 @@
-{
-  "platforms": {
-    "qemu": false,
-    "hardware": false,
-    "wokwi": false
-  }
-}

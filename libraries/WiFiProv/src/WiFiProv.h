@@ -20,40 +20,53 @@
 #pragma once
 
 #include "soc/soc_caps.h"
-#if SOC_WIFI_SUPPORTED
+#include "sdkconfig.h"
+#if SOC_WIFI_SUPPORTED && CONFIG_NETWORK_PROV_NETWORK_TYPE_WIFI
 
 #include "WiFi.h"
-#include "wifi_provisioning/manager.h"
+#include "HardwareSerial.h"
+#include "network_provisioning/manager.h"
 //Select the scheme using which you want to provision
 typedef enum {
-  WIFI_PROV_SCHEME_SOFTAP,
-#if CONFIG_BLUEDROID_ENABLED
-  WIFI_PROV_SCHEME_BLE,
+  NETWORK_PROV_SCHEME_SOFTAP,
+#if (defined(CONFIG_BLUEDROID_ENABLED) || defined(CONFIG_NIMBLE_ENABLED)) && __has_include("esp_bt.h")
+  NETWORK_PROV_SCHEME_BLE,
 #endif
-  WIFI_PROV_SCHEME_MAX
+  NETWORK_PROV_SCHEME_MAX
 } prov_scheme_t;
 
 typedef enum {
-  WIFI_PROV_SCHEME_HANDLER_NONE,
-#if CONFIG_BLUEDROID_ENABLED
-  WIFI_PROV_SCHEME_HANDLER_FREE_BTDM,
-  WIFI_PROV_SCHEME_HANDLER_FREE_BLE,
-  WIFI_PROV_SCHEME_HANDLER_FREE_BT,
+  NETWORK_PROV_SCHEME_HANDLER_NONE,
+#if (defined(CONFIG_BLUEDROID_ENABLED) || defined(CONFIG_NIMBLE_ENABLED)) && __has_include("esp_bt.h")
+  NETWORK_PROV_SCHEME_HANDLER_FREE_BTDM,
+  NETWORK_PROV_SCHEME_HANDLER_FREE_BLE,
+  NETWORK_PROV_SCHEME_HANDLER_FREE_BT,
 #endif
-  WIFI_PROV_SCHEME_HANDLER_MAX
+  NETWORK_PROV_SCHEME_HANDLER_MAX
 } scheme_handler_t;
 
 //Provisioning class
 class WiFiProvClass {
+private:
+  bool provInitDone = false;
+  bool provisioned = false;
+
 public:
+  void initProvision(
+    prov_scheme_t prov_scheme = NETWORK_PROV_SCHEME_SOFTAP, scheme_handler_t scheme_handler = NETWORK_PROV_SCHEME_HANDLER_NONE, bool reset_provisioned = false
+  );
   void beginProvision(
-    prov_scheme_t prov_scheme = WIFI_PROV_SCHEME_SOFTAP, scheme_handler_t scheme_handler = WIFI_PROV_SCHEME_HANDLER_NONE,
-    wifi_prov_security_t security = WIFI_PROV_SECURITY_1, const char *pop = "abcd1234", const char *service_name = NULL, const char *service_key = NULL,
+    prov_scheme_t prov_scheme = NETWORK_PROV_SCHEME_SOFTAP, scheme_handler_t scheme_handler = NETWORK_PROV_SCHEME_HANDLER_NONE,
+    network_prov_security_t security = NETWORK_PROV_SECURITY_1, const char *pop = "abcd1234", const char *service_name = NULL, const char *service_key = NULL,
     uint8_t *uuid = NULL, bool reset_provisioned = false
   );
-  void printQR(const char *name, const char *pop, const char *transport);
+  void endProvision();
+  bool disableAutoStop(uint32_t cleanup_delay);
+  void printQR(const char *name, const char *pop, const char *transport, Print &out = Serial);
 };
 
+#if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_WIFIPROV)
 extern WiFiProvClass WiFiProv;
+#endif
 
 #endif /* SOC_WIFI_SUPPORTED */

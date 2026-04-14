@@ -33,13 +33,15 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
-#include "esp32-hal.h"
 #include "esp8266-compat.h"
 #include "soc/gpio_reg.h"
 
 #include "stdlib_noniso.h"
 #include "binary.h"
 #include "extra_attr.h"
+
+#include "pins_arduino.h"
+#include "esp32-hal.h"
 
 #define PI         3.1415926535897932384626433832795
 #define HALF_PI    1.5707963267948966192313216916398
@@ -142,7 +144,7 @@
 #endif
 #define EXTERNAL_NUM_INTERRUPTS    NUM_DIGITAL_PINS  // All GPIOs
 #define analogInputToDigitalPin(p) (((p) < NUM_ANALOG_INPUTS) ? (analogChannelToDigitalPin(p)) : -1)
-#define digitalPinToInterrupt(p)   ((((uint8_t)digitalPinToGPIONumber(p)) < NUM_DIGITAL_PINS) ? digitalPinToGPIONumber(p) : NOT_AN_INTERRUPT)
+#define digitalPinToInterrupt(p)   ((((uint8_t)digitalPinToGPIONumber(p)) < NUM_DIGITAL_PINS) ? (p) : NOT_AN_INTERRUPT)
 #define digitalPinHasPWM(p)        (((uint8_t)digitalPinToGPIONumber(p)) < NUM_DIGITAL_PINS)
 
 typedef bool boolean;
@@ -179,7 +181,7 @@ void initArduino(void);
 unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout);
 unsigned long pulseInLong(uint8_t pin, uint8_t state, unsigned long timeout);
 
-uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
+uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);  // codespell:ignore shiftin
 void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
 
 #ifdef __cplusplus
@@ -199,11 +201,17 @@ void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
 #include "Udp.h"
 #include "HardwareSerial.h"
 #include "Esp.h"
+#include "freertos_stats.h"
 
 // Use float-compatible stl abs() and round(), we don't use Arduino macros to avoid issues with the C++ libraries
 using std::abs;
+// picolibc declares isinf/isnan as C functions (int isinf(double)) in math.h
+// which conflicts with C++ std:: versions. picolibc also provides them as
+// __builtin_* macros, so the using declarations are not needed.
+#if !defined(__PICOLIBC__)
 using std::isinf;
 using std::isnan;
+#endif
 using std::max;
 using std::min;
 using std::round;
@@ -219,10 +227,34 @@ size_t getArduinoLoopTaskStackSize(void);
     return sz;                           \
   }
 
+#define ESP32_USB_MIDI_DEFAULT_NAME "TinyUSB MIDI"
+/**
+* @brief Set the current device name
+* 1. Name set via constructor (if any)
+* 2. Name set via SET_USB_MIDI_DEVICE_NAME() macro (if defined)
+* 3. Default name "TinyUSB MIDI"
+* If device name is set as "", it will be ignored
+*/
+#define SET_USB_MIDI_DEVICE_NAME(name)        \
+  const char *getUSBMIDIDefaultDeviceName() { \
+    if (!name || strlen(name) == 0) {         \
+      return ESP32_USB_MIDI_DEFAULT_NAME;     \
+    }                                         \
+    return name;                              \
+  }
+
 bool shouldPrintChipDebugReport(void);
 #define ENABLE_CHIP_DEBUG_REPORT          \
   bool shouldPrintChipDebugReport(void) { \
     return true;                          \
+  }
+
+// macro SET_TIME_BEFORE_STARTING_SKETCH_MS(time_ms) can set a time in milliseconds
+// before the sketch would start its execution. It gives the user time to open the Serial Monitor
+uint64_t getArduinoSetupWaitTime_ms(void);
+#define SET_TIME_BEFORE_STARTING_SKETCH_MS(time_ms) \
+  uint64_t getArduinoSetupWaitTime_ms() {           \
+    return (time_ms);                               \
   }
 
 // allows user to bypass esp_spiram_test()
@@ -248,7 +280,7 @@ void noTone(uint8_t _pin);
 
 #endif /* __cplusplus */
 
-#include "pins_arduino.h"
+// must be applied last as it overrides some of the above
 #include "io_pin_remap.h"
 
 #endif /* _ESP32_CORE_ARDUINO_H_ */

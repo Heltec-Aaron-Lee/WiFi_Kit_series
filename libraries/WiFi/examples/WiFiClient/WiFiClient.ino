@@ -14,6 +14,7 @@
     Please note that this public channel can be accessed by anyone and it is possible that more people will write their values.
  */
 
+#include <Arduino.h>
 #include <WiFi.h>
 
 const char *ssid = "your-ssid";          // Change this to your WiFi SSID
@@ -34,9 +35,6 @@ int fieldNumber = 1;      // Field number which will be read out
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) {
-    delay(100);
-  }
 
   // We start by connecting to a WiFi network
 

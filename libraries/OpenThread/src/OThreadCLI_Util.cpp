@@ -1,29 +1,23 @@
+// Copyright 2024 Espressif Systems (Shanghai) PTE LTD
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include "OThreadCLI.h"
 #if SOC_IEEE802154_SUPPORTED
 #if CONFIG_OPENTHREAD_ENABLED
 
 #include "OThreadCLI_Util.h"
 #include <StreamString.h>
-
-static const char *otRoleString[] = {
-  "Disabled",  ///< The Thread stack is disabled.
-  "Detached",  ///< Not currently participating in a Thread network/partition.
-  "Child",     ///< The Thread Child role.
-  "Router",    ///< The Thread Router role.
-  "Leader",    ///< The Thread Leader role.
-};
-
-ot_device_role_t otGetDeviceRole() {
-  if (!OThreadCLI) {
-    return OT_ROLE_DISABLED;
-  }
-  otInstance *instance = esp_openthread_get_instance();
-  return (ot_device_role_t)otThreadGetDeviceRole(instance);
-}
-
-const char *otGetStringDeviceRole() {
-  return otRoleString[otGetDeviceRole()];
-}
 
 bool otGetRespCmd(const char *cmd, char *resp, uint32_t respTimeout) {
   if (!OThreadCLI) {
@@ -60,7 +54,7 @@ bool otGetRespCmd(const char *cmd, char *resp, uint32_t respTimeout) {
     return false;
   }
   if (resp != NULL) {
-    strcpy(resp, cliRespAllLines.c_str());
+    memcpy(resp, cliRespAllLines.c_str(), cliRespAllLines.length() + 1);
   }
   return true;
 }
@@ -117,7 +111,7 @@ bool otExecCommand(const char *cmd, const char *arg, ot_cmd_return_t *returnCode
           i--;  // search for ' ' before ":'
         }
         if (*i == ' ') {
-          i++;  // move it forward to the number begining
+          i++;  // move it forward to the number beginning
           returnCode->errorCode = atoi(i);
           returnCode->errorMessage = m;
         }  // otherwise, it will keep the "bad error message" information
@@ -160,7 +154,7 @@ bool otPrintRespCLI(const char *cmd, Stream &output, uint32_t respTimeout) {
   return true;
 }
 
-void otPrintNetworkInformation(Stream &output) {
+void otCLIPrintNetworkInformation(Stream &output) {
   if (!OThreadCLI) {
     return;
   }

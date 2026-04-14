@@ -50,6 +50,49 @@ elif __file__:
 dist_dir = current_dir + "/dist/"
 
 
+def is_safe_archive_path(path):
+    # Check for absolute paths (both Unix and Windows style)
+    if path.startswith("/") or (len(path) > 1 and path[1] == ":" and path[2] in "\\/"):
+        raise ValueError(f"Absolute path not allowed: {path}")
+
+    # Normalize the path to handle any path separators
+    normalized_path = os.path.normpath(path)
+
+    # Check for directory traversal attempts using normalized path
+    if ".." in normalized_path.split(os.sep):
+        raise ValueError(f"Directory traversal not allowed: {path}")
+
+    # Additional check for paths that would escape the target directory
+    if normalized_path.startswith(".."):
+        raise ValueError(f"Path would escape target directory: {path}")
+
+    # Check for any remaining directory traversal patterns in the original path
+    # This catches cases that might not be normalized properly
+    path_parts = path.replace("\\", "/").split("/")
+    if ".." in path_parts:
+        raise ValueError(f"Directory traversal not allowed: {path}")
+
+    return True
+
+
+def safe_tar_extract(tar_file, destination):
+    # Validate all paths before extraction
+    for member in tar_file.getmembers():
+        is_safe_archive_path(member.name)
+
+    # If all paths are safe, proceed with extraction
+    tar_file.extractall(destination, filter="tar")
+
+
+def safe_zip_extract(zip_file, destination):
+    # Validate all paths before extraction
+    for name in zip_file.namelist():
+        is_safe_archive_path(name)
+
+    # If all paths are safe, proceed with extraction
+    zip_file.extractall(destination)
+
+
 def sha256sum(filename, blocksize=65536):
     hash = hashlib.sha256()
     with open(filename, "rb") as f:
@@ -147,7 +190,37 @@ def verify_files(filename, destination, rename_to):
     return True
 
 
-def unpack(filename, destination, force_extract):  # noqa: C901
+def is_latest_version(destination, dirname, rename_to, cfile, checksum):
+    current_version = None
+    expected_version = None
+
+    try:
+        expected_version = checksum
+        with open(os.path.join(destination, rename_to, ".package_checksum"), "r") as f:
+            current_version = f.read()
+
+        if verbose:
+            print(f"\nTool: {rename_to}")
+            print(f"Current version: {current_version}")
+            print(f"Expected version: {expected_version}")
+
+        if current_version and current_version == expected_version:
+            if verbose:
+                print("Latest version already installed. Skipping extraction")
+            return True
+
+        if verbose:
+            print("New version detected")
+
+    except Exception as e:
+        if verbose:
+            print(f"Failed to verify version for {rename_to}: {e}")
+
+    return False
+
+
+def unpack(filename, destination, force_extract, checksum):  # noqa: C901
+    sys_name = platform.system()
     dirname = ""
     cfile = None  # Compressed file
     file_is_corrupted = False
@@ -182,6 +255,10 @@ def unpack(filename, destination, force_extract):  # noqa: C901
         print("File corrupted or incomplete!")
         cfile = None
         file_is_corrupted = True
+    except ValueError as e:
+        print(f"Security validation failed: {e}")
+        cfile = None
+        file_is_corrupted = True
 
     if file_is_corrupted:
         corrupted_filename = filename + ".corrupted"
@@ -194,36 +271,48 @@ def unpack(filename, destination, force_extract):  # noqa: C901
     rename_to = re.match(r"^([a-z][^\-]*\-*)+", dirname).group(0).strip("-")
     if rename_to == dirname and dirname.startswith("esp32-arduino-libs-"):
         rename_to = "esp32-arduino-libs"
+    elif rename_to == dirname and dirname.startswith("esptool-"):
+        rename_to = "esptool"
 
     if not force_extract:
-        if verify_files(filename, destination, rename_to):
-            print(" Files ok. Skipping Extraction")
-            return True
-        else:
-            print(" Extracting archive...")
+        if is_latest_version(destination, dirname, rename_to, cfile, checksum):
+            if verify_files(filename, destination, rename_to):
+                print(" Files ok. Skipping Extraction")
+                return True
+        print(" Extracting archive...")
     else:
         print(" Forcing extraction")
+
+    if os.path.isdir(os.path.join(destination, rename_to)):
+        print("Removing existing {0} ...".format(rename_to))
+        shutil.rmtree(os.path.join(destination, rename_to), ignore_errors=True)
 
     if filename.endswith("tar.gz"):
         if not cfile:
             cfile = tarfile.open(filename, "r:gz")
-        cfile.extractall(destination)
+        safe_tar_extract(cfile, destination)
     elif filename.endswith("tar.xz"):
         if not cfile:
             cfile = tarfile.open(filename, "r:xz")
-        cfile.extractall(destination)
+        safe_tar_extract(cfile, destination)
     elif filename.endswith("zip"):
         if not cfile:
             cfile = zipfile.ZipFile(filename)
-        cfile.extractall(destination)
+        safe_zip_extract(cfile, destination)
     else:
         raise NotImplementedError("Unsupported archive type")
 
     if rename_to != dirname:
         print("Renaming {0} to {1} ...".format(dirname, rename_to))
-        if os.path.isdir(rename_to):
-            shutil.rmtree(rename_to)
         shutil.move(dirname, rename_to)
+
+    # Add execute permission to esptool on non-Windows platforms
+    if rename_to.startswith("esptool") and "CYGWIN_NT" not in sys_name and "Windows" not in sys_name:
+        st = os.stat(os.path.join(destination, rename_to, "esptool"))
+        os.chmod(os.path.join(destination, rename_to, "esptool"), st.st_mode | 0o111)
+
+    with open(os.path.join(destination, rename_to, ".package_checksum"), "w") as f:
+        f.write(checksum)
 
     if verify_files(filename, destination, rename_to):
         print(" Files extracted successfully.")
@@ -306,9 +395,8 @@ def get_tool(tool, force_download, force_extract):
             urlretrieve(url, local_path, report_progress, context=ctx)
         elif "Windows" in sys_name:
             r = requests.get(url)
-            f = open(local_path, "wb")
-            f.write(r.content)
-            f.close()
+            with open(local_path, "wb") as f:
+                f.write(r.content)
         else:
             is_ci = os.environ.get("GITHUB_WORKSPACE")
             if is_ci:
@@ -324,17 +412,22 @@ def get_tool(tool, force_download, force_extract):
         print("Tool {0} already downloaded".format(archive_name))
         sys.stdout.flush()
 
-    if "esp32-arduino-libs" not in archive_name and sha256sum(local_path) != checksum:
+    if sha256sum(local_path) != checksum:
         print("Checksum mismatch for {0}".format(archive_name))
         return False
 
-    return unpack(local_path, ".", force_extract)
+    return unpack(local_path, ".", force_extract, checksum)
 
 
 def load_tools_list(filename, platform):
-    tools_info = json.load(open(filename))["packages"][0]["tools"]
+    with open(filename, "r") as f:
+        tools_info = json.load(f)["packages"][0]["tools"]
     tools_to_download = []
     for t in tools_info:
+        if platform == "x86_64-mingw32":
+            if "i686-mingw32" not in [p["host"] for p in t["systems"]]:
+                raise Exception("Windows x64 requires both i686-mingw32 and x86_64-mingw32 tools")
+
         tool_platform = [p for p in t["systems"] if p["host"] == platform]
         if len(tool_platform) == 0:
             # Fallback to x86 on Apple ARM
@@ -348,6 +441,8 @@ def load_tools_list(filename, platform):
                 if len(tool_platform) == 0:
                     continue
             else:
+                if verbose:
+                    print(f"Tool {t['name']} is not available for platform {platform}")
                 continue
         tools_to_download.append(tool_platform[0])
     return tools_to_download
@@ -379,21 +474,17 @@ def identify_platform():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download and extract tools")
 
-    parser.add_argument("-v", "--verbose", type=bool, default=False, required=False, help="Print verbose output")
+    parser.add_argument("-v", "--verbose", action="store_true", required=False, help="Print verbose output")
+
+    parser.add_argument("-d", "--force_download", action="store_true", required=False, help="Force download of tools")
+
+    parser.add_argument("-e", "--force_extract", action="store_true", required=False, help="Force extraction of tools")
 
     parser.add_argument(
-        "-d", "--force_download", type=bool, default=False, required=False, help="Force download of tools"
+        "-f", "--force_all", action="store_true", required=False, help="Force download and extraction of tools"
     )
 
-    parser.add_argument(
-        "-e", "--force_extract", type=bool, default=False, required=False, help="Force extraction of tools"
-    )
-
-    parser.add_argument(
-        "-f", "--force_all", type=bool, default=False, required=False, help="Force download and extraction of tools"
-    )
-
-    parser.add_argument("-t", "--test", type=bool, default=False, required=False, help=argparse.SUPPRESS)
+    parser.add_argument("-t", "--test", action="store_true", required=False, help=argparse.SUPPRESS)
 
     args = parser.parse_args()
 
@@ -402,6 +493,12 @@ if __name__ == "__main__":
     force_extract = args.force_extract
     force_all = args.force_all
     is_test = args.test
+
+    # Set current directory to the script location
+    if getattr(sys, "frozen", False):
+        os.chdir(os.path.dirname(sys.executable))
+    else:
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     if is_test and (force_download or force_extract or force_all):
         print("Cannot combine test (-t) and forced execution (-d | -e | -f)")

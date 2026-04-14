@@ -1,0 +1,156 @@
+name: External Libraries Test
+
+# The workflow will run on schedule and labeled pull requests
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
+  # Schedule weekly builds on every Sunday at 4 am
+  schedule:
+    - cron: "0 4 * * SUN"
+
+concurrency:
+  group: libs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: read
+  pages: write
+
+env:
+  # It's convenient to set variables for values used multiple times in the workflow
+  SKETCHES_REPORTS_PATH: libraries-report
+  SKETCHES_REPORTS_ARTIFACT_NAME: libraries-report
+  RESULT_LIBRARY_TEST_FILE: LIBRARIES_TEST.md
+  JSON_LIBRARY_LIST_FILE: .github/workflows/lib.json
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  gen-matrix:
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'lib_test') ||
+      (github.event_name == 'schedule' && github.repository == 'espressif/arduino-esp32')
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Generate matrix
+        id: set-matrix
+        run: |
+          source .github/scripts/socs_config.sh
+
+          # Generate matrix with target and fqbn from BUILD_TEST_TARGETS
+          echo '{"include": [' > matrix.json
+          first=true
+          for target in "${BUILD_TEST_TARGETS[@]}"; do
+            if [ "$first" = true ]; then
+              first=false
+            else
+              echo ',' >> matrix.json
+            fi
+            echo "{\"target\": \"$target\", \"fqbn\": \"espressif:esp32:$target\"}" >> matrix.json
+          done
+          echo ']}' >> matrix.json
+
+          cat matrix.json
+          printf "matrix=%s\n" "$(cat matrix.json | jq -c .)" >> $GITHUB_OUTPUT
+
+  compile-sketch:
+    needs: gen-matrix
+    runs-on: ubuntu-latest
+    env:
+      REPOSITORY: |
+        - source-path: '.'
+          name: "espressif:esp32"
+
+    strategy:
+      matrix: ${{ fromJson(needs.gen-matrix.outputs.matrix) }}
+
+    steps:
+      # This step makes the contents of the repository available to the workflow
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Compile sketch
+        uses: P-R-O-C-H-Y/compile-sketches@a62f069b92dc8f5053da4ac439ea6d1950cf6379 # main
+        with:
+          platforms: |
+            ${{ env.REPOSITORY }}
+          target: ${{ matrix.target }}
+          fqbn: ${{ matrix.fqbn }}
+          use-json-file: true
+          json-path: ${{ env.JSON_LIBRARY_LIST_FILE }}
+          enable-deltas-report: true
+          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+          enable-warnings-report: true
+          cli-compile-flags: |
+            - --warnings="all"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ env.SKETCHES_REPORTS_ARTIFACT_NAME }}-${{ matrix.target }}
+          path: ${{ env.SKETCHES_REPORTS_PATH }}
+
+  report-to-file:
+    needs: compile-sketch # Wait for the compile job to finish to get the data for the report
+    if: github.event_name == 'schedule' # Only run the job when the workflow is triggered by a schedule
+    runs-on: ubuntu-latest
+    steps:
+      # Check out repository
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: ${{ env.GITHUB_TOKEN }}
+          fetch-depth: "0"
+
+      - name: Switch branch
+        run: git checkout remotes/origin/gh-pages
+
+      # This step is needed to get the size data produced by the compile jobs
+      - name: Download sketches reports artifact
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        with:
+          pattern: ${{ env.SKETCHES_REPORTS_ARTIFACT_NAME }}-*
+          merge-multiple: true
+          path: ${{ env.SKETCHES_REPORTS_PATH }}
+
+      - name: Report results
+        uses: P-R-O-C-H-Y/report-size-deltas@4a79caa6dcc3579024293638b97156106edc588e # main
+        with:
+          sketches-reports-source: ${{ env.SKETCHES_REPORTS_PATH }}
+          destination-file: ${{ env.RESULT_LIBRARY_TEST_FILE }}
+
+      - name: Append file with action URL
+        run: echo "/ [GitHub Action Link](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})" >> ${{ env.RESULT_LIBRARY_TEST_FILE }}
+
+      - name: Push to github repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ${{ env.RESULT_LIBRARY_TEST_FILE }}
+          git commit -m "Generated External Libraries Test Results"
+          git push origin HEAD:gh-pages
+
+  #Upload PR number as artifact
+  upload-pr-number:
+    name: Upload PR number
+    if: (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'lib_test'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Save the PR number in an artifact
+        shell: bash
+        env:
+          PR_NUM: ${{ github.event.number }}
+        run: echo $PR_NUM > pr_num.txt
+
+      - name: Upload PR number
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: pr_number
+          path: ./pr_num.txt
+          overwrite: true

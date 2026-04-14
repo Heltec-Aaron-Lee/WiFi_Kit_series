@@ -19,6 +19,7 @@
    // Check the bottom of this sketch for sample serial monitor log, during and after successful OTA Update
 */
 
+#include <Arduino.h>
 #include <WiFi.h>
 #include <Update.h>
 
@@ -178,11 +179,11 @@ void execOTA() {
       // Understand the partitions and
       // space availability
       Serial.println("Not enough space to begin OTA");
-      client.flush();
+      client.clear();
     }
   } else {
     Serial.println("There was no content in the response");
-    client.flush();
+    client.clear();
   }
 }
 

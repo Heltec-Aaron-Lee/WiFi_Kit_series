@@ -10,6 +10,40 @@
 
 using namespace mime;
 
+RequestHandler &RequestHandler::addMiddleware(Middleware *middleware) {
+  if (!_chain) {
+    _chain = new MiddlewareChain();
+  }
+  _chain->addMiddleware(middleware);
+  return *this;
+}
+
+RequestHandler &RequestHandler::addMiddleware(Middleware::Function fn) {
+  if (!_chain) {
+    _chain = new MiddlewareChain();
+  }
+  _chain->addMiddleware(fn);
+  return *this;
+}
+
+RequestHandler &RequestHandler::removeMiddleware(Middleware *middleware) {
+  if (_chain) {
+    _chain->removeMiddleware(middleware);
+  }
+  return *this;
+}
+
+bool RequestHandler::process(WebServer &server, HTTPMethod requestMethod, String requestUri) {
+  if (_chain) {
+    return _chain->runChain(server, [this, &server, &requestMethod, &requestUri]() {
+      (void)requestUri;
+      return handle(server, requestMethod, requestUri);
+    });
+  } else {
+    return handle(server, requestMethod, requestUri);
+  }
+}
+
 class FunctionRequestHandler : public RequestHandler {
 public:
   FunctionRequestHandler(WebServer::THandlerFunction fn, WebServer::THandlerFunction ufn, const Uri &uri, HTTPMethod method)
@@ -21,7 +55,7 @@ public:
     delete _uri;
   }
 
-  bool canHandle(HTTPMethod requestMethod, String requestUri) override {
+  bool canHandle(HTTPMethod requestMethod, const String &requestUri) override {
     if (_method != HTTP_ANY && _method != requestMethod) {
       return false;
     }
@@ -29,7 +63,7 @@ public:
     return _uri->canHandle(requestUri, pathArgs);
   }
 
-  bool canUpload(String requestUri) override {
+  bool canUpload(const String &requestUri) override {
     if (!_ufn || !canHandle(HTTP_POST, requestUri)) {
       return false;
     }
@@ -37,7 +71,8 @@ public:
     return true;
   }
 
-  bool canRaw(String requestUri) override {
+  bool canRaw(const String &requestUri) override {
+    (void)requestUri;
     if (!_ufn || _method == HTTP_GET) {
       return false;
     }
@@ -45,7 +80,7 @@ public:
     return true;
   }
 
-  bool canHandle(WebServer &server, HTTPMethod requestMethod, String requestUri) override {
+  bool canHandle(WebServer &server, HTTPMethod requestMethod, const String &requestUri) override {
     if (_method != HTTP_ANY && _method != requestMethod) {
       return false;
     }
@@ -53,7 +88,7 @@ public:
     return _uri->canHandle(requestUri, pathArgs) && (_filter != NULL ? _filter(server) : true);
   }
 
-  bool canUpload(WebServer &server, String requestUri) override {
+  bool canUpload(WebServer &server, const String &requestUri) override {
     if (!_ufn || !canHandle(server, HTTP_POST, requestUri)) {
       return false;
     }
@@ -61,7 +96,8 @@ public:
     return true;
   }
 
-  bool canRaw(WebServer &server, String requestUri) override {
+  bool canRaw(WebServer &server, const String &requestUri) override {
+    (void)requestUri;
     if (!_ufn || _method == HTTP_GET || (_filter != NULL ? _filter(server) == false : false)) {
       return false;
     }
@@ -69,7 +105,7 @@ public:
     return true;
   }
 
-  bool handle(WebServer &server, HTTPMethod requestMethod, String requestUri) override {
+  bool handle(WebServer &server, HTTPMethod requestMethod, const String &requestUri) override {
     if (!canHandle(server, requestMethod, requestUri)) {
       return false;
     }
@@ -78,14 +114,14 @@ public:
     return true;
   }
 
-  void upload(WebServer &server, String requestUri, HTTPUpload &upload) override {
+  void upload(WebServer &server, const String &requestUri, HTTPUpload &upload) override {
     (void)upload;
     if (canUpload(server, requestUri)) {
       _ufn();
     }
   }
 
-  void raw(WebServer &server, String requestUri, HTTPRaw &raw) override {
+  void raw(WebServer &server, const String &requestUri, HTTPRaw &raw) override {
     (void)raw;
     if (canRaw(server, requestUri)) {
       _ufn();
@@ -118,7 +154,7 @@ public:
     _baseUriLength = _uri.length();
   }
 
-  bool canHandle(HTTPMethod requestMethod, String requestUri) override {
+  bool canHandle(HTTPMethod requestMethod, const String &requestUri) override {
     if (requestMethod != HTTP_GET) {
       return false;
     }
@@ -130,7 +166,7 @@ public:
     return true;
   }
 
-  bool canHandle(WebServer &server, HTTPMethod requestMethod, String requestUri) override {
+  bool canHandle(WebServer &server, HTTPMethod requestMethod, const String &requestUri) override {
     if (requestMethod != HTTP_GET) {
       return false;
     }
@@ -146,7 +182,7 @@ public:
     return true;
   }
 
-  bool handle(WebServer &server, HTTPMethod requestMethod, String requestUri) override {
+  bool handle(WebServer &server, HTTPMethod requestMethod, const String &requestUri) override {
     if (!canHandle(server, requestMethod, requestUri)) {
       return false;
     }
@@ -154,13 +190,12 @@ public:
     log_v("StaticRequestHandler::handle: request=%s _uri=%s\r\n", requestUri.c_str(), _uri.c_str());
 
     String path(_path);
-    String eTagCode;
 
     if (!_isFile) {
       // Base URI doesn't point to a file.
       // If a directory is requested, look for index file.
       if (requestUri.endsWith("/")) {
-        requestUri += "index.htm";
+        return handle(server, requestMethod, String(requestUri + "index.htm"));
       }
 
       // Append whatever follows this URI in request to get the file path.
@@ -183,6 +218,8 @@ public:
     if (!f || !f.available()) {
       return false;
     }
+
+    String eTagCode;
 
     if (server._eTagEnabled) {
       if (server._eTagFunction) {

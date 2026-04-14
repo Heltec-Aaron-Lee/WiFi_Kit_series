@@ -3,6 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+#include "Arduino.h"
 #include "NetworkManager.h"
 #include "IPAddress.h"
 #include "esp_netif.h"
@@ -20,7 +22,7 @@ bool NetworkManager::begin() {
     initialized = true;
 #if CONFIG_IDF_TARGET_ESP32
     uint8_t mac[8];
-    if (esp_efuse_mac_get_default(mac) == ESP_OK) {
+    if (esp_base_mac_addr_get(mac) != ESP_OK && esp_efuse_mac_get_default(mac) == ESP_OK) {
       esp_base_mac_addr_set(mac);
     }
 #endif
@@ -87,6 +89,7 @@ int NetworkManager::hostByName(const char *aHostname, IPAddress &aResult) {
   memset(&hints, 0, sizeof(hints));
   hints.ai_socktype = SOCK_STREAM;
 
+#if CONFIG_LWIP_IPV6
   // **Workaround**
   // LWIP AF_UNSPEC always prefers IPv4 and doesn't check what network is
   // available. See https://github.com/espressif/esp-idf/issues/13255
@@ -106,22 +109,27 @@ int NetworkManager::hostByName(const char *aHostname, IPAddress &aResult) {
     }
   }
   // **End Workaround**
+#endif
 
   hints.ai_family = AF_UNSPEC;
   err = lwip_getaddrinfo(aHostname, servname, &hints, &res);
 
   if (err == ERR_OK) {
+#if CONFIG_LWIP_IPV6
     if (res->ai_family == AF_INET6) {
       struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)res->ai_addr;
       // As an array of u8_t
       aResult = IPAddress(IPv6, ipv6->sin6_addr.s6_addr);
       log_d("DNS found IPv6 %s", aResult.toString().c_str());
     } else {
+#endif
       struct sockaddr_in *ipv4 = (struct sockaddr_in *)res->ai_addr;
       // As a single u32_t
       aResult = IPAddress(ipv4->sin_addr.s_addr);
       log_d("DNS found IPv4 %s", aResult.toString().c_str());
+#if CONFIG_LWIP_IPV6
     }
+#endif
 
     lwip_freeaddrinfo(res);
     return 1;
@@ -140,7 +148,7 @@ String NetworkManager::macAddress(void) {
   uint8_t mac[6];
   char macStr[18] = {0};
   macAddress(mac);
-  sprintf(macStr, "%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  snprintf(macStr, sizeof(macStr), "%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
   return String(macStr);
 }
 
@@ -177,6 +185,18 @@ NetworkInterface *NetworkManager::getDefaultInterface() {
     }
   }
   return NULL;
+}
+
+bool NetworkManager::isOnline() {
+  for (int i = 0; i < ESP_NETIF_ID_MAX; ++i) {
+    if (i != ESP_NETIF_ID_AP) {
+      NetworkInterface *iface = getNetifByID((Network_Interface_ID)i);
+      if (iface != NULL && iface->connected() && (iface->hasIP() || iface->hasGlobalIPv6())) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 size_t NetworkManager::printTo(Print &out) const {

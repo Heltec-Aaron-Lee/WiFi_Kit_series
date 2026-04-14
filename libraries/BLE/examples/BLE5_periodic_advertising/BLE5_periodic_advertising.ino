@@ -1,11 +1,15 @@
 /*
-   Simple BLE5 multi advertising example on esp32 C3/S3
+   Simple BLE5 periodic advertising example on esp32 C3/S3
    only ESP_BLE_GAP_SET_EXT_ADV_PROP_NONCONN_NONSCANNABLE_UNDIRECTED can be used for periodic advertising
 
    author: chegewara
 */
 
-#ifndef CONFIG_BT_BLE_50_FEATURES_SUPPORTED
+#include <Arduino.h>
+
+#ifndef CONFIG_BLUEDROID_ENABLED
+#error "NimBLE does not support periodic advertising yet. Try using Bluedroid."
+#elif !defined(CONFIG_BT_BLE_50_FEATURES_SUPPORTED)
 #error "This SoC does not support BLE5. Try using ESP32-C3, or ESP32-S3"
 #else
 #include <BLEDevice.h>

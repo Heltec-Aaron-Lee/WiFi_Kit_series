@@ -14,6 +14,12 @@ Author:
 Pranav Cherukupalli <cherukupallip@gmail.com>
 */
 
+#include <Arduino.h>
+#include "sdkconfig.h"
+#if CONFIG_ESP_WIFI_REMOTE_ENABLED
+#error "WPS is only supported in SoCs with native Wi-Fi support"
+#endif
+
 #include "WiFi.h"
 #include "esp_wps.h"
 /*
@@ -25,7 +31,15 @@ WPS (pin is 00000000)
 #define ESP_WPS_MODE WPS_TYPE_PBC
 
 void wpsStart() {
-  esp_wps_config_t config = WPS_CONFIG_INIT_DEFAULT(ESP_WPS_MODE);
+  esp_wps_config_t config;
+  memset(&config, 0, sizeof(esp_wps_config_t));
+  //Same as config = WPS_CONFIG_INIT_DEFAULT(ESP_WPS_MODE);
+  config.wps_type = ESP_WPS_MODE;
+  snprintf(config.factory_info.manufacturer, sizeof(config.factory_info.manufacturer), "ESPRESSIF");
+  snprintf(config.factory_info.model_number, sizeof(config.factory_info.model_number), "%s", CONFIG_IDF_TARGET);
+  snprintf(config.factory_info.model_name, sizeof(config.factory_info.model_name), "ESPRESSIF IOT");
+  snprintf(config.factory_info.device_name, sizeof(config.factory_info.device_name), "ESP DEVICE");
+  snprintf(config.pin, sizeof(config.pin), "00000000");
   esp_err_t err = esp_wifi_wps_enable(&config);
   if (err != ESP_OK) {
     Serial.printf("WPS Enable Failed: 0x%x: %s\n", err, esp_err_to_name(err));

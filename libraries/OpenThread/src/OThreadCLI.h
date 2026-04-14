@@ -1,3 +1,17 @@
+// Copyright 2024 Espressif Systems (Shanghai) PTE LTD
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #pragma once
 #include "soc/soc_caps.h"
 #include "sdkconfig.h"
@@ -7,7 +21,6 @@
 #include "esp_openthread.h"
 #include "esp_openthread_cli.h"
 #include "esp_openthread_lock.h"
-#include "esp_openthread_netif_glue.h"
 #include "esp_openthread_types.h"
 
 #include "openthread/cli.h"
@@ -17,13 +30,14 @@
 #include "openthread/dataset_ftd.h"
 
 #include "Arduino.h"
+#include "OThread.h"
 
 typedef std::function<void(void)> OnReceiveCb_t;
 
 class OpenThreadCLI : public Stream {
 private:
-  static size_t setBuffer(xQueueHandle &queue, size_t len);
-  bool otStarted = false;
+  static size_t setBuffer(QueueHandle_t &queue, size_t len);
+  static bool otCLIStarted;
 
 public:
   OpenThreadCLI();
@@ -39,7 +53,7 @@ public:
   void setStream(Stream &otStream);    // changes the console Stream object
   void onReceive(OnReceiveCb_t func);  // called on a complete line of output from OT CLI, as OT Response
 
-  void begin(bool OThreadAutoStart = true);
+  void begin();
   void end();
 
   // default size is 256 bytes
@@ -54,7 +68,9 @@ public:
   void flush();
 };
 
+#if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_OPENTHREADCLI)
 extern OpenThreadCLI OThreadCLI;
+#endif
 
 #endif /* CONFIG_OPENTHREAD_ENABLED */
 #endif /* SOC_IEEE802154_SUPPORTED */

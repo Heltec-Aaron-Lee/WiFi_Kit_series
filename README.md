@@ -1,140 +1,106 @@
-# Heltec ESP32 Series Arduino Develop Environment
+# Arduino core for the ESP32 family of SoCs
 
-![GitHub License](https://img.shields.io/github/license/Heltec-Aaron-Lee/WiFi_Kit_series) ![GitHub Release](https://img.shields.io/github/v/release/Heltec-Aaron-Lee/WiFi_Kit_series) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/Heltec-Aaron-Lee/WiFi_Kit_series) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Heltec-Aaron-Lee/WiFi_Kit_series/total)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/espressif/arduino-esp32/push.yml?branch=master&event=push&label=Compilation%20Tests)](https://github.com/espressif/arduino-esp32/actions/workflows/push.yml?query=branch%3Amaster+event%3Apush)
+[![Verbose Build Status](https://img.shields.io/github/actions/workflow/status/espressif/arduino-esp32/push.yml?branch=master&event=schedule&label=Compilation%20Tests%20(Verbose))](https://github.com/espressif/arduino-esp32/actions/workflows/push.yml?query=branch%3Amaster+event%3Aschedule)
+[![External Libraries Test](https://img.shields.io/github/actions/workflow/status/espressif/arduino-esp32/lib.yml?branch=master&event=schedule&label=External%20Libraries%20Test)](https://github.com/espressif/arduino-esp32/blob/gh-pages/LIBRARIES_TEST.md)
+[![Runtime Tests](https://github.com/espressif/arduino-esp32/blob/gh-pages/runtime-test-results/badge.svg)](https://github.com/espressif/arduino-esp32/blob/gh-pages/runtime-test-results/RUNTIME_TEST_RESULTS.md)
 
-English | [简体中文](#简体中文)
+### Need help or have a question? Join the chat at [Discord](https://discord.gg/8xY6e9crwv) or [open a new Discussion](https://github.com/espressif/arduino-esp32/discussions)
 
-This environment is fully cloned from espressif<sup>®</sup> [ESP32](https://github.com/espressif/arduino-esp32) projects, on that basis, we fixed "variants" folder and "boards.txt", for convenience of "Arduino + ESP" beginners and Heltec ESP32 series Dev boards users.
-
-This development environment only includes the basic framework of `ESP32`, `ESP32-S2`, `ESP32-S3`, `ESP32-C3` MCU chips. NOT include the drivers or example code for on-board devices such as LoRa, OLED, Sensor, etc.
-
-Here are the libraries for on-board or external devices:
-
-[Heltec ESP32 Library](https://github.com/HelTecAutomation/Heltec_ESP32) Includes the following features:
-
-- Device drivers on the Heltec ESP32 series development board, such as OLED displays, GPS and LoRa chips;
-- LoRaWAN library compatible with ESP32 Arduino environment;
-- Some external sensor examples;
-- Some examples of practical functions.
-
-[E-Ink Library](https://github.com/HelTecAutomation/Heltec-E-Ink) includes the drivers and examples for multi size E-Ink displays.
+[![Discord invite](https://img.shields.io/discord/1327272229427216425?logo=discord&logoColor=white&logoSize=auto&label=Discord)](https://discord.gg/8xY6e9crwv)
 
 ## Contents
 
-  - [Instructions](#Instructions)
-  - [Installation Instructions](#Installation-Instructions)
-  - [Decoding exceptions](#Decoding-exceptions)
-  - [Issue/Bug report template](#Issue/Bug-report-template)
-  - [Contact us](#Contact-us)
+  - [Development Status](#development-status)
+  - [Development Planning](#development-planning)
+  - [Documentation](#documentation)
+  - [Supported Chips](#supported-chips)
+  - [Decoding exceptions](#decoding-exceptions)
+  - [Issue/Bug report template](#issuebug-report-template)
+  - [Contributing](#contributing)
 
-## Instructions
+### Development Status
 
-The following table lists products based on ESP32 :
+#### Latest Stable Release
 
+[![Release Version](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
+[![Release Date](https://img.shields.io/github/release-date/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
+[![Downloads](https://img.shields.io/github/downloads/espressif/arduino-esp32/latest/total.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
 
-|   MCU   |                       Relative boards                        |
-| :-----: | :----------------------------------------------------------- |
-|  ESP32-S3  | [WIFI Kit 32 (V3)](https://heltec.org/project/wifi-kit-32-v3/)<br>[WIFI LoRa 32 (V3)](https://heltec.org/project/wifi-lora-32-v3/)<br/>[Wireless Stick (V3)](https://heltec.org/project/wireless-stick-v3/)<br/>[Wireless Stick Lite (V3)](https://heltec.org/project/wireless-stick-lite-v2/)<br/>[Wireless Paper](https://heltec.org/project/wireless-paper/)<br/>[Wireless Tracker](https://heltec.org/project/wireless-tracker/)<br/>[Wireless Shell (V3)](https://heltec.org/project/wireless-shell-v3/)<br/>[Multi-Size E-Ink driver (HT-DE01)](https://heltec.org/project/e-ink-driveboard/)<br/>[Vision Master E213](https://heltec.org/project/ht-vme213/)<br/>[Vision Master E290](https://heltec.org/project/ht-vme290/)<br/>[Vision Master T190](https://heltec.org/project/ht-vmt190/) |
-|ESP32-C3|[ESP32 C3 Dev-Board](https://heltec.org/project/esp32-c3/)<br/>[CT62 LoRa Module](https://heltec.org/project/ht-Ct62/)|
-|ESP32-PICO |[Wireless Shell (V3)](https://heltec.org/project/wireless-shell/ )<br/>[Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/) -- *Not recommended for new designs*|
-|ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32) -- *Not recommended for new designs*<br/>[Wireless Stick](https://heltec.org/project/wireless-stick/) -- *Not recommended for new designs*|
+#### Latest Development Release
 
-## Installation Instructions
+[![Release Version](https://img.shields.io/github/release/espressif/arduino-esp32/all.svg)](https://github.com/espressif/arduino-esp32/releases/)
+[![Release Date](https://img.shields.io/github/release-date-pre/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/)
+[![Downloads](https://img.shields.io/github/downloads-pre/espressif/arduino-esp32/latest/total.svg)](https://github.com/espressif/arduino-esp32/releases/)
 
-- **Using Arduino IDE Boards Manager (preferred)**
-  
+### Development Planning
 
-  - [Install ESP32 from Boards Manager](https://wiki.heltec.org/docs/devices/open-source-hardware/esp32-series/esp32-quick-start)
-  
-- **Using Git with the development repository**
-  
-  + [Instructions for Windows](InstallGuide/windows.md)
-  + [Instructions for Mac](InstallGuide/mac.md)
-  + [Instructions for Debian/Ubuntu Linux](InstallGuide/debian_ubuntu.md)
-  + [Instructions for Fedora](InstallGuide/fedora.md)
-  + [Instructions for openSUSE](InstallGuide/opensuse.md)
-  
-  
-  - Read reference install guide document：[Installation Instructions](https://heltec.org/wifi_kit_install/)
+Our Development is fully tracked on this public **[Roadmap 🎉](https://github.com/orgs/espressif/projects/3)**
 
-## Decoding exceptions
+For even more information you can join our **[Monthly Community Meetings 🔔](https://github.com/espressif/arduino-esp32/discussions/categories/monthly-community-meetings).**
+
+### Documentation
+
+You can use the [Arduino-ESP32 Online Documentation](https://docs.espressif.com/projects/arduino-esp32/en/latest/) to get all information about this project.
+
+---
+
+**Migration guide from version 2.x to 3.x is available [here](https://docs.espressif.com/projects/arduino-esp32/en/latest/migration_guides/2.x_to_3.0.html).**
+
+---
+
+**APIs compatibility with ESP8266 and Arduino-CORE (Arduino.cc) is explained [here](https://docs.espressif.com/projects/arduino-esp32/en/latest/libraries.html#apis).**
+
+---
+
+* [Getting Started](https://docs.espressif.com/projects/arduino-esp32/en/latest/getting_started.html)
+* [Installing (Windows, Linux and macOS)](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html)
+* [Libraries](https://docs.espressif.com/projects/arduino-esp32/en/latest/libraries.html)
+* [Arduino as an ESP-IDF component](https://docs.espressif.com/projects/arduino-esp32/en/latest/esp-idf_component.html)
+* [FAQ](https://docs.espressif.com/projects/arduino-esp32/en/latest/faq.html)
+* [Troubleshooting](https://docs.espressif.com/projects/arduino-esp32/en/latest/troubleshooting.html)
+
+### Supported Chips
+
+Here are the ESP32 series supported by the Arduino-ESP32 project:
+
+| **SoC**  | **Stable** | **Development** |                                           **Datasheet**                                           |
+|----------|:----------:|:---------------:|:-------------------------------------------------------------------------------------------------:|
+| ESP32    |     Yes    |       Yes       |    [ESP32](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf)    |
+| ESP32-C3 |     Yes    |       Yes       | [ESP32-C3](https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf) |
+| ESP32-C5 |     Yes    |       Yes       | [ESP32-C5](https://www.espressif.com/sites/default/files/documentation/esp32-c5_datasheet_en.pdf) |
+| ESP32-C6 |     Yes    |       Yes       | [ESP32-C6](https://www.espressif.com/sites/default/files/documentation/esp32-c6_datasheet_en.pdf) |
+| ESP32-H2 |     Yes    |       Yes       | [ESP32-H2](https://www.espressif.com/sites/default/files/documentation/esp32-h2_datasheet_en.pdf) |
+| ESP32-P4 |     Yes    |       Yes       | [ESP32-P4](https://www.espressif.com/sites/default/files/documentation/esp32-p4_datasheet_en.pdf) |
+| ESP32-S2 |     Yes    |       Yes       | [ESP32-S2](https://www.espressif.com/sites/default/files/documentation/esp32-s2_datasheet_en.pdf) |
+| ESP32-S3 |     Yes    |       Yes       | [ESP32-S3](https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf) |
+
+> [!NOTE]
+> ESP32-C2 and ESP32-C61 are also supported by Arduino-ESP32 but require using Arduino as an ESP-IDF component or rebuilding the static libraries.
+> For more information, see the [Arduino as an ESP-IDF component documentation](https://docs.espressif.com/projects/arduino-esp32/en/latest/esp-idf_component.html) or the
+> [Lib Builder documentation](https://docs.espressif.com/projects/arduino-esp32/en/latest/lib_builder.html), respectively.
+
+For more details visit the [supported chips](https://docs.espressif.com/projects/arduino-esp32/en/latest/getting_started.html#supported-soc-s) documentation page.
+
+### Decoding exceptions
 
 You can use [EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder) to get meaningful call trace.
 
-## Issue/Bug report template
+### Issue/Bug report template
 
-Before reporting an issue, make sure you've searched for similar one that was already created. Also make sure to go through all the issues labelled as [for reference](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues).
+Before reporting an issue, make sure you've searched for similar one that was already created. Also make sure to go through all the issues labeled as [Type: For reference](https://github.com/espressif/arduino-esp32/issues?q=is%3Aissue+label%3A%22Type%3A+For+reference%22+).
 
-Also you can talk in our forum: [http://community.heltec.cn/](http://community.heltec.cn/)&nbsp;
+Finally, if you are sure no one else had the issue, follow the **Issue template** or **Feature request template** while reporting any [new Issue](https://github.com/espressif/arduino-esp32/issues/new/choose).
 
-## Contact us
+### External libraries compilation test
 
-- **Website：[https://heltec.org](https://heltec.org/)**
-- **Document Page: [https://docs.heltec.cn](https://docs.heltec.cn)**
-- **Forum: [http://community.heltec.cn/](http://community.heltec.cn/)**
-- **Twitter: [https://twitter.com/HeltecOrg](https://twitter.com/HeltecOrg)**
-- **Face Book: [https://www.facebook.com/heltec.automation.5](https://www.facebook.com/heltec.automation.5)**
+We have set-up CI testing for external libraries for ESP32 Arduino core. You can check test results in the file [LIBRARIES_TEST](https://github.com/espressif/arduino-esp32/blob/gh-pages/LIBRARIES_TEST.md).
+For more information and how to add your library to the test see [external library testing](https://docs.espressif.com/projects/arduino-esp32/en/latest/external_libraries_test.html) in the documentation.
 
-&nbsp;
+### Contributing
 
-## 简体中文
+We welcome contributions to the Arduino ESP32 project!
 
-本项目完全是从乐鑫提供的 [ESP32](https://github.com/espressif/arduino-esp32) 项目上克隆下来的，在此基础上，我们修改了“variants”文件夹和“boards.txt”里面的内容（增加开发板的定义和信息），这样可以方便用户（尤其是初学者）使用我司生产的 ESP32 系列开发板。
+See [contributing](https://docs.espressif.com/projects/arduino-esp32/en/latest/contributing.html) in the documentation for more information on how to contribute to the project.
 
-这个开发环境只包含开发板上已有硬件的相关驱动，其它外接设备驱动在以下库里：
-
-传感器驱动: https://github.com/HelTecAutomation/Heltec_ESP32
-
-墨水屏驱动: [https://github.com/HelTecAutomation/e-ink](https://github.com/HelTecAutomation/e-ink)
-
-## 内容
-
-  - [说明](#说明)
-  - [安装指南](#安装指南)
-  - [编码规则](#编码规则)
-  - [问题讨论 & BUG报告](#问题讨论-&-BUG报告)
-  - [联系我们](#联系我们)
-
-## 说明
-
-下表列出了基于ESP32芯片的产品型号：
-
-|   MCU   |                       Relative boards                        |
-| :-----: | :----------------------------------------------------------: |
-|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/), [Wireless Tracker](https://heltec.org/project/wireless-tracker/), [Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/),[HT-DE01](https://heltec.org/project/e-ink-driveboard/) |
-|ESP32c3|[Esp32 c3 Dev-Board](https://heltec.org/project/esp32-c3/), [Ct62](https://heltec.org/project/ht-Ct62/)|
-|ESP32-PICO |[Wireless Shell(v3)](https://heltec.org/project/wireless-shell/ ), [Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/)|
-|ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32), [Wireless Stick](https://heltec.org/project/wireless-stick/)|
-
-## 安装指南
-
-首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请参考这篇文档：[https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino](https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino)
-
-- **通过Arduino IDE的库管理器安装 （强烈推荐）**
-- 
-  - [安装基于ESP32芯片的开发环境](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
-- **通过Git从源码进行安装**
-  - [Windows操作系统 -- 安装方法](InstallGuide/windows.md)
-  - [MacOS操作系统 -- 安装方法](InstallGuide/mac.md)
-  - [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
-  - [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
-  - [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
-- 更多安装方法，还可以参考这里：[https://heltec.org/zh/wifi_kit_install/](https://heltec.org/zh/wifi_kit_install/)
-
-## 编码规则
-
-可以参考这篇文章来了解Arduino的插件和编码规则：[EspExceptionDecoder](https://github.com/me-no-dev/EspExceptionDecoder).
-
-## 问题讨论 & BUG报告
-
-在报告BUG之前，请先做详细的测试，如果问题真的存在，您可以通过以下方式报告或者讨论：
-
-- [GitHub问题报告页](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues)
-- [Heltec论坛 (仅英语交流)](http://community.heltec.cn/)
-
-## 联系我们
-
-- **官网：[https://heltec.org](https://heltec.org/)**
-- **Heltec文档页: [https://docs.heltec.cn](https://docs.heltec.cn)**
-- **Heltec论坛 (仅英语): [http://community.heltec.cn/](http://community.heltec.cn/)**
-- **QQ群: 799093974(中文)**
+> We would like to have this repository in a polite and friendly atmosphere, so please be kind and respectful to others. For more details, look at [Code of Conduct](https://github.com/espressif/arduino-esp32/blob/master/CODE_OF_CONDUCT.md).

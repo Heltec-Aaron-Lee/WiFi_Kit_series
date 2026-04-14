@@ -23,7 +23,8 @@
 #pragma once
 
 #include "soc/soc_caps.h"
-#if SOC_WIFI_SUPPORTED
+#include "sdkconfig.h"
+#if SOC_WIFI_SUPPORTED || CONFIG_ESP_WIFI_REMOTE_ENABLED
 
 #include "esp_wifi_types.h"
 #include "WiFiType.h"
@@ -48,10 +49,21 @@ public:
     const char *ssid, const char *passphrase = NULL, int channel = 1, int ssid_hidden = 0, int max_connection = 4, bool ftm_responder = false,
     wifi_auth_mode_t auth_mode = WIFI_AP_DEFAULT_AUTH_MODE, wifi_cipher_type_t cipher = WIFI_AP_DEFAULT_CIPHER
   );
+
+  bool create(
+    const String &ssid, const String &passphrase = emptyString, int channel = 1, int ssid_hidden = 0, int max_connection = 4, bool ftm_responder = false,
+    wifi_auth_mode_t auth_mode = WIFI_AP_DEFAULT_AUTH_MODE, wifi_cipher_type_t cipher = WIFI_AP_DEFAULT_CIPHER
+  ) {
+    return create(ssid.c_str(), passphrase.c_str(), channel, ssid_hidden, max_connection, ftm_responder, auth_mode, cipher);
+  }
+
   bool clear();
 
   bool bandwidth(wifi_bandwidth_t bandwidth);
   bool enableNAPT(bool enable = true);
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 4, 2)
+  bool enableDhcpCaptivePortal();
+#endif
 
   String SSID(void) const;
   uint8_t stationCount();
@@ -59,6 +71,8 @@ public:
   void _onApEvent(int32_t event_id, void *event_data);
 
 protected:
+  network_event_handle_t _wifi_ap_event_handle;
+
   size_t printDriverInfo(Print &out) const;
 
   friend class WiFiGenericClass;
@@ -100,8 +114,10 @@ public:
   IPAddress softAPSubnetMask();
   uint8_t softAPSubnetCIDR();
 
+#if CONFIG_LWIP_IPV6
   bool softAPenableIPv6(bool enable = true);
   IPAddress softAPlinkLocalIPv6();
+#endif
 
   const char *softAPgetHostname();
   bool softAPsetHostname(const char *hostname);

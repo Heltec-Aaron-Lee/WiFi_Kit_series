@@ -22,7 +22,7 @@
    https://en.wikipedia.org/wiki/Trust_on_first_use).
 
    In this scheme; we start the very first time without any security checks
-   but once we have our first connection; we store the public crytpographic
+   but once we have our first connection; we store the public cryptographic
    details (or a proxy, such as a sha256 of this). And then we use this for
    any subsequent connections.
 
@@ -40,6 +40,7 @@
    to some physical button or jumper on the PCB). And we only allow
    the TOFU to be configured when this pin is LOW.
 */
+#include <Arduino.h>
 #ifndef WIFI_NETWORK
 #define WIFI_NETWORK "Your Wifi SSID"
 #endif

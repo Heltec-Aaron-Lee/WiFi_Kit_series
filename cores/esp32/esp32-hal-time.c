@@ -16,26 +16,31 @@
 #include "lwip/apps/sntp.h"
 //#include "tcpip_adapter.h"
 #include "esp_netif.h"
+#include <time.h>
+
+#ifdef CONFIG_LWIP_TCPIP_CORE_LOCKING
+#include "lwip/priv/tcpip_priv.h"
+#endif
 
 static void setTimeZone(long offset, int daylight) {
-  char cst[17] = {0};
-  char cdt[17] = "DST";
-  char tz[33] = {0};
+  char cst[21] = {0};
+  char cdt[21] = "DST";
+  char tz[41] = {0};
 
   if (offset % 3600) {
-    sprintf(cst, "UTC%ld:%02u:%02u", offset / 3600, abs((offset % 3600) / 60), abs(offset % 60));
+    snprintf(cst, sizeof(cst), "UTC%ld:%02u:%02u", offset / 3600, abs((offset % 3600) / 60), abs(offset % 60));
   } else {
-    sprintf(cst, "UTC%ld", offset / 3600);
+    snprintf(cst, sizeof(cst), "UTC%ld", offset / 3600);
   }
   if (daylight != 3600) {
     long tz_dst = offset - daylight;
     if (tz_dst % 3600) {
-      sprintf(cdt, "DST%ld:%02u:%02u", tz_dst / 3600, abs((tz_dst % 3600) / 60), abs(tz_dst % 60));
+      snprintf(cdt, sizeof(cdt), "DST%ld:%02u:%02u", tz_dst / 3600, abs((tz_dst % 3600) / 60), abs(tz_dst % 60));
     } else {
-      sprintf(cdt, "DST%ld", tz_dst / 3600);
+      snprintf(cdt, sizeof(cdt), "DST%ld", tz_dst / 3600);
     }
   }
-  sprintf(tz, "%s%s", cst, cdt);
+  snprintf(tz, sizeof(tz), "%s%s", cst, cdt);
   setenv("TZ", tz, 1);
   tzset();
 }
@@ -47,14 +52,29 @@ static void setTimeZone(long offset, int daylight) {
 void configTime(long gmtOffset_sec, int daylightOffset_sec, const char *server1, const char *server2, const char *server3) {
   //tcpip_adapter_init();  // Should not hurt anything if already inited
   esp_netif_init();
+
+#ifdef CONFIG_LWIP_TCPIP_CORE_LOCKING
+  if (!sys_thread_tcpip(LWIP_CORE_LOCK_QUERY_HOLDER)) {
+    LOCK_TCPIP_CORE();
+  }
+#endif
+
   if (sntp_enabled()) {
     sntp_stop();
   }
+
   sntp_setoperatingmode(SNTP_OPMODE_POLL);
   sntp_setservername(0, (char *)server1);
   sntp_setservername(1, (char *)server2);
   sntp_setservername(2, (char *)server3);
   sntp_init();
+
+#ifdef CONFIG_LWIP_TCPIP_CORE_LOCKING
+  if (sys_thread_tcpip(LWIP_CORE_LOCK_QUERY_HOLDER)) {
+    UNLOCK_TCPIP_CORE();
+  }
+#endif
+
   setTimeZone(-gmtOffset_sec, daylightOffset_sec);
 }
 
@@ -65,14 +85,29 @@ void configTime(long gmtOffset_sec, int daylightOffset_sec, const char *server1,
 void configTzTime(const char *tz, const char *server1, const char *server2, const char *server3) {
   //tcpip_adapter_init();  // Should not hurt anything if already inited
   esp_netif_init();
+
+#ifdef CONFIG_LWIP_TCPIP_CORE_LOCKING
+  if (!sys_thread_tcpip(LWIP_CORE_LOCK_QUERY_HOLDER)) {
+    LOCK_TCPIP_CORE();
+  }
+#endif
+
   if (sntp_enabled()) {
     sntp_stop();
   }
+
   sntp_setoperatingmode(SNTP_OPMODE_POLL);
   sntp_setservername(0, (char *)server1);
   sntp_setservername(1, (char *)server2);
   sntp_setservername(2, (char *)server3);
   sntp_init();
+
+#ifdef CONFIG_LWIP_TCPIP_CORE_LOCKING
+  if (sys_thread_tcpip(LWIP_CORE_LOCK_QUERY_HOLDER)) {
+    UNLOCK_TCPIP_CORE();
+  }
+#endif
+
   setenv("TZ", tz, 1);
   tzset();
 }

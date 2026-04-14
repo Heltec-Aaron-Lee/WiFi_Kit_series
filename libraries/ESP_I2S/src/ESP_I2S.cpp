@@ -1,18 +1,30 @@
 // Disable the automatic pin remapping of the API calls in this file
 #define ARDUINO_CORE_BUILD
 
+#include "Arduino.h"
 #include "ESP_I2S.h"
 
 #if SOC_I2S_SUPPORTED
 
 #include "esp32-hal-periman.h"
 #include "wav_header.h"
+#if ARDUINO_HAS_MP3_DECODER
 #include "mp3dec.h"
+#endif
+
+#if SOC_I2S_HW_VERSION_2
+#undef I2S_STD_CLK_DEFAULT_CONFIG
+#define I2S_STD_CLK_DEFAULT_CONFIG(rate) \
+  { .sample_rate_hz = rate, .clk_src = I2S_CLK_SRC_DEFAULT, .ext_clk_freq_hz = 0, .mclk_multiple = I2S_MCLK_MULTIPLE_256, }
+#endif
 
 #define I2S_READ_CHUNK_SIZE 1920
 
-#define I2S_DEFAULT_CFG() \
-  { .id = I2S_NUM_AUTO, .role = I2S_ROLE_MASTER, .dma_desc_num = 6, .dma_frame_num = 240, .auto_clear = true, }
+#define I2S_DEFAULT_CFG()                                                                                                                    \
+  {                                                                                                                                          \
+    .id = I2S_NUM_AUTO, .role = I2S_ROLE_MASTER, .dma_desc_num = 6, .dma_frame_num = 240, .auto_clear = true, .auto_clear_before_cb = false, \
+    .intr_priority = 0                                                                                                                       \
+  }
 
 #define I2S_STD_CHAN_CFG(_sample_rate, _data_bit_width, _slot_mode)                                                                   \
   {                                                                                                                                   \
@@ -181,6 +193,7 @@ static esp_err_t i2s_channel_read_16_stereo_to_mono(i2s_chan_handle_t handle, ch
 
 I2SClass::I2SClass() {
   last_error = ESP_OK;
+  _mode = I2S_MODE_MAX;  // Initialize to invalid mode to indicate I2S not started
 
   tx_chan = NULL;
   tx_sample_rate = 0;
@@ -228,7 +241,9 @@ I2SClass::~I2SClass() {
 
 bool I2SClass::i2sDetachBus(void *bus_pointer) {
   I2SClass *bus = (I2SClass *)bus_pointer;
-  if (bus->tx_chan != NULL || bus->tx_chan != NULL) {
+  // Only call end() if I2S has been initialized (begin() was called)
+  // _mode is set to I2S_MODE_MAX in constructor and to a valid mode in begin()
+  if (bus->_mode < I2S_MODE_MAX) {
     bus->end();
   }
   return true;
@@ -692,6 +707,16 @@ bool I2SClass::begin(i2s_mode_t mode, uint32_t rate, i2s_data_bit_width_t bits_c
 }
 
 bool I2SClass::end() {
+  // Check if already ended to prevent recursion
+  if (_mode >= I2S_MODE_MAX) {
+    return true;
+  }
+
+  // Save mode and reset it BEFORE clearing pins to prevent recursive calls
+  // When perimanClearPinBus() is called, it may trigger i2sDetachBus() again
+  i2s_mode_t mode = _mode;
+  _mode = I2S_MODE_MAX;
+
   if (tx_chan != NULL) {
     I2S_ERROR_CHECK_RETURN_FALSE(i2s_channel_disable(tx_chan));
     I2S_ERROR_CHECK_RETURN_FALSE(i2s_del_channel(tx_chan));
@@ -709,14 +734,20 @@ bool I2SClass::end() {
   }
 
   //Peripheral manager deinit used pins
-  switch (_mode) {
+  switch (mode) {
     case I2S_MODE_STD:
 #if SOC_I2S_SUPPORTS_TDM
     case I2S_MODE_TDM:
 #endif
-      perimanClearPinBus(_mclk);
-      perimanClearPinBus(_bclk);
-      perimanClearPinBus(_ws);
+      if (_mclk >= 0) {
+        perimanClearPinBus(_mclk);
+      }
+      if (_bclk >= 0) {
+        perimanClearPinBus(_bclk);
+      }
+      if (_ws >= 0) {
+        perimanClearPinBus(_ws);
+      }
       if (_dout >= 0) {
         perimanClearPinBus(_dout);
       }
@@ -803,32 +834,36 @@ bool I2SClass::configureRX(uint32_t rate, i2s_data_bit_width_t bits_cfg, i2s_slo
 
 size_t I2SClass::readBytes(char *buffer, size_t size) {
   size_t bytes_read = 0;
+  size_t bytes_to_read = 0;
   size_t total_size = 0;
   last_error = ESP_FAIL;
   if (rx_chan == NULL) {
     return total_size;
   }
   while (total_size < size) {
-    bytes_read = size - total_size;
-    if (rx_transform_buf != NULL && bytes_read > I2S_READ_CHUNK_SIZE) {
-      bytes_read = I2S_READ_CHUNK_SIZE;
+    bytes_read = 0;
+    bytes_to_read = size - total_size;
+    if (rx_transform_buf != NULL && bytes_to_read > I2S_READ_CHUNK_SIZE) {
+      bytes_to_read = I2S_READ_CHUNK_SIZE;
     }
-    I2S_ERROR_CHECK_RETURN(rx_fn(rx_chan, rx_transform_buf, (char *)(buffer + total_size), bytes_read, &bytes_read, _timeout), 0);
+    I2S_ERROR_CHECK_RETURN(rx_fn(rx_chan, rx_transform_buf, (char *)(buffer + total_size), bytes_to_read, &bytes_read, _timeout), 0);
     total_size += bytes_read;
   }
   return total_size;
 }
 
-size_t I2SClass::write(uint8_t *buffer, size_t size) {
+size_t I2SClass::write(const uint8_t *buffer, size_t size) {
   size_t written = 0;
   size_t bytes_sent = 0;
+  size_t bytes_to_send = 0;
   last_error = ESP_FAIL;
   if (tx_chan == NULL) {
     return written;
   }
   while (written < size) {
-    bytes_sent = size - written;
-    esp_err_t err = i2s_channel_write(tx_chan, (char *)(buffer + written), bytes_sent, &bytes_sent, _timeout);
+    bytes_sent = 0;
+    bytes_to_send = size - written;
+    esp_err_t err = i2s_channel_write(tx_chan, (char *)(buffer + written), bytes_to_send, &bytes_sent, _timeout);
     setWriteError(err);
     I2S_ERROR_CHECK_RETURN(err, written);
     written += bytes_sent;
@@ -939,7 +974,7 @@ bool I2SClass::allocTranformRX(size_t buf_len) {
   if (rx_transform_buf == NULL || rx_transform_buf_len != buf_len) {
     buf = (char *)malloc(buf_len);
     if (buf == NULL) {
-      log_e("malloc %u failed!", buf_len);
+      log_e("malloc %lu failed!", (unsigned long)buf_len);
       return false;
     }
     if (rx_transform_buf != NULL) {
@@ -962,17 +997,17 @@ uint8_t *I2SClass::recordWAV(size_t rec_seconds, size_t *out_size) {
   const pcm_wav_header_t wav_header = PCM_WAV_HEADER_DEFAULT(rec_size, sample_width, sample_rate, num_channels);
   *out_size = 0;
 
-  log_d("Record WAV: rate:%lu, bits:%u, channels:%u, size:%lu", sample_rate, sample_width, num_channels, rec_size);
+  log_d("Record WAV: rate:%" PRIu32 ", bits:%u, channels:%u, size:%lu", sample_rate, sample_width, (unsigned long)num_channels, rec_size);
 
   uint8_t *wav_buf = (uint8_t *)malloc(rec_size + WAVE_HEADER_SIZE);
   if (wav_buf == NULL) {
-    log_e("Failed to allocate WAV buffer with size %u", rec_size + WAVE_HEADER_SIZE);
+    log_e("Failed to allocate WAV buffer with size %lu", (unsigned long)rec_size + WAVE_HEADER_SIZE);
     return NULL;
   }
   memcpy(wav_buf, &wav_header, WAVE_HEADER_SIZE);
   size_t wav_size = readBytes((char *)(wav_buf + WAVE_HEADER_SIZE), rec_size);
   if (wav_size < rec_size) {
-    log_e("Recorded %u bytes from %u", wav_size, rec_size);
+    log_e("Recorded %lu bytes from %lu", (unsigned long)wav_size, (unsigned long)rec_size);
   } else if (lastError()) {
     log_e("Read Failed! %d", lastError());
   } else {
@@ -993,20 +1028,21 @@ void I2SClass::playWAV(uint8_t *data, size_t len) {
   size_t data_offset = 0;
   while (memcmp(data_chunk->subchunk_id, "data", 4) != 0) {
     log_d(
-      "Skip chunk: %c%c%c%c, len: %lu", data_chunk->subchunk_id[0], data_chunk->subchunk_id[1], data_chunk->subchunk_id[2], data_chunk->subchunk_id[3],
+      "Skip chunk: %c%c%c%c, len: %" PRIu32, data_chunk->subchunk_id[0], data_chunk->subchunk_id[1], data_chunk->subchunk_id[2], data_chunk->subchunk_id[3],
       data_chunk->subchunk_size + 8
     );
     data_offset += data_chunk->subchunk_size + 8;
     data_chunk = (wav_data_chunk_t *)(data + WAVE_HEADER_SIZE + data_offset - 8);
   }
   log_d(
-    "Play WAV: rate:%lu, bits:%d, channels:%d, size:%lu", header->fmt_chunk.sample_rate, header->fmt_chunk.bits_per_sample, header->fmt_chunk.num_of_channels,
-    data_chunk->subchunk_size
+    "Play WAV: rate:%" PRIu32 ", bits:%u, channels:%u, size:%" PRIu32, header->fmt_chunk.sample_rate, header->fmt_chunk.bits_per_sample,
+    header->fmt_chunk.num_of_channels, data_chunk->subchunk_size
   );
   configureTX(header->fmt_chunk.sample_rate, (i2s_data_bit_width_t)header->fmt_chunk.bits_per_sample, (i2s_slot_mode_t)header->fmt_chunk.num_of_channels);
   write(data + WAVE_HEADER_SIZE + data_offset, data_chunk->subchunk_size);
 }
 
+#if ARDUINO_HAS_MP3_DECODER
 bool I2SClass::playMP3(uint8_t *src, size_t src_len) {
   int16_t outBuf[MAX_NCHAN * MAX_NGRAN * MAX_NSAMP];
   uint8_t *readPtr = NULL;
@@ -1044,5 +1080,6 @@ bool I2SClass::playMP3(uint8_t *src, size_t src_len) {
   MP3FreeDecoder(decoder);
   return true;
 }
+#endif
 
 #endif /* SOC_I2S_SUPPORTED */

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "soc/soc_caps.h"
+#include <inttypes.h>
 
 #if SOC_RMT_SUPPORTED
 #include "esp32-hal.h"
@@ -125,7 +126,7 @@ static rmt_bus_handle_t _rmtGetBus(int pin, const char *labelFunc) {
   // Is pin RX or TX? Let's find it out
   peripheral_bus_type_t rmt_bus_type = perimanGetPinBusType(pin);
   if (rmt_bus_type != ESP32_BUS_TYPE_RMT_TX && rmt_bus_type != ESP32_BUS_TYPE_RMT_RX) {
-    log_e("==>%s():GPIO %u is not attached to an RMT channel.", labelFunc, pin);
+    log_e("==>%s():GPIO %d is not attached to an RMT channel.", labelFunc, pin);
     return NULL;
   }
 
@@ -206,7 +207,8 @@ bool rmtSetCarrier(int pin, bool carrier_en, bool carrier_level, uint32_t freque
     log_w("GPIO %d - RMT Carrier must be a float percentage from 0 to 1. Setting to 50%.", pin);
     duty_percent = 0.5;
   }
-  rmt_carrier_config_t carrier_cfg = {0};
+  rmt_carrier_config_t carrier_cfg;
+  memset((void *)&carrier_cfg, 0, sizeof(rmt_carrier_config_t));
   carrier_cfg.duty_cycle = duty_percent;                     // duty cycle
   carrier_cfg.frequency_hz = carrier_en ? frequency_Hz : 0;  // carrier frequency in Hz
   carrier_cfg.flags.polarity_active_low = carrier_level;     // carrier modulation polarity level
@@ -263,7 +265,7 @@ bool rmtSetRxMaxThreshold(int pin, uint16_t idle_thres_ticks) {
   // RMT_LL_MAX_IDLE_VALUE is 65535 for ESP32,S2 and 32767 for S3, C3, C6 and H2
 #if RMT_LL_MAX_IDLE_VALUE < 65535  // idle_thres_ticks is 16 bits anyway - save some bytes
   if (idle_thres_ticks > RMT_LL_MAX_IDLE_VALUE) {
-    log_e("idle_thres_ticks is too big. Max = %ld", RMT_LL_MAX_IDLE_VALUE);
+    log_e("idle_thres_ticks is too big. Max = %u", RMT_LL_MAX_IDLE_VALUE);
     return false;
   }
 #endif
@@ -284,7 +286,7 @@ bool rmtDeinit(int pin) {
   return false;
 }
 
-static bool _rmtWrite(int pin, rmt_data_t *data, size_t num_rmt_symbols, bool blocking, bool loop, uint32_t timeout_ms) {
+static bool _rmtWrite(int pin, rmt_data_t *data, size_t num_rmt_symbols, bool blocking, uint32_t loop, uint32_t timeout_ms) {
   rmt_bus_handle_t bus = _rmtGetBus(pin, __FUNCTION__);
   if (bus == NULL) {
     return false;
@@ -302,18 +304,31 @@ static bool _rmtWrite(int pin, rmt_data_t *data, size_t num_rmt_symbols, bool bl
     }
   }
 
-  log_v("GPIO: %d - Request: %d RMT Symbols - %s - Timeout: %d", pin, num_rmt_symbols, blocking ? "Blocking" : "Non-Blocking", timeout_ms);
+#if ARDUHAL_LOG_LEVEL >= ARDUHAL_LOG_LEVEL_VERBOSE
   log_v(
-    "GPIO: %d - Currently in Loop Mode: [%s] | Asked to Loop: %s, LoopCancel: %s", pin, bus->rmt_ch_is_looping ? "YES" : "NO", loop ? "YES" : "NO",
-    loopCancel ? "YES" : "NO"
+    "GPIO: %d - Request: %lu RMT Symbols - %s - Timeout: %" PRIu32, pin, (unsigned long)num_rmt_symbols, blocking ? "Blocking" : "Non-Blocking", timeout_ms
   );
+  // loop parameter semantics:
+  //   loop == 0: no looping (single transmission)
+  //   loop == 1: infinite looping
+  //   loop > 1: transmit the data 'loop' times
+  {
+    char buf[17];  // placeholder for up to maximum uint32_t value (4294967295) = 10 digits + " times" (6 chars) + null terminator (17 bytes)
+    snprintf(buf, sizeof(buf), "%" PRIu32 " times", loop);
+    log_v(
+      "GPIO: %d - Currently in Loop Mode: [%s] | Loop Request: [%s], LoopCancel: [%s]", pin, bus->rmt_ch_is_looping ? "YES" : "NO",
+      loop == 0 ? "NO" : (loop == 1 ? "FOREVER" : buf), loopCancel ? "YES" : "NO"
+    );
+  }
+#endif
 
   if ((xEventGroupGetBits(bus->rmt_events) & RMT_FLAG_TX_DONE) == 0) {
     log_v("GPIO %d - RMT Write still pending to be completed.", pin);
     return false;
   }
 
-  rmt_transmit_config_t transmit_cfg = {0};  // loop mode disabled
+  rmt_transmit_config_t transmit_cfg;  // loop mode disabled
+  memset((void *)&transmit_cfg, 0, sizeof(rmt_transmit_config_t));
   bool retCode = true;
 
   RMT_MUTEX_LOCK(bus);
@@ -334,8 +349,8 @@ static bool _rmtWrite(int pin, rmt_data_t *data, size_t num_rmt_symbols, bool bl
     bus->rmt_ch_is_looping = false;
   } else {  // new writing | looping request
     // looping | Writing over a previous looping state is valid
-    if (loop) {
-      transmit_cfg.loop_count = -1;  // enable infinite loop mode
+    if (loop > 0) {
+      transmit_cfg.loop_count = (loop == 1) ? -1 : loop;
       // keeps RMT_FLAG_TX_DONE set - it never changes
     } else {
       // looping mode never sets this flag (IDF 5.1) in the callback
@@ -346,8 +361,10 @@ static bool _rmtWrite(int pin, rmt_data_t *data, size_t num_rmt_symbols, bool bl
       retCode = false;
       log_w("GPIO %d - RMT Transmission failed.", pin);
     } else {  // transmit OK
-      if (loop) {
-        bus->rmt_ch_is_looping = true;  // for ever... until a channel canceling or new writing
+      if (loop > 0) {
+        // rmt_ch_is_looping is used as a flag to indicate that RMT is in looping execution in order to
+        // be canceled whenever a new _rmtWrite() is executed while it is looping
+        bus->rmt_ch_is_looping = true;
       } else {
         if (blocking) {
           // wait for transmission confirmation | timeout
@@ -374,17 +391,26 @@ static bool _rmtRead(int pin, rmt_data_t *data, size_t *num_rmt_symbols, bool wa
     log_w("GPIO %d - RMT Read Data and/or Size NULL pointer.", pin);
     return false;
   }
-  log_v("GPIO: %d - Request: %d RMT Symbols - %s - Timeout: %d", pin, *num_rmt_symbols, waitForData ? "Blocking" : "Non-Blocking", timeout_ms);
+  log_v(
+    "GPIO: %d - Request: %lu RMT Symbols - %s - Timeout: %" PRIu32, pin, (unsigned long)*num_rmt_symbols, waitForData ? "Blocking" : "Non-Blocking", timeout_ms
+  );
   bool retCode = true;
   RMT_MUTEX_LOCK(bus);
 
   // request reading RMT Channel Data
   rmt_receive_config_t receive_config;
+  memset((void *)&receive_config, 0, sizeof(rmt_receive_config_t));
   receive_config.signal_range_min_ns = bus->signal_range_min_ns;
   receive_config.signal_range_max_ns = bus->signal_range_max_ns;
 
   xEventGroupClearBits(bus->rmt_events, RMT_FLAG_RX_DONE);
   bus->num_symbols_read = num_rmt_symbols;
+
+  if (waitForData) {
+    // resets the reading channel to start fresh
+    rmt_disable(bus->rmt_channel_h);
+    rmt_enable(bus->rmt_channel_h);
+  }
 
   rmt_receive(bus->rmt_channel_h, data, *num_rmt_symbols * sizeof(rmt_data_t), &receive_config);
   // wait for data if requested
@@ -399,15 +425,36 @@ static bool _rmtRead(int pin, rmt_data_t *data, size_t *num_rmt_symbols, bool wa
 }
 
 bool rmtWrite(int pin, rmt_data_t *data, size_t num_rmt_symbols, uint32_t timeout_ms) {
-  return _rmtWrite(pin, data, num_rmt_symbols, true /*blocks*/, false /*looping*/, timeout_ms);
+  return _rmtWrite(pin, data, num_rmt_symbols, true /*blocks*/, 0 /*looping*/, timeout_ms);
 }
 
 bool rmtWriteAsync(int pin, rmt_data_t *data, size_t num_rmt_symbols) {
-  return _rmtWrite(pin, data, num_rmt_symbols, false /*blocks*/, false /*looping*/, 0 /*N/A*/);
+  return _rmtWrite(pin, data, num_rmt_symbols, false /*blocks*/, 0 /*looping*/, 0 /*N/A*/);
 }
 
 bool rmtWriteLooping(int pin, rmt_data_t *data, size_t num_rmt_symbols) {
-  return _rmtWrite(pin, data, num_rmt_symbols, false /*blocks*/, true /*looping*/, 0 /*N/A*/);
+  return _rmtWrite(pin, data, num_rmt_symbols, false /*blocks*/, 1 /*looping*/, 0 /*N/A*/);
+}
+
+// Same as rmtWriteLooping(...) but it transmits the data a fixed number of times ("loop_count").
+// loop_count == 0 is invalid (no transmission); loop_count == 1 transmits once (no looping); loop_count > 1 transmits the data repeatedly (looping).
+bool rmtWriteRepeated(int pin, rmt_data_t *data, size_t num_rmt_symbols, uint32_t loop_count) {
+  if (loop_count == 0) {
+    log_e("RMT TX GPIO %d : Invalid loop_count (%" PRIu32 "). Must be at least 1.", pin, loop_count);
+    return false;
+  }
+  if (loop_count == 1) {
+    // send the RMT symbols once using non-blocking write (single non-looping transmission)
+    return _rmtWrite(pin, data, num_rmt_symbols, false /*blocks*/, 0 /*looping*/, 0 /*N/A*/);
+  } else {
+    // write the RMT symbols for loop_count times
+#if SOC_RMT_SUPPORT_TX_LOOP_COUNT
+    return _rmtWrite(pin, data, num_rmt_symbols, false /*blocks*/, loop_count /*looping*/, 0 /*N/A*/);
+#else
+    log_e("RMT TX GPIO %d : Loop Count is not supported. Writing failed.", pin);
+    return false;
+#endif
+  }
 }
 
 bool rmtTransmitCompleted(int pin) {
@@ -452,7 +499,7 @@ bool rmtReceiveCompleted(int pin) {
 
 bool rmtInit(int pin, rmt_ch_dir_t channel_direction, rmt_reserve_memsize_t mem_size, uint32_t frequency_Hz) {
   log_v(
-    "GPIO %d - %s - MemSize[%d] - Freq=%dHz", pin, channel_direction == RMT_RX_MODE ? "RX MODE" : "TX MODE", mem_size * RMT_SYMBOLS_PER_CHANNEL_BLOCK,
+    "GPIO %d - %s - MemSize[%u] - Freq=%" PRIu32 "Hz", pin, channel_direction == RMT_RX_MODE ? "RX MODE" : "TX MODE", mem_size * RMT_SYMBOLS_PER_CHANNEL_BLOCK,
     frequency_Hz
   );
 
@@ -530,6 +577,7 @@ bool rmtInit(int pin, rmt_ch_dir_t channel_direction, rmt_reserve_memsize_t mem_
   if (channel_direction == RMT_TX_MODE) {
     // TX Channel
     rmt_tx_channel_config_t tx_cfg;
+    memset((void *)&tx_cfg, 0, sizeof(rmt_tx_channel_config_t));
     tx_cfg.gpio_num = pin;
     // CLK_APB for ESP32|S2|S3|C3 -- CLK_PLL_F80M for C6 -- CLK_XTAL for H2
     tx_cfg.clk_src = RMT_CLK_SRC_DEFAULT;
@@ -559,6 +607,7 @@ bool rmtInit(int pin, rmt_ch_dir_t channel_direction, rmt_reserve_memsize_t mem_
   } else {
     // RX Channel
     rmt_rx_channel_config_t rx_cfg;
+    memset((void *)&rx_cfg, 0, sizeof(rmt_rx_channel_config_t));
     rx_cfg.gpio_num = pin;
     // CLK_APB for ESP32|S2|S3|C3 -- CLK_PLL_F80M for C6 -- CLK_XTAL for H2
     rx_cfg.clk_src = RMT_CLK_SRC_DEFAULT;
@@ -585,7 +634,8 @@ bool rmtInit(int pin, rmt_ch_dir_t channel_direction, rmt_reserve_memsize_t mem_
   }
 
   // allocate memory for the RMT Copy encoder
-  rmt_copy_encoder_config_t copy_encoder_config = {};
+  rmt_copy_encoder_config_t copy_encoder_config;
+  memset((void *)&copy_encoder_config, 0, sizeof(rmt_copy_encoder_config_t));
   if (rmt_new_copy_encoder(&copy_encoder_config, &bus->rmt_copy_encoder_h) != ESP_OK) {
     log_e("GPIO %d - RMT Encoder Memory Allocation error.", pin);
     goto Err;

@@ -32,8 +32,6 @@ public:
   size_t usedBytes();
   size_t freeBytes();
   void end();
-  bool exists(const char *path);
-  bool exists(const String &path);
 
 private:
   wl_handle_t _wl_handle = WL_INVALID_HANDLE;
@@ -41,6 +39,8 @@ private:
 
 }  // namespace fs
 
+#if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_FFAT)
 extern fs::F_Fat FFat;
+#endif
 
 #endif /* _FFAT_H_ */

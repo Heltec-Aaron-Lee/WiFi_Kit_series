@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <ArduinoOTA.h>
@@ -9,17 +10,15 @@ const char *password = "........";
 WebServer server(80);
 
 typedef struct credentials_t {
-  char *username;
-  char *password;
+  const char *username;
+  const char *password;
 } credentials_t;
 
 credentials_t passwdfile[] = {{"admin", "esp32"}, {"fred", "41234123"}, {"charlie", "sdfsd"}, {"alice", "vambdnkuhj"}, {"bob", "svcdbjhws12"}, {NULL, NULL}};
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) {
-    delay(10);
-  }
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
