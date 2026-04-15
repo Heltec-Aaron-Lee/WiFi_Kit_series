@@ -36,25 +36,33 @@ class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks {
     if (advertisedDevice.haveManufacturerData() == true) {
       String strManufacturerData = advertisedDevice.getManufacturerData();
 
-      uint8_t cManufacturerData[100];
-      memcpy(cManufacturerData, strManufacturerData.c_str(), strManufacturerData.length());
+      // Buffer to store manufacturer data (BLE max is 255 bytes)
+      uint8_t cManufacturerData[255];
+      size_t dataLength = strManufacturerData.length();
 
-      if (strManufacturerData.length() == 25 && cManufacturerData[0] == 0x4C && cManufacturerData[1] == 0x00) {
-        Serial.println("Found an iBeacon!");
-        BLEBeacon oBeacon = BLEBeacon();
-        oBeacon.setData(strManufacturerData);
-        Serial.printf("iBeacon Frame\n");
-        Serial.printf(
-          "ID: %04X Major: %d Minor: %d UUID: %s Power: %d\n", oBeacon.getManufacturerId(), ENDIAN_CHANGE_U16(oBeacon.getMajor()),
-          ENDIAN_CHANGE_U16(oBeacon.getMinor()), oBeacon.getProximityUUID().toString().c_str(), oBeacon.getSignalPower()
-        );
-      } else {
-        Serial.println("Found another manufacturers beacon!");
-        Serial.printf("strManufacturerData: %d ", strManufacturerData.length());
-        for (int i = 0; i < strManufacturerData.length(); i++) {
-          Serial.printf("[%X]", cManufacturerData[i]);
+      // Bounds checking to prevent buffer overflow
+      if (dataLength <= sizeof(cManufacturerData)) {
+        memcpy(cManufacturerData, strManufacturerData.c_str(), dataLength);
+
+        if (dataLength == 25 && cManufacturerData[0] == 0x4C && cManufacturerData[1] == 0x00) {
+          Serial.println("Found an iBeacon!");
+          BLEBeacon oBeacon = BLEBeacon();
+          oBeacon.setData(strManufacturerData);
+          Serial.printf("iBeacon Frame\n");
+          Serial.printf(
+            "ID: %04X Major: %u Minor: %u UUID: %s Power: %d\n", oBeacon.getManufacturerId(), ENDIAN_CHANGE_U16(oBeacon.getMajor()),
+            ENDIAN_CHANGE_U16(oBeacon.getMinor()), oBeacon.getProximityUUID().toString().c_str(), oBeacon.getSignalPower()
+          );
+        } else {
+          Serial.println("Found another manufacturers beacon!");
+          Serial.printf("strManufacturerData: %lu ", (unsigned long)dataLength);
+          for (int i = 0; i < dataLength; i++) {
+            Serial.printf("[%02X]", cManufacturerData[i]);
+          }
+          Serial.printf("\n");
         }
-        Serial.printf("\n");
+      } else {
+        Serial.printf("Manufacturer data too large (%lu bytes), skipping\n", (unsigned long)dataLength);
       }
     }
 
@@ -76,10 +84,10 @@ class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks {
     if (advertisedDevice.getFrameType() == BLE_EDDYSTONE_TLM_FRAME) {
       Serial.println("Found an EddystoneTLM beacon!");
       BLEEddystoneTLM EddystoneTLM(&advertisedDevice);
-      Serial.printf("Reported battery voltage: %dmV\n", EddystoneTLM.getVolt());
+      Serial.printf("Reported battery voltage: %umV\n", EddystoneTLM.getVolt());
       Serial.printf("Reported temperature: %.2f°C (raw data=0x%04X)\n", EddystoneTLM.getTemp(), EddystoneTLM.getRawTemp());
-      Serial.printf("Reported advertise count: %lu\n", EddystoneTLM.getCount());
-      Serial.printf("Reported time since last reboot: %lus\n", EddystoneTLM.getTime());
+      Serial.printf("Reported advertise count: %" PRIu32 "\n", EddystoneTLM.getCount());
+      Serial.printf("Reported time since last reboot: %" PRIu32 "s\n", EddystoneTLM.getTime());
       Serial.println("\n");
       Serial.print(EddystoneTLM.toString().c_str());
       Serial.println("\n");

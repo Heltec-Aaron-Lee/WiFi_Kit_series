@@ -13,15 +13,17 @@
 // limitations under the License.
 
 /**
- * @brief This example demonstrates usage of RMT for receiving XJT D12 data
+ * @brief This example demonstrates usage of RMT for receiving XJT D16 data
  *
  * The output is the RMT data read and processed
  *
  */
 
+#include <Arduino.h>
+
 //
 // Note: This example uses a FrSKY device communication
-//          using XJT D12 protocol
+//          using XJT D16 protocol
 //
 // ; 0 bit = 6us low/10us high
 // ; 1 bit = 14us low/10us high
@@ -206,12 +208,12 @@ void loop() {
 
   // If read something, process the data
   if (rmtReceiveCompleted(RMT_GPIO)) {
-    Serial.printf("Got %d RMT Symbols. Parsing data...\n", data_symbols);
+    Serial.printf("Got %lu RMT Symbols. Parsing data...\n", (unsigned long)data_symbols);
     parseRmt(data, data_symbols, channels);
   } else {
     Serial.println("No RMT data read...");
   }
 
   // printout some of the channels every 500ms
-  Serial.printf("%04lx %04lx %04lx %04lx\n", channels[0], channels[1], channels[2], channels[3]);
+  Serial.printf("%04" PRIx32 " %04" PRIx32 " %04" PRIx32 " %04" PRIx32 "\n", channels[0], channels[1], channels[2], channels[3]);
 }

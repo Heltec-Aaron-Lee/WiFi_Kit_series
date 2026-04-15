@@ -2,23 +2,21 @@ import json
 import logging
 import os
 
+fib_results = {}
+
+
+def fib(n):
+    if n < 2:
+        return n
+    elif str(n) in fib_results:
+        return fib_results[str(n)]
+    else:
+        fib_results[str(n)] = fib(n - 1) + fib(n - 2)
+        return fib_results[str(n)]
+
 
 def test_fibonacci(dut, request):
     LOGGER = logging.getLogger(__name__)
-
-    # Fibonacci results starting from fib(35) to fib(45)
-    fib_results = [
-        9227465,
-        14930352,
-        24157817,
-        39088169,
-        63245986,
-        102334155,
-        165580141,
-        267914296,
-        433494437,
-        701408733,
-    ]
 
     # Match "Runs: %d"
     res = dut.expect(r"Runs: (\d+)", timeout=60)
@@ -30,7 +28,11 @@ def test_fibonacci(dut, request):
     res = dut.expect(r"N: (\d+)", timeout=300)
     fib_n = int(res.group(0).decode("utf-8").split(" ")[1])
     LOGGER.info("Calculating Fibonacci({})".format(fib_n))
-    assert fib_n > 30 and fib_n < 50, "Invalid Fibonacci number"
+    assert fib_n > 0, "Invalid Fibonacci number"
+
+    # Calculate Fibonacci results
+    expected_result = fib(fib_n)
+    LOGGER.info("Expected Fibonacci result: {}".format(expected_result))
 
     list_time = []
 
@@ -48,7 +50,7 @@ def test_fibonacci(dut, request):
         assert fib_result > 0, "Invalid Fibonacci result"
 
         # Check if the result is correct
-        assert fib_result == fib_results[fib_n - 35]
+        assert fib_result == expected_result
 
         # Match "Time: %lu.%03lu s"
         res = dut.expect(r"Time: (\d+)\.(\d+) s", timeout=300)
@@ -59,19 +61,23 @@ def test_fibonacci(dut, request):
 
     avg_time = round(sum(list_time) / len(list_time), 3)
 
-    # Create JSON with results and write it to file
-    # Always create a JSON with this format (so it can be merged later on):
-    # { TEST_NAME_STR: TEST_RESULTS_DICT }
-    results = {"fibonacci": {"runs": runs, "fib_n": fib_n, "avg_time": avg_time}}
+    # Canonical performance result format (see .github/CI_README.md)
+    results = {
+        "test_name": "fibonacci",
+        "runs": runs,
+        "settings": "fib_n={}".format(fib_n),
+        "metrics": [{"name": "avg_time", "value": avg_time, "unit": "s"}],
+    }
 
     current_folder = os.path.dirname(request.path)
+    os.makedirs(os.path.join(current_folder, dut.app.target), exist_ok=True)
     file_index = 0
-    report_file = os.path.join(current_folder, "result_fibonacci" + str(file_index) + ".json")
+    report_file = os.path.join(current_folder, dut.app.target, "result_fibonacci" + str(file_index) + ".json")
     while os.path.exists(report_file):
         report_file = report_file.replace(str(file_index) + ".json", str(file_index + 1) + ".json")
         file_index += 1
 
-    with open(report_file, "w") as f:
+    with open(report_file, "w+") as f:
         try:
             f.write(json.dumps(results))
         except Exception as e:

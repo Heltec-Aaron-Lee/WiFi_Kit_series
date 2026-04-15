@@ -10,6 +10,7 @@
   by Lucas Saavedra Vaz (lucasssvaz)
 */
 
+#include <Arduino.h>
 #include "ESP_I2S.h"
 #include "FS.h"
 #include "SD_MMC.h"
@@ -32,9 +33,6 @@ void setup() {
 
   // Initialize the serial port
   Serial.begin(115200);
-  while (!Serial) {
-    delay(10);
-  }
 
   Serial.println("Initializing I2S bus...");
 

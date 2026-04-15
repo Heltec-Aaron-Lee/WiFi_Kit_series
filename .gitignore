@@ -1,4 +1,5 @@
 tools/esp32-arduino-libs
+tools/xtensa-esp-elf
 tools/xtensa-esp32-elf
 tools/xtensa-esp32s2-elf
 tools/xtensa-esp32s3-elf
@@ -22,7 +23,7 @@ tools/openocd-esp32
 # Ignore build folder
 /build
 
-# Ignore files built by Visual Studio/Visual Micro
+# Ignore files built by Visual Studio/Visual Micro and other IDEs
 [Dd]ebug/
 [Rr]elease/
 .vs/
@@ -31,6 +32,8 @@ __vm/
 .vscode/
 platform.sloeber.txt
 boards.sloeber.txt
+/.idea/
+.github/copilot-instructions.md
 
 # Ignore docs build (Sphinx)
 docs/build
@@ -44,6 +47,7 @@ debug.cfg
 debug.svd
 debug_custom.json
 libraries/Insights/examples/*/*.ino.zip
+test_results.json
 
 # Vale Style
 .vale/styles/*
@@ -54,3 +58,10 @@ libraries/Insights/examples/*/*.ino.zip
 # Ignore Lib Builder Docker run scripts
 /run.sh
 /run.ps1
+
+# Ignore dependency analysis artifacts
+/dependencies.json
+/dependencies_reverse.json
+/affected_sketches.txt
+/affected_examples.txt
+/ctags_*

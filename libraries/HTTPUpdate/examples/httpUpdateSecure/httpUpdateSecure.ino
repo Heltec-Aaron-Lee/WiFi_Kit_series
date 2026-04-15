@@ -5,6 +5,7 @@
 
 */
 
+#include <Arduino.h>
 #include <WiFi.h>
 #include <WiFiMulti.h>
 
@@ -32,7 +33,8 @@ void setClock() {
   struct tm timeinfo;
   gmtime_r(&now, &timeinfo);
   Serial.print(F("Current time: "));
-  Serial.print(asctime(&timeinfo));
+  char buf[26];
+  Serial.print(asctime_r(&timeinfo, buf));
 }
 
 /**
@@ -76,7 +78,7 @@ void setup() {
   Serial.println();
 
   for (uint8_t t = 4; t > 0; t--) {
-    Serial.printf("[SETUP] WAIT %d...\n", t);
+    Serial.printf("[SETUP] WAIT %u...\n", t);
     Serial.flush();
     delay(1000);
   }

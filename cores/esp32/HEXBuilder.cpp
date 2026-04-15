@@ -17,14 +17,27 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include <Arduino.h>
-#include <HEXBuilder.h>
+#include "HEXBuilder.h"
+#include <ctype.h>
 
 static uint8_t hex_char_to_byte(uint8_t c) {
   return (c >= 'a' && c <= 'f')   ? (c - ((uint8_t)'a' - 0xa))
          : (c >= 'A' && c <= 'F') ? (c - ((uint8_t)'A' - 0xA))
          : (c >= '0' && c <= '9') ? (c - (uint8_t)'0')
                                   : 0x10;  // unknown char is 16
+}
+
+bool HEXBuilder::isHexString(const char *str, size_t len) {
+  for (size_t i = 0; i < len; i++) {
+    if (isxdigit(str[i]) == 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool HEXBuilder::isHexString(String str) {
+  return isHexString(str.c_str(), str.length());
 }
 
 size_t HEXBuilder::hex2bytes(unsigned char *out, size_t maxlen, String &in) {
@@ -55,9 +68,15 @@ size_t HEXBuilder::hex2bytes(unsigned char *out, size_t maxlen, const char *in) 
 }
 
 size_t HEXBuilder::bytes2hex(char *out, size_t maxlen, const unsigned char *in, size_t len) {
+  if (maxlen > 0) {
+    out[0] = '\0';
+  }
   for (size_t i = 0; i < len; i++) {
-    if (i * 2 + 1 < maxlen) {
-      sprintf(out + (i * 2), "%02x", in[i]);
+    size_t pos = i * 2;
+    if (pos + 2 < maxlen) {
+      snprintf(out + pos, 3, "%02x", in[i]);
+    } else if (pos < maxlen) {
+      snprintf(out + pos, maxlen - pos, "%02x", in[i]);
     }
   }
   return len * 2 + 1;

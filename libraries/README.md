@@ -1,9 +1,9 @@
 # ESP32 Libraries
 
-arduino-esp32 includes libraries for Arduino compatibility along with some object wrappers around hardware specific devices.  Examples are included in the examples folder under each library folder.  The ESP32 includes additional examples which need no special drivers.
+arduino-esp32 includes libraries for Arduino compatibility along with some object wrappers around hardware specific devices. Examples are included in the examples folder under each library folder. The ESP32 includes additional examples which need no special drivers.
 
 ### ArduinoOTA
-  Over The Air firmware update daemon.  Use espota.py to upload to the device.
+  Over The Air firmware update daemon. Use espota.py to upload to the device.
 
 ### AsyncUDP
   Asynchronous task driven UDP datagram client/server
@@ -88,6 +88,9 @@ arduino-esp32 includes libraries for Arduino compatibility along with some objec
 ### SPIFFS
   SPI Flash Filesystem (see [spiffs-plugin](https://github.com/me-no-dev/arduino-esp32fs-plugin) to upload to device)
 
+### SR
+  ESP-SR helps users build AI speech solutions based on ESP32-S3 or ESP32-P4 chips
+
 ### Ticker
   A timer to call functions on an interval
 
@@ -100,11 +103,13 @@ arduino-esp32 includes libraries for Arduino compatibility along with some objec
 ### WebServer
   A simple HTTP daemon
 
+<!-- vale off -->
 ### WiFi
-  Arduino compatible WiFi driver (includes Ethernet driver)
+<!-- vale on -->
+  Arduino compatible Wi-Fi driver
 
 ### NetworkClientSecure
-  Arduino compatible WiFi client object using embedded encryption
+  Arduino compatible Wi-Fi client object using embedded encryption
 
 ### Wire
   Arduino compatible I2C driver

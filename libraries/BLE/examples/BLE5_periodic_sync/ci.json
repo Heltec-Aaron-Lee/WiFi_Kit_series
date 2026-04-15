@@ -1,6 +1,0 @@
-{
-  "targets": {
-    "esp32": false,
-    "esp32s2": false
-  }
-}

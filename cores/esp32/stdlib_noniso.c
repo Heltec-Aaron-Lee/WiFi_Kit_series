@@ -49,7 +49,7 @@ char *ltoa(long value, char *result, int base) {
   }
 
   char *out = result;
-  long quotient = abs(value);
+  long quotient = labs(value);
 
   do {
     const long tmp = quotient / base;
@@ -140,11 +140,11 @@ char *dtostrf(double number, signed int width, unsigned int prec, char *s) {
   bool negative = false;
 
   if (isnan(number)) {
-    strcpy(s, "nan");
+    memcpy(s, "nan", sizeof("nan"));
     return s;
   }
   if (isinf(number)) {
-    strcpy(s, "inf");
+    memcpy(s, "inf", sizeof("inf"));
     return s;
   }
 

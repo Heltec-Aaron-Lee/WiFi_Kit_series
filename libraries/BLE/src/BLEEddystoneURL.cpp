@@ -1,16 +1,39 @@
 /*
+ * Copyright 2017-2026 Espressif Systems (Shanghai) PTE LTD
+ * Copyright 2017 Neil Kolban
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * BLEEddystoneURL.cpp
  *
  *  Created on: Mar 12, 2018
  *      Author: pcbreflux
+ *
  *  Upgraded on: Feb 20, 2023
  *      By: Tomas Pilny
+ *
+ *  Modified on: Feb 18, 2025
+ *      Author: lucasssvaz (based on pcbreflux's and h2zero's work)
+ *      Description: Added support for NimBLE
  */
-#include "soc/soc_caps.h"
-#if SOC_BLE_SUPPORTED
 
+#include "soc/soc_caps.h"
 #include "sdkconfig.h"
-#if defined(CONFIG_BLUEDROID_ENABLED)
+#if defined(SOC_BLE_SUPPORTED) || defined(CONFIG_ESP_HOSTED_ENABLE_BT_NIMBLE)
+#if defined(CONFIG_BLUEDROID_ENABLED) || defined(CONFIG_NIMBLE_ENABLED)
+
 #include <string.h>
 #include "esp32-hal-log.h"
 #include "BLEEddystoneURL.h"
@@ -61,7 +84,7 @@ BLEEddystoneURL::BLEEddystoneURL(BLEAdvertisedDevice *advertisedDevice) {
       if (lengthURL <= 18) {
         setData(String(payload + i + 4, lengthURL + 1));
       } else {
-        log_e("Too long URL %d", lengthURL);
+        log_e("Too long URL %u", lengthURL);
       }
     }
   }
@@ -149,7 +172,7 @@ String BLEEddystoneURL::getDecodedURL() {
  */
 void BLEEddystoneURL::setData(String data) {
   if (data.length() > sizeof(m_eddystoneData)) {
-    log_e("Unable to set the data ... length passed in was %d and max expected %d", data.length(), sizeof(m_eddystoneData));
+    log_e("Unable to set the data ... length passed in was %u and max expected %lu", data.length(), (unsigned long)sizeof(m_eddystoneData));
     return;
   }
   memset(&m_eddystoneData, 0, sizeof(m_eddystoneData));
@@ -158,40 +181,32 @@ void BLEEddystoneURL::setData(String data) {
 }  // setData
 
 void BLEEddystoneURL::setUUID(BLEUUID l_uuid) {
+#if defined(CONFIG_BLUEDROID_ENABLED)
   uint16_t beaconUUID = l_uuid.getNative()->uuid.uuid16;
+#elif defined(CONFIG_NIMBLE_ENABLED)
+  uint16_t beaconUUID = l_uuid.getNative()->u16.value;
+#endif
   BLEHeadder[10] = beaconUUID >> 8;
   BLEHeadder[9] = beaconUUID & 0x00FF;
 }  // setUUID
 
 void BLEEddystoneURL::setPower(esp_power_level_t advertisedTxPower) {
-  int tx_power;
+  int tx_power = 0;
+#if SOC_BLE_SUPPORTED
   switch (advertisedTxPower) {
-    case ESP_PWR_LVL_N12:  // 12dbm
-      tx_power = -12;
-      break;
-    case ESP_PWR_LVL_N9:  // -9dbm
-      tx_power = -9;
-      break;
-    case ESP_PWR_LVL_N6:  // -6dbm
-      tx_power = -6;
-      break;
-    case ESP_PWR_LVL_N3:  // -3dbm
-      tx_power = -3;
-      break;
-    case ESP_PWR_LVL_N0:  //  0dbm
-      tx_power = 0;
-      break;
-    case ESP_PWR_LVL_P3:  // +3dbm
-      tx_power = +3;
-      break;
-    case ESP_PWR_LVL_P6:  // +6dbm
-      tx_power = +6;
-      break;
-    case ESP_PWR_LVL_P9:  // +9dbm
-      tx_power = +9;
-      break;
-    default: tx_power = 0;
+    case ESP_PWR_LVL_N12: tx_power = -12; break;
+    case ESP_PWR_LVL_N9:  tx_power = -9; break;
+    case ESP_PWR_LVL_N6:  tx_power = -6; break;
+    case ESP_PWR_LVL_N3:  tx_power = -3; break;
+    case ESP_PWR_LVL_N0:  tx_power = 0; break;
+    case ESP_PWR_LVL_P3:  tx_power = +3; break;
+    case ESP_PWR_LVL_P6:  tx_power = +6; break;
+    case ESP_PWR_LVL_P9:  tx_power = +9; break;
+    default:              tx_power = 0; break;
   }
+#else
+  log_w("setPower not supported with hosted HCI - power controlled by co-processor");
+#endif
   m_eddystoneData.advertisedTxPower = int8_t((tx_power - -100) / 2);
 }  // setPower
 
@@ -207,7 +222,7 @@ void BLEEddystoneURL::setPower(int8_t advertisedTxPower) {
 // | Decoded | http:// |   g o o g l e  .com   |
 void BLEEddystoneURL::setURL(String url) {
   if (url.length() > sizeof(m_eddystoneData.url)) {
-    log_e("Unable to set the url ... length passed in was %d and max expected %d", url.length(), sizeof(m_eddystoneData.url));
+    log_e("Unable to set the url ... length passed in was %u and max expected %lu", url.length(), (unsigned long)sizeof(m_eddystoneData.url));
     return;
   }
   memset(m_eddystoneData.url, 0, sizeof(m_eddystoneData.url));
@@ -230,7 +245,7 @@ int BLEEddystoneURL::setSmartURL(String url) {
   bool hasSuffix = false;
   m_eddystoneData.url[0] = 0x00;  // Init with default prefix "http://www."
   uint8_t suffix = 0x0E;          // Init with empty string
-  log_d("Encode url \"%s\" with length %d", url.c_str(), url.length());
+  log_d("Encode url \"%s\" with length %u", url.c_str(), url.length());
   for (uint8_t i = 0; i < 4; ++i) {
     if (url.substring(0, EDDYSTONE_URL_PREFIX[i].length()) == EDDYSTONE_URL_PREFIX[i]) {
       m_eddystoneData.url[0] = i;
@@ -258,7 +273,7 @@ int BLEEddystoneURL::setSmartURL(String url) {
   size_t baseUrlLen = url.length() - (hasPrefix ? EDDYSTONE_URL_PREFIX[m_eddystoneData.url[0]].length() : 0) - EDDYSTONE_URL_SUFFIX[suffix].length();
   lengthURL = baseUrlLen + 1 + (hasSuffix ? 1 : 0);
   if (lengthURL > 18) {
-    log_e("Encoded URL is too long %d B - max 18 B", lengthURL);
+    log_e("Encoded URL is too long %u B - max 18 B", lengthURL);
     return 0;  // ERROR
   }
   String baseUrl = url.substring(
@@ -290,4 +305,4 @@ void BLEEddystoneURL::_initHeadder() {
 }
 
 #endif
-#endif /* SOC_BLE_SUPPORTED */
+#endif /* SOC_BLE_SUPPORTED || CONFIG_ESP_HOSTED_ENABLE_BT_NIMBLE */

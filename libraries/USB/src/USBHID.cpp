@@ -206,7 +206,9 @@ extern "C" uint16_t tusb_hid_load_descriptor(uint8_t *dst, uint8_t *itf) {
   uint8_t descriptor[TUD_HID_INOUT_DESC_LEN] = {
     // HID Input & Output descriptor
     // Interface number, string index, protocol, report descriptor len, EP OUT & IN address, size & polling interval
-    TUD_HID_INOUT_DESCRIPTOR(*itf, str_index, tinyusb_interface_protocol, tinyusb_hid_device_descriptor_len, ep_out, (uint8_t)(0x80 | ep_in), 64, 1)
+    TUD_HID_INOUT_DESCRIPTOR(
+      *itf, str_index, tinyusb_interface_protocol, tinyusb_hid_device_descriptor_len, ep_out, (uint8_t)(0x80 | ep_in), CFG_TUD_ENDPOINT_SIZE, 1
+    )
   };
   *itf += 1;
   memcpy(dst, descriptor, TUD_HID_INOUT_DESC_LEN);
@@ -259,7 +261,7 @@ uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_t
 // Invoked when received SET_REPORT control request or
 // received data on OUT endpoint ( Report ID = 0, Type = 0 )
 void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const *buffer, uint16_t bufsize) {
-  if (!report_id && !report_type) {
+  if (!report_id && (!report_type || report_type == HID_REPORT_TYPE_OUTPUT)) {
     if (!tinyusb_on_set_output(0, buffer, bufsize) && !tinyusb_on_set_output(buffer[0], buffer + 1, bufsize - 1)) {
       log_d(
         "instance: %u, report_id: %u, report_type: %s, bufsize: %u", instance, buffer[0], tinyusb_hid_device_report_types[HID_REPORT_TYPE_OUTPUT], bufsize - 1

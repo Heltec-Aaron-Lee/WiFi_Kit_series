@@ -19,6 +19,8 @@
    A connect handler associated with the server starts a background task that performs notification
    every couple of seconds.
 */
+
+#include <Arduino.h>
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
@@ -69,6 +71,7 @@ void setup() {
   );
 
   // Creates BLE Descriptor 0x2902: Client Characteristic Configuration Descriptor (CCCD)
+  // Descriptor 2902 is not required when using NimBLE as it is automatically added based on the characteristic properties
   pCharacteristic->addDescriptor(new BLE2902());
   // Adds also the Characteristic User Description - 0x2901 descriptor
   descriptor_2901 = new BLE2901();

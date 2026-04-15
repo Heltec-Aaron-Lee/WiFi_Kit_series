@@ -24,9 +24,10 @@
 extern "C" {
 #endif
 
+#include "pins_arduino.h"
 #include "esp32-hal.h"
 #include "soc/soc_caps.h"
-#include "pins_arduino.h"
+#include "driver/gpio.h"
 
 #if (CONFIG_IDF_TARGET_ESP32S2 || CONFIG_IDF_TARGET_ESP32S3)
 #define NUM_OUPUT_PINS 46

@@ -11,6 +11,8 @@
   using an RS485 tranciver, connect another serial monitor to the RS485 port. Entering data on one terminal
   should be displayed on the other terminal.
 */
+
+#include <Arduino.h>
 #include "hal/uart_types.h"
 
 #define RS485_RX_PIN  16
@@ -21,9 +23,6 @@
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) {
-    delay(10);
-  }
 
   RS485.begin(9600, SERIAL_8N1, RS485_RX_PIN, RS485_TX_PIN);
   while (!RS485) {

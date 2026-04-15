@@ -6,7 +6,7 @@
 
 #pragma once
 #include "sdkconfig.h"
-#if CONFIG_IDF_TARGET_ESP32S3 && (CONFIG_USE_WAKENET || CONFIG_USE_MULTINET)
+#if (CONFIG_IDF_TARGET_ESP32S3 || CONFIG_IDF_TARGET_ESP32P4) && (CONFIG_MODEL_IN_FLASH || CONFIG_MODEL_IN_SDCARD)
 
 #include "driver/i2s_types.h"
 #include "esp_err.h"
@@ -15,13 +15,11 @@
 extern "C" {
 #endif
 
-#define SR_CMD_STR_LEN_MAX     64
-#define SR_CMD_PHONEME_LEN_MAX 64
+#define SR_CMD_STR_LEN_MAX 256
 
 typedef struct sr_cmd_t {
   int command_id;
   char str[SR_CMD_STR_LEN_MAX];
-  char phoneme[SR_CMD_PHONEME_LEN_MAX];
 } sr_cmd_t;
 
 typedef enum {
@@ -42,6 +40,8 @@ typedef enum {
 typedef enum {
   SR_CHANNELS_MONO,
   SR_CHANNELS_STEREO,
+  SR_CHANNELS_TRIPLE,
+  SR_CHANNELS_QUAD,
   SR_CHANNELS_MAX
 } sr_channels_t;
 
@@ -49,7 +49,8 @@ typedef void (*sr_event_cb)(void *arg, sr_event_t event, int command_id, int phr
 typedef esp_err_t (*sr_fill_cb)(void *arg, void *out, size_t len, size_t *bytes_read, uint32_t timeout_ms);
 
 esp_err_t sr_start(
-  sr_fill_cb fill_cb, void *fill_cb_arg, sr_channels_t rx_chan, sr_mode_t mode, const sr_cmd_t *sr_commands, size_t cmd_number, sr_event_cb cb, void *cb_arg
+  sr_fill_cb fill_cb, void *fill_cb_arg, sr_channels_t rx_chan, sr_mode_t mode, const char *input_format, const sr_cmd_t *sr_commands, size_t cmd_number,
+  sr_event_cb cb, void *cb_arg
 );
 esp_err_t sr_stop(void);
 esp_err_t sr_pause(void);
@@ -57,18 +58,18 @@ esp_err_t sr_resume(void);
 esp_err_t sr_set_mode(sr_mode_t mode);
 
 // static const sr_cmd_t sr_commands[] = {
-//     {0, "Turn On the Light", "TkN nN jc LiT"},
-//     {0, "Switch On the Light", "SWgp nN jc LiT"},
-//     {1, "Switch Off the Light", "SWgp eF jc LiT"},
-//     {1, "Turn Off the Light", "TkN eF jc LiT"},
-//     {2, "Turn Red", "TkN RfD"},
-//     {3, "Turn Green", "TkN GRmN"},
-//     {4, "Turn Blue", "TkN BLo"},
-//     {5, "Customize Color", "KcSTcMiZ KcLk"},
-//     {6, "Sing a song", "Sgl c Sel"},
-//     {7, "Play Music", "PLd MYoZgK"},
-//     {8, "Next Song", "NfKST Sel"},
-//     {9, "Pause Playing", "PeZ PLdgl"},
+//     {0, "Turn On the Light"},
+//     {0, "Switch On the Light"},
+//     {1, "Switch Off the Light"},
+//     {1, "Turn Off the Light"},
+//     {2, "Turn Red"},
+//     {3, "Turn Green"},
+//     {4, "Turn Blue"},
+//     {5, "Customize Color"},
+//     {6, "Sing a song"},
+//     {7, "Play Music"},
+//     {8, "Next Song"},
+//     {9, "Pause Playing"},
 // };
 
 #ifdef __cplusplus

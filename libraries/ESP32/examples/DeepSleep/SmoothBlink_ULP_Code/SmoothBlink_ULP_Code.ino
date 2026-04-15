@@ -139,10 +139,9 @@ void ulp_setup() {
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) {}  // wait for Serial to start
 
   ulp_setup();  // it really only runs on the first ESP32 boot
-  Serial.printf("\nStarted smooth blink with delay %ld\n", *fadeCycleDelay);
+  Serial.printf("\nStarted smooth blink with delay %" PRIu32 "\n", *fadeCycleDelay);
 
   // *fadeCycleDelay resides in RTC_SLOW_MEM and persists along deep sleep waking up
   // it is used as a delay time parameter for smooth blinking, in the ULP processing code

@@ -34,12 +34,17 @@ void handleNotFound() {
 
 void setup() {
   Serial.begin(115200);
-  WiFi.mode(WIFI_AP);
-  WiFi.softAP("ESP32-DNSServer");
+  WiFi.AP.begin();
+  WiFi.AP.create("ESP32-DNSServer");
+  WiFi.AP.enableDhcpCaptivePortal();
 
   // by default DNSServer is started serving any "*" domain name. It will reply
   // AccessPoint's IP to all DNS request (this is required for Captive Portal detection)
-  dnsServer.start();
+  if (dnsServer.start()) {
+    Serial.println("Started DNS server in captive portal-mode");
+  } else {
+    Serial.println("Err: Can't start DNS server!");
+  }
 
   // serve a simple root page
   server.on("/", handleRoot);

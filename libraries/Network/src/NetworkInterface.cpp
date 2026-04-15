@@ -34,7 +34,20 @@ NetworkInterface *getNetifByID(Network_Interface_ID id) {
   return NULL;
 }
 
+#if CONFIG_LWIP_HOOK_IP6_INPUT_CUSTOM
+extern "C" int lwip_hook_ip6_input(struct pbuf *p, struct netif *inp) __attribute__((weak));
+extern "C" int lwip_hook_ip6_input(struct pbuf *p, struct netif *inp) {
+  if (ip6_addr_isany_val(inp->ip6_addr[0].u_addr.ip6)) {
+    // We don't have an LL address -> eat this packet here, so it won't get accepted on input netif
+    pbuf_free(p);
+    return 1;
+  }
+  return 0;
+}
+#endif
+
 static void _ip_event_cb(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data) {
+  (void)arg;
   if (event_base == IP_EVENT) {
     NetworkInterface *netif = NULL;
     if (event_id == IP_EVENT_STA_GOT_IP || event_id == IP_EVENT_ETH_GOT_IP || event_id == IP_EVENT_PPP_GOT_IP) {
@@ -69,7 +82,7 @@ void NetworkInterface::_onIpEvent(int32_t event_id, void *event_data) {
     );
 #endif
     memcpy(&arduino_event.event_info.got_ip, event_data, sizeof(ip_event_got_ip_t));
-#if SOC_WIFI_SUPPORTED
+#if SOC_WIFI_SUPPORTED || CONFIG_ESP_WIFI_REMOTE_ENABLED
     if (_interface_id == ESP_NETIF_ID_STA) {
       arduino_event.event_id = ARDUINO_EVENT_WIFI_STA_GOT_IP;
     } else
@@ -84,7 +97,8 @@ void NetworkInterface::_onIpEvent(int32_t event_id, void *event_data) {
 #if ARDUHAL_LOG_LEVEL >= ARDUHAL_LOG_LEVEL_VERBOSE
     log_v("%s Lost IP", desc());
 #endif
-#if SOC_WIFI_SUPPORTED
+    memcpy(&arduino_event.event_info.lost_ip, event_data, sizeof(ip_event_got_ip_t));
+#if SOC_WIFI_SUPPORTED || CONFIG_ESP_WIFI_REMOTE_ENABLED
     if (_interface_id == ESP_NETIF_ID_STA) {
       arduino_event.event_id = ARDUINO_EVENT_WIFI_STA_LOST_IP;
     } else
@@ -94,6 +108,7 @@ void NetworkInterface::_onIpEvent(int32_t event_id, void *event_data) {
     } else if (_interface_id >= ESP_NETIF_ID_ETH && _interface_id < ESP_NETIF_ID_MAX) {
       arduino_event.event_id = ARDUINO_EVENT_ETH_LOST_IP;
     }
+#if CONFIG_LWIP_IPV6
   } else if (event_id == IP_EVENT_GOT_IP6) {
     ip_event_got_ip6_t *event = (ip_event_got_ip6_t *)event_data;
     esp_ip6_addr_type_t addr_type = esp_netif_ip6_get_addr_type(&event->ip6_info.ip);
@@ -103,18 +118,14 @@ void NetworkInterface::_onIpEvent(int32_t event_id, void *event_data) {
       setStatusBits(ESP_NETIF_HAS_LOCAL_IP6_BIT);
     }
 #if ARDUHAL_LOG_LEVEL >= ARDUHAL_LOG_LEVEL_VERBOSE
-    char if_name[NETIF_NAMESIZE] = {
-      0,
-    };
-    netif_index_to_name(event->ip6_info.ip.zone, if_name);
     static const char *addr_types[] = {"UNKNOWN", "GLOBAL", "LINK_LOCAL", "SITE_LOCAL", "UNIQUE_LOCAL", "IPV4_MAPPED_IPV6"};
     log_v(
-      "IF %s Got IPv6: Interface: %d, IP Index: %d, Type: %s, Zone: %d (%s), Address: " IPV6STR, desc(), _interface_id, event->ip_index, addr_types[addr_type],
-      event->ip6_info.ip.zone, if_name, IPV62STR(event->ip6_info.ip)
+      "IF %s Got IPv6: Interface: %d, IP Index: %d, Type: %s, Zone: %u, Address: " IPV6STR, desc(), _interface_id, event->ip_index, addr_types[addr_type],
+      event->ip6_info.ip.zone, IPV62STR(event->ip6_info.ip)
     );
 #endif
     memcpy(&arduino_event.event_info.got_ip6, event_data, sizeof(ip_event_got_ip6_t));
-#if SOC_WIFI_SUPPORTED
+#if SOC_WIFI_SUPPORTED || CONFIG_ESP_WIFI_REMOTE_ENABLED
     if (_interface_id == ESP_NETIF_ID_STA) {
       arduino_event.event_id = ARDUINO_EVENT_WIFI_STA_GOT_IP6;
     } else if (_interface_id == ESP_NETIF_ID_AP) {
@@ -126,7 +137,8 @@ void NetworkInterface::_onIpEvent(int32_t event_id, void *event_data) {
     } else if (_interface_id >= ESP_NETIF_ID_ETH && _interface_id < ESP_NETIF_ID_MAX) {
       arduino_event.event_id = ARDUINO_EVENT_ETH_GOT_IP6;
     }
-#if SOC_WIFI_SUPPORTED
+#endif /* CONFIG_LWIP_IPV6 */
+#if SOC_WIFI_SUPPORTED || CONFIG_ESP_WIFI_REMOTE_ENABLED
   } else if (event_id == IP_EVENT_AP_STAIPASSIGNED && _interface_id == ESP_NETIF_ID_AP) {
     setStatusBits(ESP_NETIF_HAS_IP_BIT);
 #if ARDUHAL_LOG_LEVEL >= ARDUHAL_LOG_LEVEL_VERBOSE
@@ -318,6 +330,7 @@ bool NetworkInterface::hasGlobalIPv6() const {
 }
 
 bool NetworkInterface::enableIPv6(bool en) {
+#if CONFIG_LWIP_IPV6
   if (en) {
     setStatusBits(ESP_NETIF_WANT_IP6_BIT);
     if (_esp_netif != NULL && connected()) {
@@ -333,10 +346,13 @@ bool NetworkInterface::enableIPv6(bool en) {
     clearStatusBits(ESP_NETIF_WANT_IP6_BIT);
   }
   return true;
+#else
+  return false;
+#endif
 }
 
 bool NetworkInterface::dnsIP(uint8_t dns_no, IPAddress ip) {
-  if (_esp_netif == NULL || dns_no > 2) {
+  if (_esp_netif == NULL || dns_no >= ESP_NETIF_DNS_MAX) {
     return false;
   }
   esp_netif_flags_t flags = esp_netif_get_flags(_esp_netif);
@@ -592,13 +608,33 @@ int NetworkInterface::impl_index() const {
   return esp_netif_get_netif_impl_index(_esp_netif);
 }
 
-int NetworkInterface::route_prio() const {
+/**
+ * Every netif has a parameter named route_prio, you can refer to file esp_netif_defaults.h.
+ * A higher value of route_prio indicates a higher priority.
+ * The active interface with highest priority will be used for default route (gateway).
+ * Defaults are: STA=100, BR=70, ETH=50, PPP=20, AP/NAN=10
+ */
+int NetworkInterface::getRoutePrio() const {
   if (_esp_netif == NULL) {
     return -1;
   }
   return esp_netif_get_route_prio(_esp_netif);
 }
 
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 5, 0)
+int NetworkInterface::setRoutePrio(int prio) {
+  if (_esp_netif == NULL) {
+    return -1;
+  }
+  return esp_netif_set_route_prio(_esp_netif, prio);
+}
+#endif
+
+/**
+ * This API overrides the automatic configuration of the default interface based on the route_prio
+ * If the selected netif is set default using this API, no other interface could be set-default disregarding
+ * its route_prio number (unless the selected netif gets destroyed)
+ */
 bool NetworkInterface::setDefault() {
   if (_esp_netif == NULL) {
     return false;
@@ -634,7 +670,7 @@ String NetworkInterface::macAddress(void) const {
   uint8_t mac[6] = {0, 0, 0, 0, 0, 0};
   char macStr[18] = {0};
   macAddress(mac);
-  sprintf(macStr, "%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  snprintf(macStr, sizeof(macStr), "%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
   return String(macStr);
 }
 
@@ -672,11 +708,11 @@ IPAddress NetworkInterface::gatewayIP() const {
 }
 
 IPAddress NetworkInterface::dnsIP(uint8_t dns_no) const {
-  if (_esp_netif == NULL) {
+  if (_esp_netif == NULL || dns_no >= ESP_NETIF_DNS_MAX) {
     return IPAddress();
   }
   esp_netif_dns_info_t d;
-  if (esp_netif_get_dns_info(_esp_netif, dns_no ? ESP_NETIF_DNS_BACKUP : ESP_NETIF_DNS_MAIN, &d) != ESP_OK) {
+  if (esp_netif_get_dns_info(_esp_netif, (esp_netif_dns_type_t)dns_no, &d) != ESP_OK) {
     return IPAddress();
   }
   if (d.ip.type == ESP_IPADDR_TYPE_V6) {
@@ -731,6 +767,7 @@ uint8_t NetworkInterface::subnetCIDR() const {
   return calculateSubnetCIDR(IPAddress(ip.netmask.addr));
 }
 
+#if CONFIG_LWIP_IPV6
 IPAddress NetworkInterface::linkLocalIPv6() const {
   if (_esp_netif == NULL) {
     return IPAddress(IPv6);
@@ -752,6 +789,7 @@ IPAddress NetworkInterface::globalIPv6() const {
   }
   return IPAddress(IPv6, (const uint8_t *)addr.addr, addr.zone);
 }
+#endif
 
 size_t NetworkInterface::printTo(Print &out) const {
   size_t bytes = 0;
@@ -803,7 +841,11 @@ size_t NetworkInterface::printTo(Print &out) const {
   if (flags & ESP_NETIF_FLAG_MLDV6_REPORT) {
     bytes += out.print(",V6_REP");
   }
-  bytes += out.println(")");
+  bytes += out.print(")");
+
+  bytes += out.print(" PRIO: ");
+  bytes += out.print(getRoutePrio());
+  bytes += out.println("");
 
   bytes += out.print("      ");
   bytes += out.print("ether ");
@@ -826,6 +868,7 @@ size_t NetworkInterface::printTo(Print &out) const {
   bytes += out.print(dnsIP());
   bytes += out.println();
 
+#if CONFIG_LWIP_IPV6
   static const char *types[] = {"UNKNOWN", "GLOBAL", "LINK_LOCAL", "SITE_LOCAL", "UNIQUE_LOCAL", "IPV4_MAPPED_IPV6"};
   esp_ip6_addr_t if_ip6[CONFIG_LWIP_IPV6_NUM_ADDRESSES];
   int v6addrs = esp_netif_get_all_ip6(_esp_netif, if_ip6);
@@ -837,6 +880,7 @@ size_t NetworkInterface::printTo(Print &out) const {
     bytes += out.print(types[esp_netif_ip6_get_addr_type(&if_ip6[i])]);
     bytes += out.println();
   }
+#endif
 
   return bytes;
 }

@@ -15,6 +15,8 @@
 #include "esp32-hal-i2c.h"
 
 #if SOC_I2C_SUPPORTED
+#include "esp_idf_version.h"
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 4, 0)
 #include "esp32-hal.h"
 #if !CONFIG_DISABLE_HAL_LOCKS
 #include "freertos/FreeRTOS.h"
@@ -29,6 +31,19 @@
 #include "hal/i2c_ll.h"
 #include "driver/i2c.h"
 #include "esp32-hal-periman.h"
+#include "esp_private/periph_ctrl.h"
+
+#if SOC_PERIPH_CLK_CTRL_SHARED
+#define I2C_CLOCK_SRC_ATOMIC() PERIPH_RCC_ATOMIC()
+#else
+#define I2C_CLOCK_SRC_ATOMIC()
+#endif
+
+#if !SOC_RCC_IS_INDEPENDENT
+#define I2C_RCC_ATOMIC() PERIPH_RCC_ATOMIC()
+#else
+#define I2C_RCC_ATOMIC()
+#endif
 
 #if SOC_I2C_SUPPORT_APB || SOC_I2C_SUPPORT_XTAL
 #include "esp_private/esp_clk.h"
@@ -71,6 +86,7 @@ bool i2cIsInit(uint8_t i2c_num) {
 }
 
 esp_err_t i2cInit(uint8_t i2c_num, int8_t sda, int8_t scl, uint32_t frequency) {
+  esp_err_t ret = ESP_OK;
   if (i2c_num >= SOC_I2C_NUM) {
     return ESP_ERR_INVALID_ARG;
   }
@@ -90,7 +106,8 @@ esp_err_t i2cInit(uint8_t i2c_num, int8_t sda, int8_t scl, uint32_t frequency) {
 #endif
   if (bus[i2c_num].initialized) {
     log_e("bus is already initialized");
-    return ESP_FAIL;
+    ret = ESP_FAIL;
+    goto init_fail;
   }
 
   if (!frequency) {
@@ -103,10 +120,11 @@ esp_err_t i2cInit(uint8_t i2c_num, int8_t sda, int8_t scl, uint32_t frequency) {
   perimanSetBusDeinit(ESP32_BUS_TYPE_I2C_MASTER_SCL, i2cDetachBus);
 
   if (!perimanClearPinBus(sda) || !perimanClearPinBus(scl)) {
-    return false;
+    ret = ESP_FAIL;
+    goto init_fail;
   }
 
-  log_i("Initializing I2C Master: sda=%d scl=%d freq=%d", sda, scl, frequency);
+  log_i("Initializing I2C Master: sda=%d scl=%d freq=%" PRIu32, sda, scl, frequency);
 
   i2c_config_t conf = {};
   conf.mode = I2C_MODE_MASTER;
@@ -117,7 +135,7 @@ esp_err_t i2cInit(uint8_t i2c_num, int8_t sda, int8_t scl, uint32_t frequency) {
   conf.master.clk_speed = frequency;
   conf.clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL;  //Any one clock source that is available for the specified frequency may be chosen
 
-  esp_err_t ret = i2c_param_config((i2c_port_t)i2c_num, &conf);
+  ret = i2c_param_config((i2c_port_t)i2c_num, &conf);
   if (ret != ESP_OK) {
     log_e("i2c_param_config failed");
   } else {
@@ -133,11 +151,16 @@ esp_err_t i2cInit(uint8_t i2c_num, int8_t sda, int8_t scl, uint32_t frequency) {
       i2c_set_timeout((i2c_port_t)i2c_num, I2C_LL_MAX_TIMEOUT);
       if (!perimanSetPinBus(sda, ESP32_BUS_TYPE_I2C_MASTER_SDA, (void *)(i2c_num + 1), i2c_num, -1)
           || !perimanSetPinBus(scl, ESP32_BUS_TYPE_I2C_MASTER_SCL, (void *)(i2c_num + 1), i2c_num, -1)) {
+#if !CONFIG_DISABLE_HAL_LOCKS
+        //release lock so that i2cDetachBus can execute i2cDeinit
+        xSemaphoreGive(bus[i2c_num].lock);
+#endif
         i2cDetachBus((void *)(i2c_num + 1));
-        return false;
+        return ESP_FAIL;
       }
     }
   }
+init_fail:
 #if !CONFIG_DISABLE_HAL_LOCKS
   //release lock
   xSemaphoreGive(bus[i2c_num].lock);
@@ -380,7 +403,9 @@ esp_err_t i2cSetClock(uint8_t i2c_num, uint32_t frequency) {
       periph_rtc_dig_clk8m_enable();
     }
 #endif
-    i2c_hal_set_bus_timing(&(hal), frequency, i2c_clk_alloc[src_clk].clk, i2c_clk_alloc[src_clk].clk_freq);
+    I2C_CLOCK_SRC_ATOMIC() {
+      i2c_hal_set_bus_timing(&(hal), frequency, i2c_clk_alloc[src_clk].clk, i2c_clk_alloc[src_clk].clk_freq);
+    }
     bus[i2c_num].frequency = frequency;
     //Clock Stretching Timeout: 20b:esp32, 5b:esp32-c3, 24b:esp32-s2
     i2c_set_timeout((i2c_port_t)i2c_num, I2C_LL_MAX_TIMEOUT);
@@ -406,4 +431,5 @@ esp_err_t i2cGetClock(uint8_t i2c_num, uint32_t *frequency) {
   return ESP_OK;
 }
 
+#endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 4, 0) */
 #endif /* SOC_I2C_SUPPORTED */

@@ -227,6 +227,10 @@ size_t NetworkClientSecure::write(const uint8_t *buf, size_t size) {
     return 0;
   }
 
+  if (size == 0) {
+    return 0;
+  }
+
   if (_stillinPlainStart) {
     return send_net_data(sslclient.get(), buf, size);
   }
@@ -315,9 +319,10 @@ int NetworkClientSecure::available() {
 }
 
 uint8_t NetworkClientSecure::connected() {
-  uint8_t dummy = 0;
-  read(&dummy, 0);
-
+  if (_connected) {
+    uint8_t dummy = 0;
+    read(&dummy, 0);
+  }
   return _connected;
 }
 
@@ -339,9 +344,9 @@ void NetworkClientSecure::setCACert(const char *rootCA) {
   _use_insecure = false;
 }
 
-void NetworkClientSecure::setCACertBundle(const uint8_t *bundle) {
-  if (bundle != NULL) {
-    esp_crt_bundle_set(bundle, sizeof(bundle));
+void NetworkClientSecure::setCACertBundle(const uint8_t *bundle, size_t size) {
+  if (bundle != NULL && size > 0) {
+    esp_crt_bundle_set(bundle, size);
     attach_ssl_certificate_bundle(sslclient.get(), true);
     _use_ca_bundle = true;
   } else {

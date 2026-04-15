@@ -5,6 +5,7 @@
 // Legacy pairing TODO
 // Must be run as idf component ... todo
 
+#include <Arduino.h>
 #include "BluetoothSerial.h"
 
 // Check if Bluetooth is available
@@ -17,12 +18,6 @@
 #error Serial Port Profile for Bluetooth is not available or not enabled. It is only available for the ESP32 chip.
 #endif
 
-// Check Simple Secure Pairing
-#if defined(CONFIG_BT_SSP_ENABLED)
-#warning Legacy Pairing is disabled (CONFIG_BT_SSP_ENABLED is enabled. Disable it in menuconfig).
-void setup() {}
-void loop() {}
-#else
 const char *deviceName = "ESP32_Legacy_example";
 
 BluetoothSerial SerialBT;
@@ -62,4 +57,3 @@ void loop() {
     delay(1);  // Feed the watchdog
   }
 }
-#endif

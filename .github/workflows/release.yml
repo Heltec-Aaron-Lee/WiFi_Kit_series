@@ -1,0 +1,123 @@
+# .github/workflows/release-minimal.yml
+name: Heltec Release Minimal
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: heltec-release-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq zip unzip xz-utils
+
+      - name: Install Python dependencies
+        run: pip install packaging pyserial
+
+      - name: Build release package and JSONs
+        env:
+          ENABLE_S3: "false"
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bash ./.github/scripts/on-release.sh
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: ${{ github.workspace }}/build
+          if-no-files-found: error
+
+  test-heltec:
+    name: Test Heltec package
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Python dependency
+        run: pip install pyserial
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ${{ github.workspace }}/build
+
+      - name: Install Arduino CLI
+        run: |
+          bash ./.github/scripts/install-arduino-cli.sh
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Install generated package
+        run: |
+          PACKAGE_JSON="file://${{ github.workspace }}/build/package_esp32_dev_index.json"
+          arduino-cli core install esp32:esp32 --additional-urls "$PACKAGE_JSON"
+
+      - name: Compile Heltec smoke tests
+        run: |
+          EXAMPLE="$GITHUB_WORKSPACE/libraries/ESP32/examples/CI/CIBoardsTest/CIBoardsTest.ino"
+
+          arduino-cli compile --fqbn esp32:esp32:heltec_wifi_lora_32_V4 "$EXAMPLE"
+          arduino-cli compile --fqbn esp32:esp32:heltec_wireless_tracker_v2 "$EXAMPLE"
+
+  upload-json:
+    name: Upload package JSONs to release
+    needs: [build, test-heltec]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ${{ github.workspace }}/build
+
+      - name: Upload JSON files to this release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRE: ${{ github.event.release.prerelease }}
+        run: |
+          gh release upload "$RELEASE_TAG" \
+            "$GITHUB_WORKSPACE/build/package_esp32_dev_index.json" \
+            "$GITHUB_WORKSPACE/build/package_esp32_dev_index_cn.json" \
+            --clobber
+
+          if [ "$RELEASE_PRE" = "false" ]; then
+            gh release upload "$RELEASE_TAG" \
+              "$GITHUB_WORKSPACE/build/package_esp32_index.json" \
+              "$GITHUB_WORKSPACE/build/package_esp32_index_cn.json" \
+              --clobber
+          fi

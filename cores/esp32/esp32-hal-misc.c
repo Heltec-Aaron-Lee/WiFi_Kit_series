@@ -24,14 +24,15 @@
 #ifdef CONFIG_APP_ROLLBACK_ENABLE
 #include "esp_ota_ops.h"
 #endif  //CONFIG_APP_ROLLBACK_ENABLE
-#ifdef CONFIG_BT_ENABLED
+#include "esp_private/startup_internal.h"
+#if (defined(CONFIG_BLUEDROID_ENABLED) || defined(CONFIG_NIMBLE_ENABLED)) && SOC_BT_SUPPORTED && __has_include("esp_bt.h")
 #include "esp_bt.h"
-#endif  //CONFIG_BT_ENABLED
+#endif
 #include <sys/time.h>
 #include "soc/rtc.h"
-#if !defined(CONFIG_IDF_TARGET_ESP32C2) && !defined(CONFIG_IDF_TARGET_ESP32C6) && !defined(CONFIG_IDF_TARGET_ESP32H2)
+#if defined(CONFIG_IDF_TARGET_ESP32) || defined(CONFIG_IDF_TARGET_ESP32C3) || defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
 #include "soc/rtc_cntl_reg.h"
-#include "soc/apb_ctrl_reg.h"
+#include "soc/syscon_reg.h"
 #endif
 #include "esp_task_wdt.h"
 #include "esp32-hal.h"
@@ -53,7 +54,12 @@
 #include "esp32c6/rom/rtc.h"
 #elif CONFIG_IDF_TARGET_ESP32H2
 #include "esp32h2/rom/rtc.h"
-
+#elif CONFIG_IDF_TARGET_ESP32P4
+#include "esp32p4/rom/rtc.h"
+#elif CONFIG_IDF_TARGET_ESP32C5
+#include "esp32c5/rom/rtc.h"
+#elif CONFIG_IDF_TARGET_ESP32C61
+#include "esp32c61/rom/rtc.h"
 #else
 #error Target CONFIG_IDF_TARGET is not supported
 #endif
@@ -147,32 +153,36 @@ void feedLoopWDT() {
 #endif
 
 void enableCore0WDT() {
-  TaskHandle_t idle_0 = xTaskGetIdleTaskHandleForCPU(0);
+  TaskHandle_t idle_0 = xTaskGetIdleTaskHandleForCore(0);
   if (idle_0 == NULL || esp_task_wdt_add(idle_0) != ESP_OK) {
     log_e("Failed to add Core 0 IDLE task to WDT");
   }
 }
 
-void disableCore0WDT() {
-  TaskHandle_t idle_0 = xTaskGetIdleTaskHandleForCPU(0);
-  if (idle_0 == NULL || esp_task_wdt_delete(idle_0) != ESP_OK) {
+bool disableCore0WDT() {
+  TaskHandle_t idle_0 = xTaskGetIdleTaskHandleForCore(0);
+  if (idle_0 == NULL || esp_task_wdt_status(idle_0) || esp_task_wdt_delete(idle_0) != ESP_OK) {
     log_e("Failed to remove Core 0 IDLE task from WDT");
+    return false;
   }
+  return true;
 }
 
 #ifndef CONFIG_FREERTOS_UNICORE
 void enableCore1WDT() {
-  TaskHandle_t idle_1 = xTaskGetIdleTaskHandleForCPU(1);
+  TaskHandle_t idle_1 = xTaskGetIdleTaskHandleForCore(1);
   if (idle_1 == NULL || esp_task_wdt_add(idle_1) != ESP_OK) {
     log_e("Failed to add Core 1 IDLE task to WDT");
   }
 }
 
-void disableCore1WDT() {
-  TaskHandle_t idle_1 = xTaskGetIdleTaskHandleForCPU(1);
-  if (idle_1 == NULL || esp_task_wdt_delete(idle_1) != ESP_OK) {
+bool disableCore1WDT() {
+  TaskHandle_t idle_1 = xTaskGetIdleTaskHandleForCore(1);
+  if (idle_1 == NULL || esp_task_wdt_status(idle_1) || esp_task_wdt_delete(idle_1) != ESP_OK) {
     log_e("Failed to remove Core 1 IDLE task from WDT");
+    return false;
   }
+  return true;
 }
 #endif
 
@@ -225,35 +235,78 @@ void init() __attribute__((weak));
 void init() {}
 
 #ifdef CONFIG_APP_ROLLBACK_ENABLE
+/**
+ * @brief Verify the OTA image after boot
+ *
+ * This weak hook is invoked when a newly-updated application image is in
+ * the `ESP_OTA_IMG_PENDING_VERIFY` state. The default implementation
+ * returns `true`, indicating the image is considered valid. Applications
+ * may override this function (provide a non-weak implementation) to
+ * perform custom checks such as running a self-test, validating
+ * application-specific state, or performing connectivity / sensor checks
+ * before confirming the update.
+ *
+ * Usage:
+ * - Return `true` to mark the OTA image as valid; the system will call
+ *   `esp_ota_mark_app_valid_cancel_rollback()` to cancel rollback.
+ * - Return `false` to indicate verification failure; the system will
+ *   call `esp_ota_mark_app_invalid_rollback_and_reboot()` to rollback.
+ *
+ * @note Keep this function short and non-blocking if possible; blocking
+ *       for long periods may delay boot.
+ *
+ * @return true if verification succeeds and the image should be kept
+ * @return false if verification fails and the image should be rolled back
+ */
 bool verifyOta() __attribute__((weak));
 bool verifyOta() {
   return true;
 }
 
+/**
+ * @brief Optionally defer OTA verification to later
+ *
+ * This weak hook allows an application to postpone the default OTA
+ * verification performed at startup. If this function returns `true`, the
+ * initialization code will skip immediate verification and the application
+ * can choose to verify the update at a later time (for example, after a
+ * lengthy hardware initialization or user interaction). The default weak
+ * implementation returns `false`, meaning verification will run during
+ * `initArduino()` when an image is pending verification.
+ *
+ * Usage:
+ * - Return `true` to delay verification and handle it manually later.
+ * - Return `false` to allow the built-in verification flow to run at
+ *   startup.
+ *
+ * @return true to defer verification to a later time
+ * @return false to perform verification immediately during init
+ */
 bool verifyRollbackLater() __attribute__((weak));
 bool verifyRollbackLater() {
   return false;
 }
 #endif
 
-#ifdef CONFIG_BT_ENABLED
-#if CONFIG_IDF_TARGET_ESP32
-//overwritten in esp32-hal-bt.c
-bool btInUse() __attribute__((weak));
-bool btInUse() {
-  return false;
-}
-#else
-//from esp32-hal-bt.c
-extern bool btInUse();
+#if (defined(CONFIG_BLUEDROID_ENABLED) || defined(CONFIG_NIMBLE_ENABLED)) && SOC_BT_SUPPORTED && __has_include("esp_bt.h")
+// declared here, defined in esp32-hal-bt.c (weak so users can override)
+extern bool btInUse(void);
 #endif
+
+#if CONFIG_SPIRAM_SUPPORT || CONFIG_SPIRAM
+ESP_SYSTEM_INIT_FN(init_psram_new, CORE, BIT(0), 99) {
+  psramInit();
+  return ESP_OK;
+}
 #endif
 
 void initArduino() {
   //init proper ref tick value for PLL (uncomment if REF_TICK is different than 1MHz)
   //ESP_REG(APB_CTRL_PLL_TICK_CONF_REG) = APB_CLK_FREQ / REF_CLK_FREQ - 1;
 #if CONFIG_SPIRAM_SUPPORT || CONFIG_SPIRAM
-  psramInit();
+#ifndef CONFIG_SPIRAM_BOOT_INIT
+  psramAddToHeap();
+#endif
 #endif
 #ifdef CONFIG_APP_ROLLBACK_ENABLE
   if (!verifyRollbackLater()) {
@@ -287,9 +340,9 @@ void initArduino() {
     }
   }
   if (err) {
-    log_e("Failed to initialize NVS! Error: %u", err);
+    log_e("Failed to initialize NVS! Error: %d", err);
   }
-#ifdef CONFIG_BT_ENABLED
+#if (defined(CONFIG_BLUEDROID_ENABLED) || defined(CONFIG_NIMBLE_ENABLED)) && SOC_BT_SUPPORTED && __has_include("esp_bt.h")
   if (!btInUse()) {
     esp_bt_controller_mem_release(ESP_BT_MODE_BTDM);
   }

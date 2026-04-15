@@ -17,6 +17,7 @@
     To properly visualize the data being sent, set the line ending in the Serial Monitor to "Both NL & CR".
 */
 
+#include <Arduino.h>
 #include "ESP32_NOW_Serial.h"
 #include "MacAddress.h"
 #include "WiFi.h"
@@ -64,6 +65,7 @@ void setup() {
   // Start the ESP-NOW communication
   Serial.println("ESP-NOW communication starting...");
   NowSerial.begin(115200);
+  Serial.printf("ESP-NOW version: %d, max data length: %d\n", ESP_NOW.getVersion(), ESP_NOW.getMaxDataLen());
   Serial.println("You can now send data to the peer device using the Serial Monitor.\n");
 }
 

@@ -33,20 +33,21 @@
 #include "soc/touch_sensor_periph.h"
 
 int8_t digitalPinToTouchChannel(uint8_t pin) {
-  int8_t ret = -1;
   if (pin < SOC_GPIO_PIN_COUNT) {
     for (uint8_t i = 0; i < SOC_TOUCH_SENSOR_NUM; i++) {
       if (touch_sensor_channel_io_map[i] == pin) {
-        ret = i;
-        break;
+        return i;
       }
     }
   }
-  return ret;
+
+  log_e("No touch pad on selected pin(%u)!", pin);
+  return -1;
 }
 #else
 // No Touch Sensor available
 int8_t digitalPinToTouchChannel(uint8_t pin) {
+  log_e("Touch sensor not available on this chip");
   return -1;
 }
 #endif
@@ -110,14 +111,14 @@ extern void ARDUINO_ISR_ATTR __pinMode(uint8_t pin, uint8_t mode) {
 #endif
 
   if (pin >= SOC_GPIO_PIN_COUNT) {
-    log_e("Invalid IO %i selected", pin);
+    log_e("Invalid IO %u selected", pin);
     return;
   }
 
   if (perimanGetPinBus(pin, ESP32_BUS_TYPE_GPIO) == NULL) {
     perimanSetBusDeinit(ESP32_BUS_TYPE_GPIO, gpioDetachBus);
     if (!perimanClearPinBus(pin)) {
-      log_e("Deinit of previous bus from IO %i failed", pin);
+      log_e("Deinit of previous bus from IO %u failed", pin);
       return;
     }
   }
@@ -126,11 +127,15 @@ extern void ARDUINO_ISR_ATTR __pinMode(uint8_t pin, uint8_t mode) {
   gpiohal.dev = GPIO_LL_GET_HW(GPIO_PORT_0);
 
   gpio_config_t conf = {
-    .pin_bit_mask = (1ULL << pin),              /*!< GPIO pin: set with bit mask, each bit maps to a GPIO */
-    .mode = GPIO_MODE_DISABLE,                  /*!< GPIO mode: set input/output mode                     */
-    .pull_up_en = GPIO_PULLUP_DISABLE,          /*!< GPIO pull-up                                         */
-    .pull_down_en = GPIO_PULLDOWN_DISABLE,      /*!< GPIO pull-down                                       */
+    .pin_bit_mask = (1ULL << pin),         /*!< GPIO pin: set with bit mask, each bit maps to a GPIO */
+    .mode = GPIO_MODE_DISABLE,             /*!< GPIO mode: set input/output mode                     */
+    .pull_up_en = GPIO_PULLUP_DISABLE,     /*!< GPIO pull-up                                         */
+    .pull_down_en = GPIO_PULLDOWN_DISABLE, /*!< GPIO pull-down                                       */
+#ifndef CONFIG_IDF_TARGET_ESP32C61
     .intr_type = gpiohal.dev->pin[pin].int_type /*!< GPIO interrupt type - previously set                 */
+#else
+    .intr_type = gpiohal.dev->pinn[pin].pinn_int_type /*!< GPIO interrupt type - previously set                 */
+#endif
   };
   if (mode < 0x20) {  //io
     conf.mode = mode & (INPUT | OUTPUT);
@@ -145,7 +150,7 @@ extern void ARDUINO_ISR_ATTR __pinMode(uint8_t pin, uint8_t mode) {
     }
   }
   if (gpio_config(&conf) != ESP_OK) {
-    log_e("IO %i config failed", pin);
+    log_e("IO %u config failed", pin);
     return;
   }
   if (perimanGetPinBus(pin, ESP32_BUS_TYPE_GPIO) == NULL) {
@@ -166,14 +171,14 @@ extern void ARDUINO_ISR_ATTR __digitalWrite(uint8_t pin, uint8_t val) {
     //use RMT to set all channels on/off
     RGB_BUILTIN_storage = val;
     const uint8_t comm_val = val != 0 ? RGB_BRIGHTNESS : 0;
-    neopixelWrite(RGB_BUILTIN, comm_val, comm_val, comm_val);
+    rgbLedWrite(RGB_BUILTIN, comm_val, comm_val, comm_val);
     return;
   }
 #endif  // RGB_BUILTIN
   if (perimanGetPinBus(pin, ESP32_BUS_TYPE_GPIO) != NULL) {
     gpio_set_level((gpio_num_t)pin, val);
   } else {
-    log_e("IO %i is not set as GPIO.", pin);
+    log_e("IO %u is not set as GPIO. Execute digitalMode(%u, OUTPUT) first.", pin, pin);
   }
 }
 
@@ -182,14 +187,12 @@ extern int ARDUINO_ISR_ATTR __digitalRead(uint8_t pin) {
   if (pin == RGB_BUILTIN) {
     return RGB_BUILTIN_storage;
   }
-#endif
-
-  if (perimanGetPinBus(pin, ESP32_BUS_TYPE_GPIO) != NULL) {
-    return gpio_get_level((gpio_num_t)pin);
-  } else {
-    log_e("IO %i is not set as GPIO.", pin);
-    return 0;
+#endif  // RGB_BUILTIN
+  // This work when the pin is set as GPIO and in INPUT mode. For all other pin functions, it may return inconsistent response
+  if (perimanGetPinBus(pin, ESP32_BUS_TYPE_GPIO) == NULL) {
+    log_w("IO %u is not set as GPIO. digitalRead() may return an inconsistent value.", pin);
   }
+  return gpio_get_level((gpio_num_t)pin);
 }
 
 static void ARDUINO_ISR_ATTR __onPinInterrupt(void *arg) {
@@ -218,7 +221,7 @@ extern void __attachInterruptFunctionalArg(uint8_t pin, voidFuncPtrArg userFunc,
     interrupt_initialized = (err == ESP_OK) || (err == ESP_ERR_INVALID_STATE);
   }
   if (!interrupt_initialized) {
-    log_e("IO %i ISR Service Failed To Start", pin);
+    log_e("IO %u ISR Service Failed To Start", pin);
     return;
   }
 

@@ -17,13 +17,17 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "soc/soc_caps.h"
+#include "esp_mac.h"
 
-#if defined(CONFIG_BT_ENABLED) && defined(CONFIG_BLUEDROID_ENABLED)
+#if SOC_BT_SUPPORTED && defined(CONFIG_BT_ENABLED) && defined(CONFIG_BLUEDROID_ENABLED)
 
 #ifdef ARDUINO_ARCH_ESP32
 #include "esp32-hal-log.h"
+#include "esp32-hal-bt-mem.h"
 #endif
 
 #include "BluetoothSerial.h"
@@ -71,11 +75,9 @@ static esp_bd_addr_t _peer_bd_addr;
 static char _remote_name[ESP_BT_GAP_MAX_BDNAME_LEN + 1];
 static bool _isRemoteAddressSet;
 static bool _isMaster;
-#ifdef CONFIG_BT_SSP_ENABLED
 static bool _enableSSP;
 static bool _IO_CAP_INPUT;
 static bool _IO_CAP_OUTPUT;
-#endif
 esp_bt_pin_code_t _pin_code = {0};
 uint8_t _pin_code_len = 0;  // Number of valid Bytes in the esp_bt_pin_code_t array
 static esp_spp_sec_t _sec_mask;
@@ -115,7 +117,7 @@ static char *bda2str(esp_bd_addr_t bda, char *str, size_t size) {
   }
 
   uint8_t *p = bda;
-  snprintf(str, size, "%02x:%02x:%02x:%02x:%02x:%02x", p[0], p[1], p[2], p[3], p[4], p[5]);
+  snprintf(str, size, MACSTR, MAC2STR(p));
   return str;
 }
 #endif
@@ -261,16 +263,16 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
       break;
 
     case ESP_SPP_DISCOVERY_COMP_EVT:  // Enum 8 - When SDP discovery complete
-      log_i("ESP_SPP_DISCOVERY_COMP_EVT num=%d", param->disc_comp.scn_num);
+      log_i("ESP_SPP_DISCOVERY_COMP_EVT num=%u", param->disc_comp.scn_num);
       if (param->disc_comp.status == ESP_SPP_SUCCESS) {
         for (int i = 0; i < param->disc_comp.scn_num; i++) {
-          log_d("ESP_SPP_DISCOVERY_COMP_EVT: spp [%d] channel: %d service name:%s", i, param->disc_comp.scn[i], param->disc_comp.service_name[0]);
+          log_d("ESP_SPP_DISCOVERY_COMP_EVT: spp [%d] channel: %u service name:%s", i, param->disc_comp.scn[i], param->disc_comp.service_name[0]);
         }
         if (_doConnect) {
           if (param->disc_comp.scn_num > 0) {
 #if (ARDUHAL_LOG_LEVEL >= ARDUHAL_LOG_LEVEL_INFO)
             char bda_str[18];
-            log_i("ESP_SPP_DISCOVERY_COMP_EVT: spp connect to remote %s channel %d", bda2str(_peer_bd_addr, bda_str, sizeof(bda_str)), param->disc_comp.scn[0]);
+            log_i("ESP_SPP_DISCOVERY_COMP_EVT: spp connect to remote %s channel %u", bda2str(_peer_bd_addr, bda_str, sizeof(bda_str)), param->disc_comp.scn[0]);
 #endif
             xEventGroupClearBits(_spp_event_group, SPP_CLOSED);
             if (esp_spp_connect(_sec_mask, _role, param->disc_comp.scn[0], _peer_bd_addr) != ESP_OK) {
@@ -308,7 +310,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
     case ESP_SPP_CLOSE_EVT:  // Enum 27 - When SPP connection closed
       if ((param->close.async == false && param->close.status == ESP_SPP_SUCCESS) || param->close.async) {
         log_i(
-          "ESP_SPP_CLOSE_EVT status:%d handle:%d close_by_remote:%d attempt %u", param->close.status, param->close.handle, param->close.async,
+          "ESP_SPP_CLOSE_EVT status:%d handle:%" PRIu32 " close_by_remote:%d attempt %u", param->close.status, param->close.handle, param->close.async,
           secondConnectionAttempt
         );
         if (secondConnectionAttempt) {
@@ -331,14 +333,14 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 
     case ESP_SPP_CL_INIT_EVT:  // Enum 29 - When SPP client initiated a connection
       if (param->cl_init.status == ESP_SPP_SUCCESS) {
-        log_i("ESP_SPP_CL_INIT_EVT handle:%d sec_id:%d", param->cl_init.handle, param->cl_init.sec_id);
+        log_i("ESP_SPP_CL_INIT_EVT handle:%" PRIu32 " sec_id:%u", param->cl_init.handle, param->cl_init.sec_id);
       } else {
         log_i("ESP_SPP_CL_INIT_EVT status:%d", param->cl_init.status);
       }
       break;
 
     case ESP_SPP_DATA_IND_EVT:  // Enum 30 - When SPP connection received data, only for ESP_SPP_MODE_CB
-      log_v("ESP_SPP_DATA_IND_EVT len=%d handle=%d", param->data_ind.len, param->data_ind.handle);
+      log_v("ESP_SPP_DATA_IND_EVT len=%u handle=%" PRIu32, param->data_ind.len, param->data_ind.handle);
       //esp_log_buffer_hex("",param->data_ind.data,param->data_ind.len); //for low level debug
       //ets_printf("r:%u\n", param->data_ind.len);
 
@@ -368,7 +370,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
         if (param->write.cong) {
           xEventGroupClearBits(_spp_event_group, SPP_CONGESTED);
         }
-        log_v("ESP_SPP_WRITE_EVT: %u %s", param->write.len, param->write.cong ? "CONGESTED" : "");
+        log_v("ESP_SPP_WRITE_EVT: %d %s", param->write.len, param->write.cong ? "CONGESTED" : "");
       } else {
         log_e("ESP_SPP_WRITE_EVT failed!, status:%d", param->write.status);
       }
@@ -377,7 +379,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 
     case ESP_SPP_SRV_OPEN_EVT:  // Enum 34 - When SPP Server connection open
       if (param->srv_open.status == ESP_SPP_SUCCESS) {
-        log_i("ESP_SPP_SRV_OPEN_EVT: %u", _spp_client);
+        log_i("ESP_SPP_SRV_OPEN_EVT: %" PRIu32, _spp_client);
         if (!_spp_client) {
           _spp_client = param->srv_open.handle;
           _spp_tx_buffer_len = 0;
@@ -433,7 +435,7 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
             peer_bdname_len = param->disc_res.prop[i].len;
             memcpy(peer_bdname, param->disc_res.prop[i].val, peer_bdname_len);
             peer_bdname_len--;  // len includes 0 terminator
-            log_v("ESP_BT_GAP_DISC_RES_EVT : BDNAME :  %s : %d", peer_bdname, peer_bdname_len);
+            log_v("ESP_BT_GAP_DISC_RES_EVT : BDNAME :  %s : %u", peer_bdname, peer_bdname_len);
             if (strlen(_remote_name) == peer_bdname_len && strncmp(peer_bdname, _remote_name, peer_bdname_len) == 0) {
               log_i("ESP_BT_GAP_DISC_RES_EVT : SPP_START_DISCOVERY_BDNAME : %s", peer_bdname);
               _isRemoteAddressSet = true;
@@ -448,7 +450,7 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
               uint32_t cod = 0;
               memcpy(&cod, param->disc_res.prop[i].val, param->disc_res.prop[i].len);
               advertisedDevice.setCOD(cod);
-              log_d("ESP_BT_GAP_DEV_PROP_COD 0x%x", cod);
+              log_d("ESP_BT_GAP_DEV_PROP_COD 0x%" PRIx32, cod);
             } else {
               log_d("ESP_BT_GAP_DEV_PROP_COD invalid COD: Value size larger than integer");
             }
@@ -458,7 +460,7 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
             if (param->disc_res.prop[i].len <= sizeof(int)) {
               uint8_t rssi = 0;
               memcpy(&rssi, param->disc_res.prop[i].val, param->disc_res.prop[i].len);
-              log_d("ESP_BT_GAP_DEV_PROP_RSSI %d", rssi);
+              log_d("ESP_BT_GAP_DEV_PROP_RSSI %u", rssi);
               advertisedDevice.setRSSI(rssi);
             } else {
               log_d("ESP_BT_GAP_DEV_PROP_RSSI invalid RSSI: Value size larger than integer");
@@ -467,9 +469,9 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
 
           case ESP_BT_GAP_DEV_PROP_EIR:  // Enum 4 - Extended Inquiry Response, value type is uint8_t []
             if (get_name_from_eir((uint8_t *)param->disc_res.prop[i].val, peer_bdname, &peer_bdname_len)) {
-              log_i("ESP_BT_GAP_DISC_RES_EVT : EIR : %s : %d", peer_bdname, peer_bdname_len);
+              log_i("ESP_BT_GAP_DISC_RES_EVT : EIR : %s : %u", peer_bdname, peer_bdname_len);
               if (strlen(_remote_name) == peer_bdname_len && strncmp(peer_bdname, _remote_name, peer_bdname_len) == 0) {
-                log_v("ESP_BT_GAP_DISC_RES_EVT : SPP_START_DISCOVERY_EIR : %s", peer_bdname, peer_bdname_len);
+                log_v("ESP_BT_GAP_DISC_RES_EVT : SPP_START_DISCOVERY_EIR : %s : %u", peer_bdname, peer_bdname_len);
                 _isRemoteAddressSet = true;
                 memcpy(_peer_bd_addr, param->disc_res.bda, ESP_BD_ADDR_LEN);
                 esp_bt_gap_cancel_discovery();
@@ -533,14 +535,12 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
       if (param->pin_req.min_16_digit && _pin_code_len < 16) {
         esp_bt_gap_pin_reply(param->pin_req.bda, false, 0, NULL);
       } else {
-        //log_i("Input pin code: \"%s\"=0x%x", _pin_code);
         log_i("Input pin code: \"%.*s\"=0x%x", _pin_code_len, _pin_code, *(int *)_pin_code);
         esp_bt_gap_pin_reply(param->pin_req.bda, true, _pin_code_len, _pin_code);
       }
       break;
-#ifdef CONFIG_BT_SSP_ENABLED
     case ESP_BT_GAP_CFM_REQ_EVT:  // Enum 6 - Security Simple Pairing User Confirmation request.
-      log_i("ESP_BT_GAP_CFM_REQ_EVT Please compare the numeric value: %d", param->cfm_req.num_val);
+      log_i("ESP_BT_GAP_CFM_REQ_EVT Please compare the numeric value: %06" PRIu32, param->cfm_req.num_val);
       if (confirm_request_callback) {
         memcpy(current_bd_addr, param->cfm_req.bda, sizeof(esp_bd_addr_t));
         confirm_request_callback(param->cfm_req.num_val);
@@ -549,13 +549,10 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
         esp_bt_gap_ssp_confirm_reply(param->cfm_req.bda, false);
       }
       break;
-#endif
 
     case ESP_BT_GAP_KEY_NOTIF_EVT:  // Enum 7 - Security Simple Pairing Passkey Notification
-      log_i("ESP_BT_GAP_KEY_NOTIF_EVT passkey:%d", param->key_notif.passkey);
+      log_i("ESP_BT_GAP_KEY_NOTIF_EVT passkey:%06" PRIu32, param->key_notif.passkey);
       break;
-
-#ifdef CONFIG_BT_SSP_ENABLED
     case ESP_BT_GAP_KEY_REQ_EVT:  // Enum 8 - Security Simple Pairing Passkey request
       log_i("ESP_BT_GAP_KEY_REQ_EVT Please enter passkey!");
       if (key_request_callback) {
@@ -566,7 +563,6 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
         esp_bt_gap_ssp_confirm_reply(param->cfm_req.bda, false);
       }
       break;
-#endif
 
     case ESP_BT_GAP_READ_RSSI_DELTA_EVT:  // Enum 9 - Read rssi event
       log_i("ESP_BT_GAP_READ_RSSI_DELTA_EVT Read rssi event");
@@ -607,7 +603,7 @@ static void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *pa
 
     case ESP_BT_GAP_ACL_DISCONN_CMPL_STAT_EVT:  // Enum 17 - ACL disconnection complete status event
       log_i(
-        "ESP_BT_GAP_ACL_DISCONN_CMPL_STAT_EVT ACL disconnection complete status event: reason %d, handle %d", param->acl_disconn_cmpl_stat.reason,
+        "ESP_BT_GAP_ACL_DISCONN_CMPL_STAT_EVT ACL disconnection complete status event: reason %d, handle %u", param->acl_disconn_cmpl_stat.reason,
         param->acl_disconn_cmpl_stat.handle
       );
       break;
@@ -705,9 +701,8 @@ static bool _init_bt(const char *deviceName, bt_mode mode) {
   }
 
   log_i("device name set");
-  esp_bt_dev_set_device_name(deviceName);
+  esp_bt_gap_set_device_name(deviceName);
 
-#ifdef CONFIG_BT_SSP_ENABLED
   if (_enableSSP) {
     log_i("Simple Secure Pairing");
     esp_bt_sp_param_t param_type = ESP_BT_SP_IOCAP_MODE;
@@ -723,7 +718,6 @@ static bool _init_bt(const char *deviceName, bt_mode mode) {
     }
     esp_bt_gap_set_security_param(param_type, &iocap, sizeof(uint8_t));
   }
-#endif
 
   // the default BTA_DM_COD_LOUDSPEAKER does not work with the macOS BT stack
   esp_bt_cod_t cod;
@@ -894,7 +888,6 @@ void BluetoothSerial::memrelease() {
   esp_bt_mem_release(ESP_BT_MODE_BTDM);
 }
 
-#ifdef CONFIG_BT_SSP_ENABLED
 void BluetoothSerial::onConfirmRequest(ConfirmRequestCb cb) {
   confirm_request_callback = cb;
 }
@@ -906,7 +899,6 @@ void BluetoothSerial::onKeyRequest(KeyRequestCb cb) {
 void BluetoothSerial::respondPasskey(uint32_t passkey) {
   esp_bt_gap_ssp_passkey_reply(current_bd_addr, true, passkey);
 }
-#endif
 
 void BluetoothSerial::onAuthComplete(AuthCompleteCb cb) {
   auth_complete_callback = cb;
@@ -921,7 +913,6 @@ esp_err_t BluetoothSerial::register_callback(esp_spp_cb_t callback) {
   return ESP_OK;
 }
 
-#ifdef CONFIG_BT_SSP_ENABLED
 // Enable Simple Secure Pairing (using generated PIN)
 // This must be called before calling begin, otherwise has no effect!
 void BluetoothSerial::enableSSP() {
@@ -957,18 +948,15 @@ void BluetoothSerial::disableSSP() {
   _enableSSP = false;
 }
 
-#else
-
 bool BluetoothSerial::setPin(const char *pin, uint8_t pin_code_len) {
   if (pin_code_len == 0 || pin_code_len > 16) {
-    log_e("PIN code must be 1-16 Bytes long! Called with length %d", pin_code_len);
+    log_e("PIN code must be 1-16 Bytes long! Called with length %u", pin_code_len);
     return false;
   }
   _pin_code_len = pin_code_len;
   memcpy(_pin_code, pin, pin_code_len);
   return (esp_bt_gap_set_pin(ESP_BT_PIN_TYPE_FIXED, _pin_code_len, _pin_code) == ESP_OK);
 }
-#endif
 
 bool BluetoothSerial::connect(String remoteName) {
   bool retval = false;
@@ -1049,7 +1037,7 @@ bool BluetoothSerial::connect(uint8_t remoteAddress[], int channel, esp_spp_sec_
         if (this->isClosed()) {
           log_e("connect failed");
         } else {
-          log_e("connect timed out after %dms", READY_TIMEOUT);
+          log_e("connect timed out after %ums", READY_TIMEOUT);
         }
       }
     }
@@ -1233,9 +1221,9 @@ std::map<int, std::string> BluetoothSerial::getChannels(const BTAddress &remoteA
     if (!waitForSDPRecord(READY_TIMEOUT)) {
       log_e("getChannels failed timeout");
     }
-    log_d("esp_spp_start_discovery wait for BT_SDP_COMPLETED done (%dms)", READY_TIMEOUT);
+    log_d("esp_spp_start_discovery wait for BT_SDP_COMPLETED done (%ums)", READY_TIMEOUT);
   }
-  log_d("esp_spp_start_discovery done, found %d services", sdpRecords.size());
+  log_d("esp_spp_start_discovery done, found %lu services", (unsigned long)sdpRecords.size());
   xEventGroupClearBits(_bt_event_group, BT_SDP_RUNNING);
   return sdpRecords;
 }
@@ -1341,7 +1329,7 @@ void BluetoothSerial::deleteAllBondedDevices() {
 
   // typedef uint8_t esp_bd_addr_t[ESP_BD_ADDR_LEN] // ESP_BD_ADDR_LEN = 6
   esp_bd_addr_t *dev_list = NULL;
-  log_d("Allocate buffer: sizeof(esp_bd_addr_t)=%d * expected_dev_num=%d", sizeof(esp_bd_addr_t), expected_dev_num);
+  log_d("Allocate buffer: sizeof(esp_bd_addr_t)=%lu * expected_dev_num=%d", (unsigned long)sizeof(esp_bd_addr_t), expected_dev_num);
   dev_list = (esp_bd_addr_t *)malloc(sizeof(esp_bd_addr_t) * expected_dev_num);
   if (dev_list == NULL) {
     log_e("Could not allocated BT device buffer!");

@@ -1,0 +1,69 @@
+// Copyright 2025 Espressif Systems (Shanghai) PTE LTD
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/* Class of Zigbee Temperature + Humidity sensor endpoint inherited from common EP class */
+
+#pragma once
+
+#include "soc/soc_caps.h"
+#include "sdkconfig.h"
+#if CONFIG_ZB_ENABLED
+
+#include "ZigbeeEP.h"
+#include "ha/esp_zigbee_ha_standard.h"
+
+class ZigbeeTempSensor : public ZigbeeEP {
+public:
+  ZigbeeTempSensor(uint8_t endpoint);
+  ~ZigbeeTempSensor() {}
+
+  // Set the temperature value in 0,01°C
+  bool setTemperature(float value);
+
+  // Set the default (initial) value for the temperature sensor in 0,01°C
+  // Must be called before adding the EP to Zigbee class. Only effective in factory reset mode (before commissioning)
+  bool setDefaultValue(float defaultValue);
+
+  // Set the min and max value for the temperature sensor in 0,01°C
+  bool setMinMaxValue(float min, float max);
+
+  // Set the tolerance value for the temperature sensor in 0,01°C
+  bool setTolerance(float tolerance);
+
+  // Set the reporting interval for temperature measurement in seconds and delta (temp change in 0,01 °C)
+  bool setReporting(uint16_t min_interval, uint16_t max_interval, float delta);
+
+  // Report the temperature value
+  bool reportTemperature();
+
+  // Add humidity cluster to the temperature sensor device
+  void addHumiditySensor(float min = 0.0, float max = 100.0, float tolerance = 0.1, float defaultValue = 0.0);
+
+  // Set the humidity value in 0,01%
+  bool setHumidity(float value);
+
+  // Set the reporting interval for humidity measurement in seconds and delta (humidity change in 0,01%)
+  bool setHumidityReporting(uint16_t min_interval, uint16_t max_interval, float delta);
+
+  // Report the humidity value
+  bool reportHumidity();
+
+  // Report the temperature and humidity values if humidity sensor is added
+  bool report();
+
+private:
+  bool _humidity_sensor;
+};
+
+#endif  // CONFIG_ZB_ENABLED

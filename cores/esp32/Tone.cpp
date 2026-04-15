@@ -4,9 +4,11 @@
 #include "freertos/queue.h"
 #include "freertos/semphr.h"
 
+#if SOC_LEDC_SUPPORTED
 static TaskHandle_t _tone_task = NULL;
 static QueueHandle_t _tone_queue = NULL;
 static int8_t _pin = -1;
+static uint8_t _channel = 255;
 
 typedef enum {
   TONE_START,
@@ -20,16 +22,28 @@ typedef struct {
   unsigned long duration;
 } tone_msg_t;
 
+#ifdef SOC_LEDC_SUPPORT_HS_MODE
+#define LEDC_CHANNELS (SOC_LEDC_CHANNEL_NUM << 1)
+#else
+#define LEDC_CHANNELS (SOC_LEDC_CHANNEL_NUM)
+#endif
+
 static void tone_task(void *) {
   tone_msg_t tone_msg;
   while (1) {
     xQueueReceive(_tone_queue, &tone_msg, portMAX_DELAY);
     switch (tone_msg.tone_cmd) {
       case TONE_START:
-        log_d("Task received from queue TONE_START: pin=%d, frequency=%u Hz, duration=%lu ms", tone_msg.pin, tone_msg.frequency, tone_msg.duration);
+        log_d("Task received from queue TONE_START: pin=%u, frequency=%u Hz, duration=%lu ms", tone_msg.pin, tone_msg.frequency, tone_msg.duration);
 
         if (_pin == -1) {
-          if (ledcAttach(tone_msg.pin, tone_msg.frequency, 10) == 0) {
+          bool ret = true;
+          if (_channel == 255) {
+            ret = ledcAttach(tone_msg.pin, tone_msg.frequency, 10);
+          } else {
+            ret = ledcAttachChannel(tone_msg.pin, tone_msg.frequency, 10, _channel);
+          }
+          if (!ret) {
             log_e("Tone start failed");
             break;
           }
@@ -44,7 +58,7 @@ static void tone_task(void *) {
         break;
 
       case TONE_END:
-        log_d("Task received from queue TONE_END: pin=%d", tone_msg.pin);
+        log_d("Task received from queue TONE_END: pin=%u", tone_msg.pin);
         ledcWriteTone(tone_msg.pin, 0);
         ledcDetach(tone_msg.pin);
         _pin = -1;
@@ -73,7 +87,7 @@ static int tone_init() {
       "toneTask",  // Name of the task
       3500,        // Stack size in words
       NULL,        // Task input parameter
-      1,           // Priority of the task
+      10,          // Priority of the task must be higher than Arduino task
       &_tone_task  // Task handle.
     );
     if (_tone_task == NULL) {
@@ -99,7 +113,7 @@ void noTone(uint8_t pin) {
       xQueueSend(_tone_queue, &tone_msg, portMAX_DELAY);
     }
   } else {
-    log_e("Tone is not running on given pin %d", pin);
+    log_e("Tone is not running on given pin %u", pin);
   }
 }
 
@@ -109,7 +123,7 @@ void noTone(uint8_t pin) {
 // duration - time in ms - how long will the signal be outputted.
 //   If not provided, or 0 you must manually call noTone to end output
 void tone(uint8_t pin, unsigned int frequency, unsigned long duration) {
-  log_d("pin=%d, frequency=%u Hz, duration=%lu ms", pin, frequency, duration);
+  log_d("pin=%u, frequency=%u Hz, duration=%lu ms", pin, frequency, duration);
   if (_pin == -1 || _pin == pin) {
     if (tone_init()) {
       tone_msg_t tone_msg = {
@@ -126,3 +140,13 @@ void tone(uint8_t pin, unsigned int frequency, unsigned long duration) {
     return;
   }
 }
+
+void setToneChannel(uint8_t channel) {
+  if (channel >= LEDC_CHANNELS) {
+    log_e("Channel %u is not available (maximum %u)!", channel, LEDC_CHANNELS);
+    return;
+  }
+  _channel = channel;
+}
+
+#endif /* SOC_LEDC_SUPPORTED */

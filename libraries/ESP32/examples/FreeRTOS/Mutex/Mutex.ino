@@ -6,6 +6,8 @@
 */
 // Please read file README.md in the folder containing this example.
 
+#include <Arduino.h>
+
 #define USE_MUTEX
 int shared_variable = 0;
 SemaphoreHandle_t shared_var_mutex = NULL;
@@ -17,9 +19,7 @@ void Task(void *pvParameters);
 void setup() {
   // Initialize serial communication at 115200 bits per second:
   Serial.begin(115200);
-  while (!Serial) {
-    delay(100);
-  }
+
   Serial.printf(" Task 0          | Task 1\n");
 
 #ifdef USE_MUTEX
@@ -73,17 +73,17 @@ void Task(void *pvParameters) {  // This is a task.
 #endif
         int new_value = random(1000);
 
-        char str0[32];
-        sprintf(str0, " %d <- %d      |", shared_variable, new_value);
-        char str1[32];
-        sprintf(str1, "                 | %d <- %d", shared_variable, new_value);
+        char str0[35];  // Maximum possible length of the string
+        snprintf(str0, sizeof(str0), " %d <- %d      |", shared_variable, new_value);
+        char str1[46];  // Maximum possible length of the string
+        snprintf(str1, sizeof(str1), "                 | %d <- %d", shared_variable, new_value);
         Serial.printf("%s\n", task_num ? str0 : str1);
 
         shared_variable = new_value;
         delay(random(100));  // wait random time of max 100 ms - simulating some computation
 
-        sprintf(str0, " R: %d          |", shared_variable);
-        sprintf(str1, "                 | R: %d", shared_variable);
+        snprintf(str0, sizeof(str0), " R: %d          |", shared_variable);
+        snprintf(str1, sizeof(str1), "                 | R: %d", shared_variable);
         Serial.printf("%s\n", task_num ? str0 : str1);
         //Serial.printf("Task %d after write: reading %d\n", task_num, shared_variable);
 

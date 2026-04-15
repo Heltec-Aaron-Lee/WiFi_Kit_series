@@ -10,6 +10,7 @@ For best results, it is recommended to add an extra offset resistor between VCC 
 
 View this sketch in action on YouTube: https://youtu.be/Y9TLXs_3w1M
 */
+#include <Arduino.h>
 #if ARDUINO_USB_MODE
 #warning This sketch should be used when USB is in OTG mode
 void setup() {}
@@ -20,7 +21,8 @@ void loop() {}
 
 #include "USB.h"
 #include "USBMIDI.h"
-USBMIDI MIDI;
+// Creates the MIDI device with specific descriptor
+USBMIDI MIDI("ESP MIDI Device");
 
 #define MIDI_NOTE_C4 60
 

@@ -8,6 +8,8 @@
  This example code is in the public domain.
  */
 
+#include <Arduino.h>
+
 // Stop button is attached to PIN 0 (IO0)
 #define BTN_STOP_ALARM 0
 
@@ -33,7 +35,7 @@ void setup() {
   Serial.begin(115200);
 
   // Set BTN_STOP_ALARM to input mode
-  pinMode(BTN_STOP_ALARM, INPUT);
+  pinMode(BTN_STOP_ALARM, INPUT_PULLUP);
 
   // Create semaphore to inform us when the timer has fired
   timerSemaphore = xSemaphoreCreateBinary();
