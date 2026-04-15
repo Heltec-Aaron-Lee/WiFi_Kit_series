@@ -11,28 +11,40 @@ if [ -z "${PACKAGE_ZIP:-}" ] || [ ! -f "$PACKAGE_ZIP" ]; then
     exit 1
 fi
 
-function get_file_url {
-    local file_path="$1"
-    echo "file://$(cd "$(dirname "$file_path")" && pwd)/$(basename "$file_path")"
-}
-
 echo "Installing Arduino CLI..."
 bash "${SCRIPTS_DIR}/install-arduino-cli.sh"
 export PATH="$HOME/bin:$PATH"
 
-LOCAL_PACKAGE_URL=$(get_file_url "$PACKAGE_ZIP")
+PORT=8123
+BASE_URL="http://127.0.0.1:${PORT}"
+ZIP_NAME="$(basename "$PACKAGE_ZIP")"
 LOCAL_JSON="$OUTPUT_DIR/package_heltec_esp32_index.local.json"
+
+cleanup() {
+    if [ -n "${HTTP_PID:-}" ] && kill -0 "$HTTP_PID" 2>/dev/null; then
+        kill "$HTTP_PID" 2>/dev/null || true
+        wait "$HTTP_PID" 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT
 
 echo "Creating local test JSON..."
 jq \
-  --arg url "$LOCAL_PACKAGE_URL" \
+  --arg url "${BASE_URL}/${ZIP_NAME}" \
   '.packages[0].platforms[0].url = $url' \
   "$OUTPUT_DIR/$PACKAGE_JSON" > "$LOCAL_JSON"
 
-LOCAL_JSON_URL=$(get_file_url "$LOCAL_JSON")
+echo "Starting local HTTP server..."
+python3 -m http.server "$PORT" --directory "$OUTPUT_DIR" >/tmp/heltec-http.log 2>&1 &
+HTTP_PID=$!
+
+sleep 2
+
+echo "Checking local server..."
+curl -I "${BASE_URL}/${ZIP_NAME}"
 
 echo "Installing core from local JSON..."
-arduino-cli core install esp32:esp32 --additional-urls "$LOCAL_JSON_URL"
+arduino-cli core install esp32:esp32 --additional-urls "${BASE_URL}/$(basename "$LOCAL_JSON")"
 
 EXAMPLE="$GITHUB_WORKSPACE/libraries/ESP32/examples/CI/CIBoardsTest/CIBoardsTest.ino"
 
