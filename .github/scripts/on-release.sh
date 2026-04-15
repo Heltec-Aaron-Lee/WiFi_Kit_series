@@ -31,7 +31,7 @@ fi
 
 REPO_ROOT="${GITHUB_WORKSPACE:-$(pwd)}"
 OUTPUT_DIR="$REPO_ROOT/build"
-PACKAGE_JSON_TEMPLATE="$REPO_ROOT/package/package_heltec_esp32_index.template.json"
+PACKAGE_JSON_TEMPLATE="$REPO_ROOT/package/package_esp32_index.template.json"
 PACKAGE_JSON_NAME="package_heltec_esp32_index.json"
 
 PACKAGE_NAME="heltec-esp32-arduino-$RELEASE_TAG"
