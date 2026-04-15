@@ -32,7 +32,7 @@ jobs:
       - name: Install Linux dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq zip unzip xz-utils
+          sudo apt-get install -y jq zip unzip xz-utils curl
 
       - name: Install Python dependencies
         run: pip install packaging pyserial
@@ -65,13 +65,13 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install pyserial
-        run: pip install pyserial
-
-      - name: Install jq
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq
+          sudo apt-get install -y jq curl
+
+      - name: Install pyserial
+        run: pip install pyserial
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -101,6 +101,6 @@ jobs:
         run: |
           gh release upload "$RELEASE_TAG" \
             --repo "$GITHUB_REPOSITORY" \
-            "$GITHUB_WORKSPACE/build/heltec-esp32-core-$RELEASE_TAG.zip" \
+            "$GITHUB_WORKSPACE/build/heltec-esp32-arduino-$RELEASE_TAG.zip" \
             "$GITHUB_WORKSPACE/build/package_heltec_esp32_index.json" \
             --clobber
