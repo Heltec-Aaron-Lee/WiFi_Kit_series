@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define HELTEC_RADIO_CORE_C6 true
+#define HELTEC_RCC6 true
 
 #define USB_VID 0x303a
 #define USB_PID 0x1001
