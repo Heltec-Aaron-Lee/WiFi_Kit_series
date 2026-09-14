@@ -746,9 +746,10 @@ heltec_wifi_lora_32_V4.menu.USBMode.default=USB-OTG (TinyUSB)
 heltec_wifi_lora_32_V4.menu.USBMode.default.build.usb_mode=0
 
 heltec_wifi_lora_32_V4.menu.CDCOnBoot.default=Enabled
-heltec_wifi_lora_32_V4.menu.CDCOnBoot.default.build.cdc_on_boot=0
-heltec_wifi_lora_32_V4.menu.CDCOnBoot.cdc=Enabled
-heltec_wifi_lora_32_V4.menu.CDCOnBoot.cdc.build.cdc_on_boot=1
+heltec_wifi_lora_32_V4.menu.CDCOnBoot.default.build.cdc_on_boot=1
+heltec_wifi_lora_32_V4.menu.CDCOnBoot.cdc=Disabled
+heltec_wifi_lora_32_V4.menu.CDCOnBoot.cdc.build.cdc_on_boot=0
+
 
 heltec_wifi_lora_32_V4.menu.MSCOnBoot.default=Disabled
 heltec_wifi_lora_32_V4.menu.MSCOnBoot.default.build.msc_on_boot=0
@@ -908,9 +909,9 @@ heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.1=16(For M00 and M00L)
 heltec_wifi_lora_32_V4.menu.LORAWAN_PREAMBLE_LENGTH.1.build.LORAWAN_PREAMBLE_LENGTH=16
 
 heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.0=USE_KCT8103L_PA (default)
-heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.0.build.LORA_FEM_TYPE=USE_NONE_PA
-heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.1=USE_KCT8103L_PA
-heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.1.build.LORA_FEM_TYPE=USE_KCT8103L_PA
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.0.build.LORA_FEM_TYPE=USE_KCT8103L_PA
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.1=USE_NONE_PA
+heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.1.build.LORA_FEM_TYPE=USE_NONE_PA
 heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.2=USE_GC1109_PA
 heltec_wifi_lora_32_V4.menu.LORA_FEM_TYPE.2.build.LORA_FEM_TYPE=USE_GC1109_PA
 
@@ -3351,6 +3352,7 @@ heltec_wifi_lora_32_V4_R8.menu.CDCOnBoot.default=Enabled
 heltec_wifi_lora_32_V4_R8.menu.CDCOnBoot.default.build.cdc_on_boot=1
 heltec_wifi_lora_32_V4_R8.menu.CDCOnBoot.cdc=Disabled
 heltec_wifi_lora_32_V4_R8.menu.CDCOnBoot.cdc.build.cdc_on_boot=0
+
 heltec_wifi_lora_32_V4_R8.menu.MSCOnBoot.default=Disabled
 heltec_wifi_lora_32_V4_R8.menu.MSCOnBoot.default.build.msc_on_boot=0
 heltec_wifi_lora_32_V4_R8.menu.MSCOnBoot.msc=Enabled (Requires USB-OTG Mode)
