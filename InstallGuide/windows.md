@@ -1,13 +1,13 @@
-# Steps to install Heltec ESP32&ESP8266 Arduino support on Windows
+# Steps to install Heltec ESP32 Arduino support on Windows
 **Tested on 32 and 64 bit Windows 10 machines**
 
-Before operation, please make sure Git and Arduino are correctly installed on you computer. If not, please refer to this document: [How to install Git and Arduino IDE](https://heltec-automation-docs.readthedocs.io/en/latest/general/how_to_install_git_and_arduino.html)
+Before operation, please make sure Git and Arduino are correctly installed on you computer. If not, please refer to this document: [How to install Git and Arduino IDE](https://wiki.heltec.org/docs/devices/general-docs/how_to_install_git_and_arduino)
 
 &nbsp;
 
 **Executed commands MUST under the ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec``` path!**
 
-- Open a ```Git Bash``` session pointing to ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec``` and execute `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series.git esp32`
+- Open a ```Git Bash``` session pointing to **`[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec`** and execute `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series`
 
 ![](win-screenshots/location.png)
 

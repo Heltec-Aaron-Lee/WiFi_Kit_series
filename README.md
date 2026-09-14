@@ -21,11 +21,20 @@ Here are the libraries for on-board or external devices:
 
 ## Contents
 
-  - [Instructions](#Instructions)
-  - [Installation Instructions](#Installation-Instructions)
-  - [Decoding exceptions](#Decoding-exceptions)
-  - [Issue/Bug report template](#Issue/Bug-report-template)
-  - [Contact us](#Contact-us)
+- [Heltec ESP32 Series Arduino Develop Environment](#heltec-esp32-series-arduino-develop-environment)
+  - [Contents](#contents)
+  - [Instructions](#instructions)
+  - [Installation Instructions](#installation-instructions)
+  - [Decoding exceptions](#decoding-exceptions)
+  - [Issue/Bug report template](#issuebug-report-template)
+  - [Contact us](#contact-us)
+  - [简体中文](#简体中文)
+  - [内容](#内容)
+  - [说明](#说明)
+  - [安装指南](#安装指南)
+  - [编码规则](#编码规则)
+  - [问题讨论 \& BUG报告](#问题讨论--bug报告)
+  - [联系我们](#联系我们)
 
 ## Instructions
 
@@ -34,7 +43,7 @@ The following table lists products based on ESP32 :
 
 |   MCU   |                       Relative boards                        |
 | :-----: | :----------------------------------------------------------- |
-|  ESP32-S3  | [WIFI Kit 32 (V3)](https://heltec.org/project/wifi-kit-32-v3/)<br>[WIFI LoRa 32 (V3)](https://heltec.org/project/wifi-lora-32-v3/)<br/>[Wireless Stick (V3)](https://heltec.org/project/wireless-stick-v3/)<br/>[Wireless Stick Lite (V3)](https://heltec.org/project/wireless-stick-lite-v2/)<br/>[Wireless Paper](https://heltec.org/project/wireless-paper/)<br/>[Wireless Tracker](https://heltec.org/project/wireless-tracker/)<br/>[Wireless Shell (V3)](https://heltec.org/project/wireless-shell-v3/)<br/>[Multi-Size E-Ink driver (HT-DE01)](https://heltec.org/project/e-ink-driveboard/)<br/>[Vision Master E213](https://heltec.org/project/ht-vme213/)<br/>[Vision Master E290](https://heltec.org/project/ht-vme290/)<br/>[Vision Master T190](https://heltec.org/project/ht-vmt190/) |
+|  ESP32-S3  | [WIFI Kit 32 (V3)](https://heltec.org/project/wifi-kit32-v3/)<br>[WIFI LoRa 32 (V3)](https://heltec.org/project/wifi-lora-32-v3/)<br/>[WIFI LoRa 32 V4](https://heltec.org/project/wifi-lora-32-v4/)<br/>[WiFi LoRa 32 Expansion Kit](https://heltec.org/project/wifi-lora-32-v4-expansion-housing/)<br/>[Wireless Stick (V3)](https://heltec.org/project/wireless-stick-v3/)<br/>[Wireless Stick Lite (V3)](https://heltec.org/project/wireless-stick-lite-v2/)<br/>[Wireless Paper](https://heltec.org/project/wireless-paper/)<br/>[Wireless Tracker](https://heltec.org/project/wireless-tracker/)<br/>[Wireless Tracker V2](https://heltec.org/project/wireless-tracker-v2/)<br/>[Wireless Shell (V3)](https://heltec.org/project/wireless-shell-v3/)<br/>[Multi-Size E-Ink driver (HT-DE01)](https://heltec.org/project/e-ink-driveboard/)<br/>[Vision Master E213](https://heltec.org/project/vision-master-e213/)<br/>[Vision Master E290](https://heltec.org/project/vision-master-e290/)<br/>[Vision Master T190](https://heltec.org/project/vision-master-t190/) |
 |ESP32-C3|[ESP32 C3 Dev-Board](https://heltec.org/project/esp32-c3/)<br/>[CT62 LoRa Module](https://heltec.org/project/ht-Ct62/)|
 |ESP32-PICO |[Wireless Shell (V3)](https://heltec.org/project/wireless-shell/ )<br/>[Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/) -- *Not recommended for new designs*|
 |ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32) -- *Not recommended for new designs*<br/>[Wireless Stick](https://heltec.org/project/wireless-stick/) -- *Not recommended for new designs*|
@@ -55,7 +64,7 @@ The following table lists products based on ESP32 :
   + [Instructions for openSUSE](InstallGuide/opensuse.md)
   
   
-  - Read reference install guide document：[Installation Instructions](https://heltec.org/wifi_kit_install/)
+  - Read reference install guide document：[Installation Instructions](https://wiki.heltec.org/docs/devices/open-source-hardware/esp32-series/esp32-quick-start)
 
 ## Decoding exceptions
 
@@ -70,7 +79,7 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
 ## Contact us
 
 - **Website：[https://heltec.org](https://heltec.org/)**
-- **Document Page: [https://docs.heltec.cn](https://docs.heltec.cn)**
+- **Document Page: [https://wiki.heltec.org/](https://wiki.heltec.org/)**
 - **Forum: [http://community.heltec.cn/](http://community.heltec.cn/)**
 - **Twitter: [https://twitter.com/HeltecOrg](https://twitter.com/HeltecOrg)**
 - **Face Book: [https://www.facebook.com/heltec.automation.5](https://www.facebook.com/heltec.automation.5)**
@@ -100,26 +109,27 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
 下表列出了基于ESP32芯片的产品型号：
 
 |   MCU   |                       Relative boards                        |
-| :-----: | :----------------------------------------------------------: |
-|  ESP32s3  | [WIFI Kit 32(v3)](https://heltec.org/project/wifi-kit-32-v3/), [WIFI LoRa 32(v3)](https://heltec.org/project/wifi-lora-32-v3/), [Wireless Stick(v3)](https://heltec.org/project/wireless-stick-v3/), [Wireless Stick Lite(v3)](https://heltec.org/project/wireless-stick-lite-v2/), [Wireless Paper](https://heltec.org/project/wireless-paper/), [Wireless Tracker](https://heltec.org/project/wireless-tracker/), [Wireless Shell(v3)](https://heltec.org/project/wireless-shell-v3/),[HT-DE01](https://heltec.org/project/e-ink-driveboard/) |
-|ESP32c3|[Esp32 c3 Dev-Board](https://heltec.org/project/esp32-c3/), [Ct62](https://heltec.org/project/ht-Ct62/)|
-|ESP32-PICO |[Wireless Shell(v3)](https://heltec.org/project/wireless-shell/ ), [Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/)|
-|ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32), [Wireless Stick](https://heltec.org/project/wireless-stick/)|
+| :-----: | :----------------------------------------------------------- |
+|  ESP32-S3  | [WIFI Kit 32 (V3)](https://heltec.org/project/wifi-kit32-v3/)<br>[WIFI LoRa 32 (V3)](https://heltec.org/project/wifi-lora-32-v3/)<br/>[WIFI LoRa 32 V4](https://heltec.org/project/wifi-lora-32-v4/)<br/>[WiFi LoRa 32 Expansion Kit](https://heltec.org/project/wifi-lora-32-v4-expansion-housing/)<br/>[Wireless Stick (V3)](https://heltec.org/project/wireless-stick-v3/)<br/>[Wireless Stick Lite (V3)](https://heltec.org/project/wireless-stick-lite-v2/)<br/>[Wireless Paper](https://heltec.org/project/wireless-paper/)<br/>[Wireless Tracker](https://heltec.org/project/wireless-tracker/)<br/>[Wireless Tracker V2](https://heltec.org/project/wireless-tracker-v2/)<br/>[Wireless Shell (V3)](https://heltec.org/project/wireless-shell-v3/)<br/>[Multi-Size E-Ink driver (HT-DE01)](https://heltec.org/project/e-ink-driveboard/)<br/>[Vision Master E213](https://heltec.org/project/vision-master-e213/)<br/>[Vision Master E290](https://heltec.org/project/vision-master-e290/)<br/>[Vision Master T190](https://heltec.org/project/vision-master-t190/) |
+|ESP32-C3|[ESP32 C3 Dev-Board](https://heltec.org/project/esp32-c3/)<br/>[CT62 LoRa Module](https://heltec.org/project/ht-Ct62/)|
+|ESP32-PICO |[Wireless Shell (V3)](https://heltec.org/project/wireless-shell/ )<br/>[Wireless Stick Lite](https://heltec.org/project/wireless-stick-lite/) -- *不建议用于新设计*|
+|ESP32 D0|[WIFI LoRa 32 (V2)](https://heltec.org/project/wifi-lora-32) -- *不建议用于新设计*<br/>[Wireless Stick](https://heltec.org/project/wireless-stick/) -- *不建议用于新设计*|
+
 
 ## 安装指南
 
-首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请参考这篇文档：[https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino](https://docs.heltec.cn/#/zh_CN/user_manual/how_to_install_git_and_arduino)
+首先，确保你的电脑上已经安装了最新的Arduino IDE。如果没有安装，请参考这篇文档：[安装Arduino IDE ](https://wiki.heltec.org/docs/devices/general-docs/how_to_install_git_and_arduino)
 
 - **通过Arduino IDE的库管理器安装 （强烈推荐）**
 - 
-  - [安装基于ESP32芯片的开发环境](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#via-arduino-board-manager)
+  - [安装基于ESP32芯片的开发环境](https://wiki.heltec.org/docs/devices/open-source-hardware/esp32-series/esp32-quick-start)
 - **通过Git从源码进行安装**
   - [Windows操作系统 -- 安装方法](InstallGuide/windows.md)
   - [MacOS操作系统 -- 安装方法](InstallGuide/mac.md)
   - [Linux操作系统(opensuse) -- 安装方法](InstallGuide/opensuse.md)
   - [Linux操作系统(debian,ubuntu) -- 安装方法](InstallGuide/debian_ubuntu.md)
   - [Linux操作系统(fedora) -- 安装方法](InstallGuide/fedora.md)
-- 更多安装方法，还可以参考这里：[https://heltec.org/zh/wifi_kit_install/](https://heltec.org/zh/wifi_kit_install/)
+- 更多安装方法，还可以参考这里：[Heltec ESP32系列快速入门](https://wiki.heltec.org/docs/devices/open-source-hardware/esp32-series/esp32-quick-start)
 
 ## 编码规则
 
@@ -135,6 +145,6 @@ Also you can talk in our forum: [http://community.heltec.cn/](http://community.h
 ## 联系我们
 
 - **官网：[https://heltec.org](https://heltec.org/)**
-- **Heltec文档页: [https://docs.heltec.cn](https://docs.heltec.cn)**
+- **Heltec文档页: [https://wiki.heltec.org/](https://wiki.heltec.org/)**
 - **Heltec论坛 (仅英语): [http://community.heltec.cn/](http://community.heltec.cn/)**
 - **QQ群: 799093974(中文)**
