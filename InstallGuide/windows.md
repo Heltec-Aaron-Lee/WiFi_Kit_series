@@ -7,7 +7,7 @@ Before operation, please make sure Git and Arduino are correctly installed on yo
 
 **Executed commands MUST under the ```[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec``` path!**
 
-- Open a ```Git Bash``` session pointing to **`[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec`** and execute `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series`
+- Open a ```Git Bash``` session pointing to **`[YOUR_USER_NAME]/Documents/Arduino/hardware/heltec`** and execute `git clone https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series esp32`
 
 ![](win-screenshots/location.png)
 
