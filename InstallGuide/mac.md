@@ -24,10 +24,6 @@ you may need to install a more-recent version of Python, e.g., Python 2.7.5 => P
 
 >**Note: Python 3.12 or later is recommended.**
 
-:::Note
-Python 3.12 or later is recommended.
-:::
-
 - If you get the error below. Install the command line dev tools with xcode-select --install and try the command above again:
   
 ```xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun```
